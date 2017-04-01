@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+@model ClassesMarmitex.Usuario
+
+
+@{ 
+    ClassesMarmitex.Usuario usuarioLogin = new ClassesMarmitex.Usuario();
+
+    if (Session["usuarioLogin"] != null) {
+        usuarioLogin = (ClassesMarmitex.Usuario)Session["usuarioLogin"];
+    }
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 resumo-pedido" style="text-align: center">
+                <h1>entrar</h1>
+                <hr />
+                <form method="post" action="@Session["urlBase"]/Usuario/Autenticar">
+                    <div class="form-group">
+                        <label for="email">e-mail:</label>
+                        @if (@Session["usuarioLogin"] != null)
+                        {
+                            <input type="email" class="form-control" id="email" name="Email" value="@usuarioLogin.Email">
+                        }
+                        else
+                        {
+                            <input type="email" class="form-control" id="email" name="Email">
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">senha:</label>
+                        <input type="password" class="form-control" id="pwd" name="Senha" value="@usuarioLogin.Senha">
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox"> lembrar minha senha</label>
+                    </div>
+
+                    @if (ViewBag.MensagemAutenticacao != null)
+                    { <br /><label style="color: red">@ViewBag.MensagemAutenticacao</label><br />}
+
+                    @*<a href="~/home" class="btn btn-vermelho-sem-animacao" role="button">entrar</a>*@
+                    <input type="submit" class="btn btn-vermelho-sem-animacao" value="entrar" />
+                </form>
+
+                <br />
+                <br />
+                <p>esqueceu sua senha?<a href="@Session["urlBase"]/Usuario/EsqueciASenha"> envie uma nova para o seu e-mail</a></p>
+            </div>
+        </div>
+    </div>
+</div>
