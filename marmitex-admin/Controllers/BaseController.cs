@@ -8,8 +8,8 @@ namespace marmitex_admin.Controllers
         //esse método é executado para validar se o usuário está logado
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            if (Session["UsuarioLogado"] == null)
-                filterContext.HttpContext.Response.Redirect("/Login/Index");
+            //if (Session["UsuarioLogado"] == null)
+            //    filterContext.HttpContext.Response.Redirect("/Login/Index");
         }
     }
 }

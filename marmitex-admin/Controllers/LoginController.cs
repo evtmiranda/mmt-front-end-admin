@@ -5,6 +5,7 @@
     using System.Net;
     using System;
     using Newtonsoft.Json;
+    using marmitex;
 
     public class LoginController : BaseLoginController
     {
@@ -33,12 +34,6 @@
         [HttpPost]
         public ActionResult Autenticar(Usuario usuario)
         {
-            //validação dos campos
-            if (!ModelState.IsValid)
-            {
-                return View("Index", usuario);
-            }
-
             //captura a loja em questão
             Session["dominioLoja"] = PreencherSessaoDominioLoja();
 

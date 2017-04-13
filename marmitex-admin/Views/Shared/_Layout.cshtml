@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - GeetFood</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/simple-sidebar.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/sidebar.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Bangers" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -15,9 +16,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuResponsivo">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    
                 </button>
                 <a href="@Session["urlBase"]/Home" class="navbar-brand">GeetFood</a>
             </div>
@@ -46,9 +45,6 @@
 
                                 <ul class="dropdown-menu">
                                     <li><a href="#">meus dados</a></li>
-                                    <li><a href="#">histórico de pedidos</a></li>
-                                    <li><a href="#">quanto economizei</a></li>
-                                    <li><a href="#" style="color:#bc2026">benefícios e promoções</a></li>
                                     <li><a href="#" onclick="Redirecionar(@string.Format("'{0}', '{1}'", @Session["urlBase"], "/Login/Deslogar"))">sair</a></li>
                                 </ul>
                             }
