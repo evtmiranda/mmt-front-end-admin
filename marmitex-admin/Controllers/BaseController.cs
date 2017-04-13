@@ -9,7 +9,7 @@ namespace marmitex_admin.Controllers
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             if (Session["UsuarioLogado"] == null)
-                filterContext.HttpContext.Response.Redirect("/Usuario/Index");
+                filterContext.HttpContext.Response.Redirect("/Login/Index");
         }
     }
 }

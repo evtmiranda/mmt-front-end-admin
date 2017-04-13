@@ -1,28 +1,25 @@
-﻿using ClassesMarmitex;
-using Newtonsoft.Json;
-using System;
-using System.Net;
-using System.Web.Mvc;
-
-namespace marmitex_admin.Controllers
+﻿namespace marmitex_admin.Controllers
 {
-    public class UsuarioController : Controller
+    using System.Web.Mvc;
+    using ClassesMarmitex;
+    using System.Net;
+    using System;
+    using Newtonsoft.Json;
+
+    public class LoginController : BaseLoginController
     {
 
         private RequisicoesREST rest;
 
-        //construtor do controller recebe um RequisicoesREST
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
-        public UsuarioController(RequisicoesREST rest)
+        public LoginController(RequisicoesREST rest)
         {
             this.rest = rest;
         }
 
+
         public ActionResult Index()
         {
-            //cria sessão para armazenar a url base
-            Session["urlBase"] = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
-
             return View();
         }
 
@@ -36,25 +33,27 @@ namespace marmitex_admin.Controllers
         [HttpPost]
         public ActionResult Autenticar(Usuario usuario)
         {
-            //guarda o usuário que está tentando fazer login
-            Session["usuarioLogin"] = usuario;
+            //validação dos campos
+            if (!ModelState.IsValid)
+            {
+                return View("Index", usuario);
+            }
 
-            //captura a rede de lojas em questão
-            //a rede é utilizada para validar se o usuário existe e se pertence a rede onde está tentando logar
-            Session["dominioRede"] = PreencherSessaoDominioRede();
+            //captura a loja em questão
+            Session["dominioLoja"] = PreencherSessaoDominioLoja();
 
-            //se não conseguir capturar a rede, direciona para a tela de erro
-            if (Session["dominioRede"] == null)
+            //se não conseguir capturar a loja, direciona para a tela de erro
+            if (Session["dominioLoja"] == null)
                 return RedirectToAction("Index", "Erro");
 
-            string dominioRede = Session["dominioRede"].ToString();
+            string dominioLoja = Session["dominioLoja"].ToString();
 
             DadosRequisicaoRest retornoAutenticacao = new DadosRequisicaoRest();
             DadosRequisicaoRest retornoDadosUsuario = new DadosRequisicaoRest();
 
             try
             {
-                string urlPost = string.Format("/usuario/autenticar/{0}/'{1}'", TipoUsuario.Loja, dominioRede);
+                string urlPost = string.Format("/usuario/autenticar/{0}/'{1}'", TipoUsuario.Loja, dominioLoja);
 
                 retornoAutenticacao = rest.Post(urlPost, usuario);
 
@@ -66,7 +65,7 @@ namespace marmitex_admin.Controllers
                     try
                     {
                         //busca os dados do usuário
-                        retornoDadosUsuario = rest.PostComRetorno(string.Format("usuario/buscarPorEmail/{0}", TipoUsuario.Loja), usuario);
+                        retornoDadosUsuario = rest.Post(string.Format("usuario/buscarPorEmail/{0}", TipoUsuario.Loja), usuario);
 
                         //verifica se os dados do usuário foram encontrados
                         if (retornoDadosUsuario.HttpStatusCode != HttpStatusCode.OK)
@@ -74,35 +73,38 @@ namespace marmitex_admin.Controllers
 
                         usuarioLogado = JsonConvert.DeserializeObject<UsuarioLoja>(retornoDadosUsuario.objeto.ToString());
 
-                        //armazena o usuário na sessão "Usuário"
+                        //armazena o usuário na sessão "usuarioLogado"
                         Session["usuarioLogado"] = usuarioLogado;
+
+                        //limpa a sessão "usuarioLogin"
+                        Session["usuarioLogin"] = null;
 
                         return RedirectToAction("Index", "Home");
                     }
                     //se não for possível consultar os dados do usuário
                     catch (Exception)
                     {
-                        ViewBag.MensagemAutenticacao = "Estamos com dificuldade em buscar dados no servidor. Por favor, tente novamente";
+                        ViewBag.MensagemAutenticacao = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
                         return View("Index");
                     }
                 }
                 else if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.Unauthorized)
                 {
-                    ViewBag.MensagemAutenticacao = "Usuário ou senha inválida";
-                    return View("Index");
+                    ViewBag.MensagemAutenticacao = "usuário ou senha inválida";
+                    return View("Index", usuario);
                 }
 
                 //se for algum outro erro
                 else
                 {
-                    ViewBag.MensagemAutenticacao = "Não foi possível realizar o login. Por favor, tente novamente";
-                    return View("Index");
+                    ViewBag.MensagemAutenticacao = "não foi possível realizar o login. por favor, tente novamente";
+                    return View("Index", usuario);
                 }
             }
             catch (Exception)
             {
-                ViewBag.MensagemAutenticacao = "Não foi possível realizar o login. Por favor, tente novamente";
-                return View("Index");
+                ViewBag.MensagemAutenticacao = "não foi possível realizar o login. por favor, tente novamente";
+                return View("Index", usuario);
             }
         }
 
@@ -119,14 +121,5 @@ namespace marmitex_admin.Controllers
             return View("Index");
         }
 
-        /// <summary>
-        /// identifica a rede de lojas pela URL
-        /// </summary>
-        /// <returns></returns>
-        public string PreencherSessaoDominioRede()
-        {
-            //captura o host atual
-            return Request.Url.Host.Replace('"',' ').Trim();
-        }
     }
 }

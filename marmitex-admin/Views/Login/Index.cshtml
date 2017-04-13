@@ -21,7 +21,7 @@
             <div class="col-md-6 resumo-pedido" style="text-align: center">
                 <h1>entrar</h1>
                 <hr />
-                <form method="post" action="@Session["urlBase"]/Usuario/Autenticar">
+                <form method="post" action="@Session["urlBase"]/Login/Autenticar">
                     <div class="form-group">
                         <label for="email">e-mail:</label>
                         @if (@Session["usuarioLogin"] != null)
@@ -50,7 +50,7 @@
 
                 <br />
                 <br />
-                <p>esqueceu sua senha?<a href="@Session["urlBase"]/Usuario/EsqueciASenha"> envie uma nova para o seu e-mail</a></p>
+                <p>esqueceu sua senha?<a href="@Session["urlBase"]/Login/EsqueciASenha"> envie uma nova para o seu e-mail</a></p>
             </div>
         </div>
     </div>
