@@ -10,14 +10,13 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Bangers" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuResponsivo">
-                    
-                </button>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuResponsivo"></button>
                 <a href="@Session["urlBase"]/Home" class="navbar-brand">GeetFood</a>
             </div>
             <div class="collapse navbar-collapse" id="menuResponsivo">
@@ -56,16 +55,114 @@
         </nav>
     </div>
 
-    <div class="container body-content">
-        <div>
-            @RenderBody()
+    <div class="container-fluid body-content">
+        <div class="row profile">
+            <div class="col-md-3">
+                <nav class="navbar" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuConfiguracoes">
+                            <span class="sr-only">Menu</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="menuConfiguracoes">
+                        <div class="profile-sidebar">
+                            <!-- SIDEBAR USERPIC -->
+                            <div class="profile-userpic">
+                                <img src="https://pbs.twimg.com/profile_images/615635979504873472/U5f0ySHv.png" class="img-responsive" alt="logo">
+                            </div>
+                            <!-- END SIDEBAR USERPIC -->
+                            <!-- SIDEBAR USER TITLE -->
+                            <div class="profile-usertitle">
+                                <div class="profile-usertitle-name">
+                                    <h2>Spoleto</h2>
+                                </div>
+                            </div>
+                            <!-- END SIDEBAR BUTTONS -->
+                            <!-- SIDEBAR MENU -->
+                            <div class="profile-usermenu">
+                                <ul class="nav">
+                                    <li class="active">
+                                        <a href="#">
+                                            <i class="fa fa-bar-chart"></i>
+                                            Dashboard
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-star"></i>
+                                            Pedidos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-handshake-o fa-lg"></i>
+                                            Parceiros
+                                        </a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <i class="fa fa-cutlery"></i>
+                                            Cardápio
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="/Cardapio/Index">
+                                                    Cardápio
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    Produto
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="glyphicon glyphicon-time"></i>
+                                            Horários de entrega
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank">
+                                            <i class="fa fa-credit-card"></i>
+                                            Formas de pagamento
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- END MENU -->
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
         </div>
-        <footer></footer>
     </div>
 
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/marmitex.js"></script>
+
+
+    @*<script>
+        (function ($) {
+            $(document).ready(function () {
+                $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(this).parent().siblings().removeClass('open');
+                    $(this).parent().toggleClass('open');
+                });
+            });
+        })(jQuery);
+    </script>*@
+
 </body>
 </html>

@@ -7,13 +7,15 @@
 */
 /*#endregion */
 
+/*#region gerais*/
+
 body {
     margin-top: 10px;
     background: #f8f8f8;
     /*#bc2026 #fff #e7e7e7 #f8f8f8*/
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2 {
     font-family: 'Bangers', cursive !important;
 }
 
@@ -21,85 +23,47 @@ a, p {
     font-family: 'Open Sans', sans-serif;
 }
 
-.navbar-brand {
-    font-family: 'Bangers', cursive !important;
-    letter-spacing: 2px;
+.box-dashboard {
+    padding: 20px;
+    color: #fff;
+    margin-top: 10px;
+    border-radius: 5px;
 }
 
-.menu-lateral {
-    background-color: #f8f8f8;
-    padding: 2px;
-    margin-bottom: 10px;
-}
-
-.cardapio {
-    background-color: #fff;
-}
-
-.escondeDiv {
-    display: none;
-}
-
-.exibeDiv {
-    display: block;
-}
-
-.detalhes-pedido {
-    background-color: #fff;
-}
-
-.detalhes-pedido-carrinho {
-    background-color: #f8f8f8;
-}
-
-.mmt-bg-branco {
-    background-color: #fff;
-}
-
-.mmt-bg-cinza {
-    background-color: #f8f8f8;
-}
-
-.detalhes-pedido-horario {
-    background-color: #f8f8f8;
-    height: auto;
-    padding-bottom: 1em;
-}
-
-.detalhes-pedido-pagamento {
-    background-color: #f8f8f8;
-    height: auto;
-    padding-bottom: 1em;
-}
-
-.resumo-pedido {
-    background-color: #f8f8f8;
-    padding: 50px;
-}
-
-    .resumo-pedido h1 {
-        margin-bottom: 50px;
+    .box-dashboard h3 {
+        font-size: 310%
     }
 
-.editar-pedido {
-    background-color: #f8f8f8;
-    height: auto;
-    padding-bottom: 1em;
+.color-amarelo {
+    background-color: #F1C40F !important;
 }
 
-.carrinho-compras li {
-    margin-top: 1em;
+.color-laranja {
+    background-color: #DC7633 !important;
 }
 
-.btn-carrinho-compras {
-    margin-left: 1em;
-    margin-bottom: 1em;
+.color-verde {
+    background-color: #1ABC9C !important;
 }
+
+.color-vermelho {
+    background-color: #bc2026 !important;
+}
+
+.color-azul {
+    background-color: #3498DB !important;
+}
+
+.color-vinho {
+    background-color: #C0392B !important;
+}
+
+
+/*#endregion gerais*/
 
 
 
 /*#region botões */
-
 .btn-detalhes-pedido,
 .btn-pedido {
     color: #fff;
@@ -190,58 +154,12 @@ a, p {
 
 /*#endregion */
 
-/*#region paginação */
+/*#region  navbar*/
 
-.pager-cardapio {
-    padding-left: 0;
-    margin: 20px 0;
-    text-align: center;
-    list-style: none;
-    color: #bc2026;
+.navbar-brand {
+    font-family: 'Bangers', cursive !important;
+    letter-spacing: 2px;
 }
-
-    .pager-cardapio li {
-        display: inline;
-    }
-
-        .pager-cardapio li > a,
-        .pager-cardapio li > span {
-            display: inline-block;
-            padding: 5px 14px;
-            color: #bc2026;
-            background-color: #fff;
-            border: 1px solid #f8f8f8;
-            border-radius: 15px;
-        }
-
-            .pager-cardapio li > a:hover,
-            .pager-cardapio li > a:focus {
-                text-decoration: none;
-                background-color: #f8f8f8;
-            }
-
-    .pager-cardapio .next > a,
-    .pager-cardapio .next > span {
-        float: right;
-    }
-
-    .pager-cardapio .previous > a,
-    .pager-cardapio .previous > span {
-        float: left;
-    }
-
-    .pager-cardapio .disabled > a,
-    .pager-cardapio .disabled > a:hover,
-    .pager-cardapio .disabled > a:focus,
-    .pager-cardapio .disabled > span {
-        color: #bc2026;
-        cursor: not-allowed;
-        background-color: #f8f8f8;
-    }
-
-/*#endregion */
-
-/*#region navbar */
 
 .navbar-default {
     background-color: #bc2026;
@@ -362,4 +280,54 @@ a, p {
     }
 
 
-/*#endregion */
+/*Dropdown menu*/
+.marginBottom-0 {
+    margin-bottom: 0;
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+
+    .dropdown-submenu > .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -6px;
+        margin-left: -1px;
+        -webkit-border-radius: 0 6px 6px 6px;
+        -moz-border-radius: 0 6px 6px 6px;
+        border-radius: 0 6px 6px 6px;
+    }
+
+    .dropdown-submenu > a:after {
+        display: block;
+        content: " ";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #cccccc;
+        margin-top: 5px;
+        margin-right: -10px;
+    }
+
+    .dropdown-submenu:hover > a:after {
+        border-left-color: #555;
+    }
+
+    .dropdown-submenu.pull-left {
+        float: none;
+    }
+
+        .dropdown-submenu.pull-left > .dropdown-menu {
+            left: -100%;
+            margin-left: 10px;
+            -webkit-border-radius: 6px 0 6px 6px;
+            -moz-border-radius: 6px 0 6px 6px;
+            border-radius: 6px 0 6px 6px;
+        }
+
+
+/*#endregion  navbar */

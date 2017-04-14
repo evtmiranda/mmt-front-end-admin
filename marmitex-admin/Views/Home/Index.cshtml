@@ -1,74 +1,44 @@
-﻿<div class="container">
-    <div class="row profile">
-        <div class="col-md-3">
-            <nav class="navbar" role="navigation">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuConfiguracoes">Menu</button>
-                </div>
-                <div class="collapse navbar-collapse" id="menuConfiguracoes">
-                    <div class="profile-sidebar">
-                        <!-- SIDEBAR USERPIC -->
-                        <div class="profile-userpic">
-                            <img src="https://pbs.twimg.com/profile_images/615635979504873472/U5f0ySHv.png" class="img-responsive" alt="logo">
-                        </div>
-                        <!-- END SIDEBAR USERPIC -->
-                        <!-- SIDEBAR USER TITLE -->
-                        <div class="profile-usertitle">
-                            <div class="profile-usertitle-name">
-                                Spoleto
-                            </div>
-                        </div>
-                        <!-- END SIDEBAR BUTTONS -->
-                        <!-- SIDEBAR MENU -->
-                        <div class="profile-usermenu">
-                            <ul class="nav">
-                                <li class="active">
-                                    <a href="#">
-                                        <i class="glyphicon glyphicon-star"></i>
-                                        Pedidos
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="glyphicon glyphicon-dashboard"></i>
-                                        Dashboard
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="glyphicon glyphicon-thumbs-up"></i>
-                                        Parceiros
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="glyphicon glyphicon-cutlery"></i>
-                                        Cardápio
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="glyphicon glyphicon-time"></i>
-                                        Horários de entrega
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" target="_blank">
-                                        <i class="glyphicon glyphicon-usd"></i>
-                                        Formas de pagamento
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- END MENU -->
-                    </div>
-                </div>
-            </nav>
-        </div>
-        <div class="col-md-9">
-            <div class="profile-content">
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-            </div>
+<div class="profile-content">
+    <h2>dashboard hoje</h2>
+    <div class="col-md-6">
+        <div class="box-dashboard color-azul">
+            <h3>33</h3>
+            <p>pedidos</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box-dashboard color-vinho">
+            <h3>R$ 1.500,00</h3>
+            <p>vendas</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box-dashboard color-vermelho">
+            <h3>45</h3>
+            <p>visitas</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box-dashboard color-laranja">
+            <h3>5</h3>
+            <p>parceiros</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box-dashboard color-verde">
+            <h3>5</h3>
+            <p>pedidos atrasados</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box-dashboard color-amarelo">
+            <h3>28</h3>
+            <p>pedidos entregues</p>
         </div>
     </div>
 </div>
