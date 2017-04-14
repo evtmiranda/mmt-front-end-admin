@@ -99,12 +99,24 @@ Licensed under MIT
 
 /* Profile Content */
 .profile-content {
-    padding: 20px;
     background: #fff;
-    min-height: 640px;
+    padding: 2em;
+    min-height: 630px;
 }
 
     .profile-content table {
+        margin-top: 10px;
+    }
+
+.profile-content-backfull {
+    background: #fff;
+    min-height: 100%;
+    min-width: 95%;
+    padding: 2em;
+    position: absolute;
+}
+
+    .profile-content-backfull table {
         margin-top: 10px;
     }
 

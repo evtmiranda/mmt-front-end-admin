@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="profile-content-backfull">
+    <div class="col-md-12">
+        <h1 class="text-left">Pedidos</h1>
+        <hr />
+        <div class="col-md-4">
+            <div class="board-pedido">
+                <h2 style="text-transform:uppercase">
+                    Na fila
+                </h2>
+                <div class="board-pedido-item">
+                    <a href="#" data-toggle="modal" data-target="#modalPedido1">
+                        <p>Gabriela Ferreira</p>
+                        <p>para às 12:00hrs</p>
+                        <p>Marisa</p>
+                    </a>
+                </div>
+                <div class="board-pedido-item">
+                    <a href="#">
+                        <p>Everton Miranda</p>
+                        <p>para às 12:00hrs</p>
+                        <p>Marisa</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="board-pedido">
+                <h2 style="text-transform:uppercase">
+                    Em andamento
+                </h2>
+                <div class="board-pedido-item">
+                    <a href="#">
+                        <p>Joilson Pereira</p>
+                        <p>para às 12:00hrs</p>
+                        <p>J.A Elétrica e Hidráulica</p>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="board-pedido">
+                <h2 style="text-transform:uppercase">
+                    Entregue
+                </h2>
+                <div class="board-pedido-item">
+                    <a href="#">
+                        <p>Analice Miranda</p>
+                        <p>para às 11:00hrs</p>
+                        <p>J.A Elétrica e Hidráulica</p>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div>
+    <div class="modal fade" id="modalPedido1" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Pedido</h3>
+                </div>
+                <div class="modal-body">
+                    <h4>Cliente</h4>
+                    <p>Gabriela Ferreira dos Santos</p>
+                    
+                    <br />
+                    
+                    <h4>Produtos</h4>
+                    <p>1 Coca Cola Lata</p>
+                    <p>1 Lasanha</p>
+
+                    <br />
+
+                    <h4>Horário de entrega</h4>
+                    <p>às 12:00 horas</p>
+
+                    <br />
+
+                    <h4>Forma de pagamento</h4>
+                    <p>Dinheiro</p>
+                    <p>R$ 1,50 de troco</p>
+
+                    <br />
+
+                    <h4>Observação</h4>
+                    <p>acrescentar queijo na lasanha</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

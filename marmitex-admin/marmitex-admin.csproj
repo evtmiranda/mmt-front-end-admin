@@ -160,6 +160,8 @@
     <Compile Include="Controllers\HorarioEntregaController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\CardapioController.cs" />
+    <Compile Include="Controllers\ParceiroController.cs" />
+    <Compile Include="Controllers\PedidoController.cs" />
     <Compile Include="Controllers\ProdutoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
@@ -190,6 +192,9 @@
     <Content Include="Views\Produto\Adicionar.cshtml" />
     <Content Include="Views\FormaPagamento\Index.cshtml" />
     <Content Include="Views\HorarioEntrega\Index.cshtml" />
+    <Content Include="Views\Pedido\Index.cshtml" />
+    <Content Include="Views\Parceiro\Index.cshtml" />
+    <Content Include="Views\Parceiro\Adicionar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
