@@ -1,0 +1,94 @@
+﻿
+.bubble {
+    width: 100%;
+}
+
+    .bubble h4 {
+        text-align: center;
+    }
+
+.bubble-item {
+    background: #fff;
+    border: 1px solid black;
+    border-radius: 25px;
+    text-align: center;
+    min-width: 80px;
+    margin-top: 1em;
+}
+
+    .bubble-item p {
+        padding-top: 7%;
+    }
+
+    .bubble-item i {
+        padding: 3%;
+        text-align: center;
+        padding-top: 1em;
+        min-height: 3em;
+    }
+
+.bubble-texto .input-texto {
+    padding: 3%;
+    background: #fff;
+    border: 1px solid black;
+    border-radius: 25px;
+    text-align: center;
+    width: 100%;
+    min-height: 3em;
+}
+
+/*layout de ativação inativação*/
+.bubble-status {
+    width: 80px;
+    height: 44px;
+    margin-left: 20%;
+    position: relative;
+}
+
+    .bubble-status:after {
+        content: 'OFF';
+        color: #FF0033;
+        position: absolute;
+        right: 10px;
+        z-index: 0;
+        top: 8px;
+        font: 12px/26px Arial, sans-serif;
+        font-weight: bold;
+    }
+
+    .bubble-status:before {
+        content: 'ON';
+        color: #33CC33;
+        position: absolute;
+        left: 10px;
+        top: 8px;
+        z-index: 0;
+        font: 12px/26px Arial, sans-serif;
+        font-weight: bold;
+    }
+
+    .bubble-status label {
+        display: block;
+        width: 32px;
+        height: 20px;
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        left: 2px;
+        z-index: 1;
+        background: #ccc;
+        border-radius: 50px;
+        transition: all 0.4s ease;
+    }
+
+    .bubble-status input[type=checkbox] {
+        visibility: hidden;
+    }
+
+        .bubble-status input[type=checkbox]:checked + label {
+            left: 43px;
+        }
+
+.bubble table td{
+    padding-left: 5em;
+}

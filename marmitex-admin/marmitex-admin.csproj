@@ -127,6 +127,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bubble.css" />
     <Content Include="Content\sidebar.css" />
     <Content Include="Content\simple-sidebar.css" />
     <Content Include="Content\Site.css" />
@@ -141,6 +142,7 @@
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
     <Content Include="Scripts\marmitex.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\bubble.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\Erro\Index.cshtml" />
@@ -153,9 +155,12 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BaseLoginController.cs" />
     <Compile Include="Controllers\ErroController.cs" />
+    <Compile Include="Controllers\FormaPagamentoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HorarioEntregaController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\CardapioController.cs" />
+    <Compile Include="Controllers\ProdutoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -180,6 +185,11 @@
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\Cardapio\Index.cshtml" />
+    <Content Include="Views\Produto\Index.cshtml" />
+    <Content Include="Views\Cardapio\Adicionar.cshtml" />
+    <Content Include="Views\Produto\Adicionar.cshtml" />
+    <Content Include="Views\FormaPagamento\Index.cshtml" />
+    <Content Include="Views\HorarioEntrega\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

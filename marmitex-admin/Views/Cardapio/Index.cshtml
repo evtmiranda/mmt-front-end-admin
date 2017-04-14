@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="profile-content">
+    <row>
+        <h1 class="text-left">Cardápio</h1>
+        
+        <div class="text-right">
+            <a href="/Cardapio/Adicionar" class="btn btn-success">adicionar cardápio</a>
+        </div>
+        <hr />
+
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>nome</th>
+                            <th>ordem de exibição</th>
+                            <th>ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Massas Italianas</td>
+                            <td>1</td>
+                            <td>
+                                <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Massas Artesanais</td>
+                            <td>2</td>
+                            <td>
+                                <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Lasagnas</td>
+                            <td>3</td>
+                            <td>
+                                <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                            </td>
+                        </tr>
+                </table>
+            </div>
+
+        </div>
+    </row>
+</div>

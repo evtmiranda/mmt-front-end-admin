@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Adicionar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="profile-content">
+    <h2>Adicionar cardápio</h2>
+    <div class="col-md-10">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="nomeCardapio">nome cardápio</label>
+                <input type="text" id="nomeCardapio" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="ordemExibicao">ordem de exibição</label>
+                <input type="number" min="0" id="ordemExibicao" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="buttons-formcontrol">
+                <button class="btn btn-success">adicionar cardápio</button>
+            </div>
+        </div>
+    </div>
+</div>

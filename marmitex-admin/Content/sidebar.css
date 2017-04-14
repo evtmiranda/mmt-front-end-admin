@@ -101,5 +101,13 @@ Licensed under MIT
 .profile-content {
     padding: 20px;
     background: #fff;
-    min-height: 650px;
+    min-height: 640px;
+}
+
+    .profile-content table {
+        margin-top: 10px;
+    }
+
+.buttons-formcontrol{
+    margin-top: 10px;
 }

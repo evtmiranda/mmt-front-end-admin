@@ -34,33 +34,32 @@ a, p {
         font-size: 310%
     }
 
-.color-amarelo {
-    background-color: #F1C40F !important;
+.color-cinza-escuro {
+    background-color: #011627 !important;
 }
 
 .color-laranja {
-    background-color: #DC7633 !important;
+    background-color: #FF9F1C !important;
 }
 
 .color-verde {
-    background-color: #1ABC9C !important;
+    background-color: #2EC4B6 !important;
 }
 
 .color-vermelho {
+    background-color: #E71D36 !important;
+}
+
+.color-cinza-claro {
+    background-color: #808080 !important;
+}
+
+.color-vermelho-default {
     background-color: #bc2026 !important;
-}
-
-.color-azul {
-    background-color: #3498DB !important;
-}
-
-.color-vinho {
-    background-color: #C0392B !important;
 }
 
 
 /*#endregion gerais*/
-
 
 
 /*#region botões */
