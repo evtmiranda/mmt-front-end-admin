@@ -1,4 +1,5 @@
-﻿
+﻿@model List<ClassesMarmitex.MenuCardapio>
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,9 +8,9 @@
 <div class="profile-content-backfull">
     <row>
         <h1 class="text-left">Produtos</h1>
-        
+
         <div class="text-right">
-            <a href="/Produtos/Adicionar" class="btn btn-success">adicionar produto</a>
+            <a href="/Produto/Adicionar" class="btn btn-success">adicionar produto</a>
         </div>
         <hr />
 
@@ -29,29 +30,45 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Spaguetti</td>
-                            <td>Massa ao molho branco</td>
-                            <td>Massas Italianas</td>
-                            <td>R$ 15,50</td>
-                            <td><img src="" class="img-responsive" alt="produto"></td>
-                            <td>
-                                <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                            </td>
+                            @foreach (var cardapio in Model)
+                            {
+                                foreach (var produto in cardapio.Produtos)
+                                {
+                                    <th scope="row">@produto.Id</th>
+                                    <td>@produto.Nome</td>
+                                    <td>@produto.Descricao</td>
+                                    <td>@cardapio.Nome</td>
+                                    <td>@produto.Valor</td>
+                                    <td><img src="@produto.Imagem" class="img-responsive" alt="produto"></td>
+                                    <td>
+                                        <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                        <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                    </td>
+                                }
+                            }
+                            @*<td>Spaguetti</td>
+                                    <td>Massa ao molho branco</td>
+                                    <td>Massas Italianas</td>
+                                    <td>R$ 15,50</td>
+                                    <td><img src="" class="img-responsive" alt="produto"></td>
+                                    <td>
+                                        <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                        <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Spaguetti</td>
+                                    <td>Massa ao molho branco</td>
+                                    <td>Massas Italianas</td>
+                                    <td>R$ 15,50</td>
+                                    <td><img src="" class="img-responsive" alt="produto"></td>
+                                    <td>
+                                        <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                        <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                    </td>*@
                         </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Spaguetti</td>
-                            <td>Massa ao molho branco</td>
-                            <td>Massas Italianas</td>
-                            <td>R$ 15,50</td>
-                            <td><img src="" class="img-responsive" alt="produto"></td>
-                            <td>
-                                <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                            </td>
-                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>

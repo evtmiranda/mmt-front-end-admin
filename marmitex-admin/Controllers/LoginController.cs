@@ -5,7 +5,6 @@
     using System.Net;
     using System;
     using Newtonsoft.Json;
-    using marmitex;
 
     public class LoginController : BaseLoginController
     {
@@ -66,7 +65,9 @@
                         if (retornoDadosUsuario.HttpStatusCode != HttpStatusCode.OK)
                             throw new Exception();
 
+                        //converte o usuario em objeto e seta a url da loja
                         usuarioLogado = JsonConvert.DeserializeObject<UsuarioLoja>(retornoDadosUsuario.objeto.ToString());
+                        usuarioLogado.UrlLoja = dominioLoja;
 
                         //armazena o usuário na sessão "usuarioLogado"
                         Session["usuarioLogado"] = usuarioLogado;

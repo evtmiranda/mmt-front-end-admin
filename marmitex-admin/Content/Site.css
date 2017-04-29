@@ -32,7 +32,6 @@ a, p {
 }
 
 .box-dashboard-item {
-    color: #bc2026;
     text-align: center;
 }
 
@@ -69,14 +68,15 @@ a, p {
 
 /*#endregion board pedido*/
 .board-pedido {
-    background: #E2E4E6;
+    background: #f7f7f7;
     border-radius: 3px;
     padding-bottom: 20px;
 }
 
-    .board-pedido h2 {
+    .board-pedido h3 {
         padding-left: 10%;
         padding-top: 20px;
+        font-family: 'Bangers', cursive !important;
     }
 
 .board-pedido-item {
