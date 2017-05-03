@@ -22,7 +22,7 @@
                         <div class="board-pedido-item">
                             <a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
                                 <p>@pedido.Cliente.Nome</p>
-                                <p>para às @pedido.DataEntrega.Hour : @pedido.DataEntrega.Minute hrs</p>
+                                <p>para às @pedido.DataEntrega.ToString("hh:mm") hrs</p>
                                 <p>@pedido.Parceiro.Nome</p>
                             </a>
                         </div>
@@ -78,100 +78,111 @@
             {
                 <div class="modal fade" id="modalPedido_@pedido.Id" role="dialog">
                     <div class="modal-dialog modal-md">
-                        <div class="modal-content text-center">
+                        <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h3 class="modal-title">Pedido</h3>
                             </div>
-                            <div class="modal-body">
-                                <h4>Cliente</h4>
-                                <p>@pedido.Cliente.Nome</p>
+                            <div class="col-md-12 col-md-offset-1">
+                                <div class="modal-body">
+                                    <div class="col-md-11">
+                                        <h4>Cliente</h4>
+                                        <p>@pedido.Cliente.Nome</p>
+                                    </div>
 
-                                <br />
-                                <h4>Parceiro</h4>
-                                <p>
-                                    @pedido.Parceiro.Nome
-                                    <br />
-                                    @pedido.Parceiro.Endereco.Logradouro, @pedido.Parceiro.Endereco.NumeroEndereco - @pedido.Parceiro.Endereco.Bairro,
-                                    @pedido.Parceiro.Endereco.Cidade, @pedido.Parceiro.Endereco.UF - CEP: @pedido.Parceiro.Endereco.Cep
-                                    <br />
-                                    @pedido.Parceiro.Endereco.ComplementoEndereco
-                                </p>
+                                    <div class="col-md-11">
+                                        <h4>Parceiro</h4>
+                                        <p>
+                                            @pedido.Parceiro.Nome
+                                            <br />
+                                            @pedido.Parceiro.Endereco.Logradouro, @pedido.Parceiro.Endereco.NumeroEndereco - @pedido.Parceiro.Endereco.Bairro,
+                                            @pedido.Parceiro.Endereco.Cidade, @pedido.Parceiro.Endereco.UF - CEP: @pedido.Parceiro.Endereco.Cep
+                                            <br />
+                                            @pedido.Parceiro.Endereco.ComplementoEndereco
+                                        </p>
+                                    </div>
 
-
-                                <br />
-
-                                <h4>Pedido</h4>
-                                @foreach (var p in pedido.ListaProdutos)
-                                {
-                                    //se o produto tiver itens adicionais
-                                    if (p.Produto.DadosAdicionaisProdutos.Sum(adicional => adicional.ItensAdicionais.Sum(item => item.Qtd)) > 0)
-                                    {
-                                        <p>@p.Produto.Nome R$@p.ValorTotal</p>
-                                        foreach (var adicional in p.Produto.DadosAdicionaisProdutos)
+                                    <div class="col-md-11">
+                                        <h4>Pedido</h4>
+                                        @foreach (var p in pedido.ListaProdutos)
                                         {
-                                            <p class="vermelho-marmitex">@adicional.Nome</p>
-                                            if (adicional.ItensAdicionais.Sum(k => k.Qtd) == 0)
+                                            //se o produto tiver itens adicionais
+                                            if (p.Produto.DadosAdicionaisProdutos.Sum(adicional => adicional.ItensAdicionais.Sum(item => item.Qtd)) > 0)
                                             {
-                                                <small>nenhum</small>
-                                                <br />
+                                                <div class="col-md-11 border-pedido-mmt">
+                                                    <p><span class="badge">1</span> @p.Produto.Nome R$@p.ValorTotal</p>
+                                                    @foreach (var adicional in p.Produto.DadosAdicionaisProdutos)
+                                                    {
+                                                        <p class="vermelho-marmitex">@adicional.Nome</p>
+                                                        if (adicional.ItensAdicionais.Sum(k => k.Qtd) == 0)
+                                                        {
+                                                            <p style="margin-left: 2em;">nenhum</p>
+                                                                <br />
+                                                        }
+                                                        else
+                                                        {
+                                                            foreach (var item in adicional.ItensAdicionais)
+                                                            {
+                                                                if (item.Qtd > 0)
+                                                                {
+                                                                    <p style="margin-left: 2em;"><span class="badge">@item.Qtd</span> @item.Nome </p>
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
                                             }
                                             else
                                             {
-                                                foreach (var item in adicional.ItensAdicionais)
-                                                {
-                                                    if (item.Qtd > 0)
-                                                    {
-                                                        <small>@item.Nome @item.Qtd</small><br />
-                                                    }
-                                                }
+                                                <div class="col-md-11 border-pedido-mmt">
+                                                    <p><span class="badge">@p.Quantidade</span> @p.Produto.Nome R$ @p.ValorTotal</p>
+                                                </div>
                                             }
-                                            <br />
+                                        }
+                                    </div>
+
+                                    <div class="col-md-11">
+                                        <h4>Horário de entrega</h4>
+                                        <p>às @pedido.DataEntrega.ToString("hh:mm") hrs</p>
+                                    </div>
+
+                                    <div class="col-md-11">
+                                        <h4>Forma de pagamento</h4>
+                                        @foreach (var pagamento in pedido.ListaFormaPagamento)
+                                        {
+                                            <p>@pagamento.Nome</p>
                                         }
 
-                                    }
-                                    else
-                                    {
-                                        //exibe os produtos e a quantidade
-                                        <p>@p.Quantidade @p.Produto.Nome R$ @p.ValorTotal</p>
-                                    }
-                                }
+                                        @if (Convert.ToDecimal(pedido.Troco) > 0)
+                                        {
+                                            <p>R$ @pedido.Troco de troco</p>
+                                        }
 
-                                <br />
+                                        <br />
 
-                                <h4>Horário de entrega</h4>
-                                <p>às @pedido.DataEntrega.Hour:@pedido.DataEntrega.Minute hrs</p>
+                                        @if (!string.IsNullOrEmpty(pedido.Observacao))
+                                        {
+                                            <h4>Observação</h4>
+                                                <p>@pedido.Observacao</p>
+                                        }
 
-                                <br />
-
-                                <h4>Forma de pagamento</h4>
-                                @foreach (var pagamento in pedido.ListaFormaPagamento)
-                                {
-                                    <p>@pagamento.Nome</p>
-
-                                    if (Convert.ToDecimal(pedido.Troco) > 0)
-                                    {
-                                        <p>R$ @pedido.Troco de troco</p>
-                                    }
-                                }
-
-                                <br />
-
-                                @if (!string.IsNullOrEmpty(pedido.Observacao))
-                                {
-                                    <h4>Observação</h4>
-                                    <p>@pedido.Observacao</p>
-                                }
-
-
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                             </div>
+
                         </div>
                     </div>
                 </div>
             }
+        </div>
+    }
+    else
+    {
+        <div class="col-md-12 text-center">
+            <h3>não existem pedidos para hoje</h3>
         </div>
     }
 </div>
