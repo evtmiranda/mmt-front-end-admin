@@ -1,4 +1,5 @@
-﻿
+﻿@model IList<ClassesMarmitex.Parceiro>
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,14 +7,16 @@
 
 <div class="col-md-12">
     <div class="profile-content-backfull">
-            <h1 class="text-left">Parceiros</h1>
+        <h1 class="text-left">Parceiros</h1>
 
-            <div class="text-right">
-                <a href="/Parceiro/Adicionar" class="btn btn-success">adicionar parceiro</a>
-            </div>
-            <hr />
+        <div class="text-right">
+            <a href="/Parceiro/Adicionar" class="btn btn-success">adicionar parceiro</a>
+        </div>
+        <hr />
 
-            <div class="col-md-12">
+        <div class="col-md-12">
+            @if (Model != null)
+            {
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -41,6 +44,14 @@
                     </table>
                 </div>
 
-            </div>
+            }
+            else
+            {
+                <div class="text-center">
+                    <p>@ViewBag.MensagemParceiros</p>
+                </div>
+            }
+
+        </div>
     </div>
 </div>

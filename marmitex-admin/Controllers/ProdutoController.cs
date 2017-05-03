@@ -7,7 +7,7 @@ namespace marmitex_admin.Controllers
 {
     public class ProdutoController : BaseController
     {
-
+        private UsuarioLoja usuarioLogado;
         private RequisicoesREST rest;
         private Requisicoes requisicoes;
 
@@ -26,12 +26,15 @@ namespace marmitex_admin.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
             DadosRequisicaoRest dadosRest = new DadosRequisicaoRest();
 
             try
             {
                 //cria uma lista de cardápio
-                List<MenuCardapio> listaMenuCardapio = requisicoes.ListarMenuCardapio(usuario.IdLoja);
+                List<MenuCardapio> listaMenuCardapio = requisicoes.ListarMenuCardapio(usuarioLogado.IdLoja);
 
                 return View(listaMenuCardapio);
             }

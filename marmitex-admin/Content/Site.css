@@ -63,9 +63,11 @@ a, p {
     background-color: #bc2026 !important;
 }
 
+.background-cinza-claro {
+    background-color: #f7f7f7;
+}
 
 /*#endregion gerais*/
-
 /*#endregion board pedido*/
 .board-pedido {
     background: #f7f7f7;
@@ -95,10 +97,12 @@ a, p {
     }
 
 .border-pedido-mmt {
-    background-color: #f8f8f8;
+    background-color: #f7f7f7;
     padding: 10px 0 10px 6px;
     margin-top: 10px;
 }
+
+
 /*#endregion board pedido*/
 /*#region botões */
 .btn-detalhes-pedido,

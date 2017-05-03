@@ -33,17 +33,17 @@ namespace marmitex_admin.Controllers
             //busca todos os pedidos da loja com data de entrega == hoje
             retornoRequest = rest.Get("/Pedido/BuscarPedidos/" + usuarioLogado.IdLoja + "/true/false/false/false");
 
-            //se não encontrar pedidos para este cliente
+            //se não encontrar pedidos para a loja
             if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
             {
-                ViewBag.MensagemPedidos = "nenhum pedido encontrado";
+                ViewBag.MensagemPedidos = "não existem pedidos para hoje";
                 return View("Index");
             }
 
             //se ocorrer algum erro
             if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
             {
-                ViewBag.MensagemPedidos = "ocorreu um problema ao consultar os pedidos. por favor, tente atualizar a página ou acessar dentro de alguns minutos...";
+                ViewBag.MensagemPedidos = "não foi possível consultar os pedidos. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View("Index");
             }
 
