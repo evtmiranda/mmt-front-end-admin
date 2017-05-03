@@ -21,48 +21,58 @@
                     {
                         <div class="board-pedido-item">
                             <a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
-                                <p>@pedido.Cliente.Nome</p>
-                                <p>para às @pedido.DataEntrega.ToString("hh:mm") hrs</p>
-                                <p>@pedido.Parceiro.Nome</p>
+                                <p>
+                                    <strong>Hr de entrega:</strong> às @pedido.DataEntrega.ToString("HH:mm") hrs
+                                    <br />
+                                    <strong>Cliente:</strong> @pedido.Cliente.Nome
+                                    <br />
+                                    <strong>Parceiro:</strong> @pedido.Parceiro.Nome
+                                </p>
                             </a>
                         </div>
                     }
 
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="board-pedido">
-                    <h3 class="text-uppercase">
-                        Em andamento
-                    </h3>
-
-                    @foreach (var pedido in Model.Where(p => p.IdStatusPedido == 1))
-                    {
-                        <div class="board-pedido-item">
-                            <a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
-                                <p>@pedido.Cliente.Nome</p>
-                                <p>para às @pedido.DataEntrega.Hour : @pedido.DataEntrega.Minute hrs</p>
-                                <p>@pedido.Parceiro.Nome</p>
-                            </a>
-                        </div>
-                    }
-
-                </div>
-            </div>
-
             <div class="col-md-4">
                 <div class="board-pedido">
                     <h3 class="text-uppercase">
                         Entregue
                     </h3>
 
+                    @foreach (var pedido in Model.Where(p => p.IdStatusPedido == 1))
+                    {
+                        <div class="board-pedido-item">
+                            <a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
+                                <strong>Hr de entrega:</strong> às @pedido.DataEntrega.ToString("HH:mm") hrs
+                                <br />
+                                <strong>Cliente:</strong> @pedido.Cliente.Nome
+                                <br />
+                                <strong>Parceiro:</strong> @pedido.Parceiro.Nome
+                            </a>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="board-pedido">
+                    <h3 class="text-uppercase">
+                        Cancelado
+                    </h3>
+
                     @foreach (var pedido in Model.Where(p => p.IdStatusPedido == 2))
                     {
                         <div class="board-pedido-item">
                             <a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
-                                <p>@pedido.Cliente.Nome</p>
-                                <p>para às @pedido.DataEntrega.Hour : @pedido.DataEntrega.Minute hrs</p>
-                                <p>@pedido.Parceiro.Nome</p>
+                                <p>
+                                    <strong>Hr de entrega:</strong> às @pedido.DataEntrega.ToString("HH:mm") hrs
+                                    <br />
+                                    <strong>Cliente:</strong> @pedido.Cliente.Nome
+                                    <br />
+                                    <strong>Parceiro:</strong> @pedido.Parceiro.Nome
+                                </p>
                             </a>
                         </div>
                     }
@@ -87,7 +97,11 @@
                                 <div class="modal-body">
                                     <div class="col-md-11">
                                         <h4>Cliente</h4>
-                                        <p>@pedido.Cliente.Nome</p>
+                                        <p>
+                                            @pedido.Cliente.Nome
+                                        <br />
+                                            @pedido.Cliente.NumeroCelular
+                                        </p>
                                     </div>
 
                                     <div class="col-md-11">
@@ -143,7 +157,7 @@
 
                                     <div class="col-md-11">
                                         <h4>Horário de entrega</h4>
-                                        <p>às @pedido.DataEntrega.ToString("hh:mm") hrs</p>
+                                        <p>às @pedido.DataEntrega.ToString("HH:mm") hrs</p>
                                     </div>
 
                                     <div class="col-md-11">
