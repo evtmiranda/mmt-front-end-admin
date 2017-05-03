@@ -1,19 +1,23 @@
 ﻿using ClassesMarmitex;
-using System;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Net;
 using System.Web.Mvc;
 
 namespace marmitex_admin.Controllers
 {
-    public class PedidoController : Controller
+    public class PedidoController : BaseController
     {
         private RequisicoesREST rest;
-        private Requisicoes requisicoes;
-        
+        private UsuarioLoja usuarioLogado;
+        private DadosRequisicaoRest retornoRequest;
+        private List<Pedido> listaPedidos;
+
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
-        public PedidoController(RequisicoesREST rest, Requisicoes requisicoes)
+        public PedidoController(RequisicoesREST rest)
         {
             this.rest = rest;
-            this.requisicoes = requisicoes;
+            this.listaPedidos = new List<Pedido>();
         }
 
         // GET: Pedido
@@ -23,15 +27,31 @@ namespace marmitex_admin.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            try
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            //busca todos os pedidos da loja com data de entrega == hoje
+            retornoRequest = rest.Get("/Pedido/BuscarPedidos/" + usuarioLogado.IdLoja + "/true/false/false/false");
+
+            //se não encontrar pedidos para este cliente
+            if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
             {
-                return View();
+                ViewBag.MensagemPedidos = "nenhum pedido encontrado";
+                return View("Index");
             }
-            catch (Exception)
+
+            //se ocorrer algum erro
+            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
             {
-                throw;
+                ViewBag.MensagemPedidos = "ocorreu um problema ao consultar os pedidos. por favor, tente atualizar a página ou acessar dentro de alguns minutos...";
+                return View("Index");
             }
-            
+
+            string jsonPedidos = retornoRequest.objeto.ToString();
+
+            listaPedidos = JsonConvert.DeserializeObject<List<Pedido>>(jsonPedidos);
+
+            return View(listaPedidos);
         }
     }
 }

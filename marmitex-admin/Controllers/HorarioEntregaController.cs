@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace marmitex_admin.Controllers
 {
-    public class HorarioEntregaController : Controller
+    public class HorarioEntregaController : BaseController
     {
         // GET: HorarioEntrega
         public ActionResult Index()

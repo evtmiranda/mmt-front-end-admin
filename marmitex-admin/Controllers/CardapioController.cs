@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace marmitex_admin.Controllers
 {
-    public class CardapioController : Controller
+    public class CardapioController : BaseController
     {
         // GET: Produtos
         public ActionResult Index()

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace marmitex_admin.Controllers
 {
-    public class FormaPagamentoController : Controller
+    public class FormaPagamentoController : BaseController
     {
         // GET: FormasPagamento
         public ActionResult Index()

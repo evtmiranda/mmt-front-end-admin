@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace marmitex_admin.Controllers
 {
-    public class ParceiroController : Controller
+    public class ParceiroController : BaseController
     {
         // GET: Parceiro
         public ActionResult Index()
