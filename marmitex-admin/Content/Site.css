@@ -67,6 +67,10 @@ a, p {
     background-color: #f7f7f7;
 }
 
+.background-verde-claro {
+    background-color: #2EC4B6;
+}
+
 /*#endregion gerais*/
 /*#endregion board pedido*/
 .board-pedido {

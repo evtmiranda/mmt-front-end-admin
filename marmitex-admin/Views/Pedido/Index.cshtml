@@ -5,6 +5,38 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script>
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function dropEntregue(ev) {
+        alert('entregue');
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+    }
+
+    function dropFila(ev) {
+        alert('fila');
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+    }
+
+    function dropCancelado(ev) {
+        alert('cancelado');
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+    }
+
+</script>
+
 <div class="profile-content-backfull">
     @if (Model != null)
     {
@@ -12,14 +44,14 @@
             <h1 class="text-left">Pedidos</h1>
             <hr />
             <div class="col-md-4">
-                <div class="board-pedido">
+                <div class="board-pedido" ondrop="dropFila(event)" ondragover="allowDrop(event)">
                     <h3 class="text-uppercase">
                         Na fila
                     </h3>
 
                     @foreach (var pedido in Model.Where(p => p.IdStatusPedido == 0))
                     {
-                        <div class="board-pedido-item">
+                        <div id="drag_@pedido.Id" class="board-pedido-item" draggable="true" ondragstart="drag(event)">
                             <a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
                                 <p>
                                     <strong>Hr de entrega:</strong> às @pedido.DataEntrega.ToString("HH:mm") hrs
@@ -35,14 +67,14 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="board-pedido">
+                <div class="board-pedido" ondrop="dropEntregue(event)" ondragover="allowDrop(event)">
                     <h3 class="text-uppercase">
                         Entregue
                     </h3>
 
                     @foreach (var pedido in Model.Where(p => p.IdStatusPedido == 1))
                     {
-                        <div class="board-pedido-item">
+                        <div id="drag_@pedido.Id" class="board-pedido-item" draggable="true" ondragstart="drag(event)">
                             <a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
                                 <strong>Hr de entrega:</strong> às @pedido.DataEntrega.ToString("HH:mm") hrs
                                 <br />
@@ -50,6 +82,7 @@
                                 <br />
                                 <strong>Parceiro:</strong> @pedido.Parceiro.Nome
                             </a>
+                            <p></p>
                         </div>
                     }
 
@@ -57,29 +90,27 @@
             </div>
 
             <div class="col-md-4">
-                <div class="board-pedido">
+                <div class="board-pedido" ondrop="dropCancelado(event)" ondragover="allowDrop(event)">
                     <h3 class="text-uppercase">
                         Cancelado
                     </h3>
 
                     @foreach (var pedido in Model.Where(p => p.IdStatusPedido == 2))
                     {
-                        <div class="board-pedido-item">
+                        <div id="drag_@pedido.Id" class="board-pedido-item" draggable="true" ondragstart="drag(event)">
                             <a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
-                                <p>
-                                    <strong>Hr de entrega:</strong> às @pedido.DataEntrega.ToString("HH:mm") hrs
-                                    <br />
-                                    <strong>Cliente:</strong> @pedido.Cliente.Nome
-                                    <br />
-                                    <strong>Parceiro:</strong> @pedido.Parceiro.Nome
-                                </p>
+                                <strong>Hr de entrega:</strong> às @pedido.DataEntrega.ToString("HH:mm") hrs
+                                <br />
+                                <strong>Cliente:</strong> @pedido.Cliente.Nome
+                                <br />
+                                <strong>Parceiro:</strong> @pedido.Parceiro.Nome
                             </a>
+                            <p></p>
                         </div>
                     }
 
                 </div>
             </div>
-
         </div>
 
 
@@ -99,7 +130,7 @@
                                         <h4>Cliente</h4>
                                         <p>
                                             @pedido.Cliente.Nome
-                                        <br />
+                                            <br />
                                             @pedido.Cliente.NumeroCelular
                                         </p>
                                     </div>
@@ -131,7 +162,7 @@
                                                         if (adicional.ItensAdicionais.Sum(k => k.Qtd) == 0)
                                                         {
                                                             <p style="margin-left: 2em;">nenhum</p>
-                                                                <br />
+                                                            <br />
                                                         }
                                                         else
                                                         {
@@ -177,7 +208,7 @@
                                         @if (!string.IsNullOrEmpty(pedido.Observacao))
                                         {
                                             <h4>Observação</h4>
-                                                <p>@pedido.Observacao</p>
+                                            <p>@pedido.Observacao</p>
                                         }
 
                                     </div>
