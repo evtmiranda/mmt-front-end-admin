@@ -1,60 +1,55 @@
-﻿
+﻿@model List<ClassesMarmitex.MenuCardapio>
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="profile-content-backfull">
-    <row>
-        <h1 class="text-left">Cardápio</h1>
-        
-        <div class="text-right">
-            <a href="/Cardapio/Adicionar" class="btn btn-success">adicionar cardápio</a>
-        </div>
-        <hr />
+    @if (Model != null)
+    {
+        <row>
+            <h1 class="text-left">Cardápio</h1>
 
-        <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>nome</th>
-                            <th>ordem de exibição</th>
-                            <th>ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Massas Italianas</td>
-                            <td>1</td>
-                            <td>
-                                <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Massas Artesanais</td>
-                            <td>2</td>
-                            <td>
-                                <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Lasagnas</td>
-                            <td>3</td>
-                            <td>
-                                <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                            </td>
-                        </tr>
-                </table>
+            <div class="text-right">
+                <a href="/Cardapio/Adicionar" class="btn btn-success">adicionar cardápio</a>
             </div>
+            <hr />
 
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>nome</th>
+                                <th>ordem de exibição</th>
+                                <th>ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var cardapio in Model)
+                            {
+                                <tr>
+                                    <th scope="row">@cardapio.Id</th>
+                                    <td>@cardapio.Nome</td>
+                                    <td>@cardapio.OrdemExibicao</td>
+                                    <td>
+                                        <a href="#" style="color: #1a9c21" onclick=""><i class="glyphicon glyphicon-edit"></i></a>
+                                        <a href="#" style="color: #bc2026" onclick="RemoverCardapio()"><i class="glyphicon glyphicon-remove"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                    </table>
+                </div>
+
+            </div>
+        </row>
+    }
+    else
+    {
+        <div class="col-md-12 text-center">
+            <h3>@ViewBag.MensagemCardapio</h3>
         </div>
-    </row>
+    }
 </div>

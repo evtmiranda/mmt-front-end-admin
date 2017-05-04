@@ -9,13 +9,12 @@ namespace marmitex_admin.Controllers
     {
         private UsuarioLoja usuarioLogado;
         private RequisicoesREST rest;
-        private Requisicoes requisicoes;
+        private DadosRequisicaoRest retornoRequest;
 
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
-        public ProdutoController(RequisicoesREST rest, Requisicoes requisicoes)
+        public ProdutoController(RequisicoesREST rest)
         {
             this.rest = rest;
-            this.requisicoes = requisicoes;
         }
 
 
@@ -26,23 +25,7 @@ namespace marmitex_admin.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-
-            DadosRequisicaoRest dadosRest = new DadosRequisicaoRest();
-
-            try
-            {
-                //cria uma lista de cardápio
-                List<MenuCardapio> listaMenuCardapio = requisicoes.ListarMenuCardapio(usuarioLogado.IdLoja);
-
-                return View(listaMenuCardapio);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            
+            return View();
         }
 
         /// <summary>
