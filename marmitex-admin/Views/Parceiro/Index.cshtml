@@ -15,6 +15,19 @@
         <hr />
 
         <div class="col-md-12">
+            @*se houver alguma mensagem relacionada a exclusão de parceiros, lança um alert com a mensagem*@
+            @if (ViewBag.MensagemExcluirParceiro != null)
+            {
+                <script>
+                    swal(
+                        'Oops...',
+                        'não foi possível excluir. por favor, tente novamente ou entre em contato com o administrador',
+                        'error'
+                    );
+                </script>
+            }
+
+
             @if (Model != null)
             {
                 <div class="table-responsive">
@@ -45,8 +58,8 @@
                                     <td>@parceiro.Endereco.Logradouro, @parceiro.Endereco.NumeroEndereco - @parceiro.Endereco.Bairro</td>
                                     <td>@parceiro.Codigo</td>
                                     <td>
-                                        <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                        <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                        <a href="@Session["urlBase"]/Parceiro/Editar/@parceiro.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                        <a href="@Session["urlBase"]/Parceiro/Excluir/@parceiro.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
                                     </td>
                                 </tr>
                             }

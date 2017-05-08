@@ -1,15 +1,15 @@
 ﻿@model ClassesMarmitex.ParceiroCadastro
 
 <div class="profile-content-backfull">
-    <h2>Adicionar parceiro</h2>
+    <h2>Editar parceiro</h2>
     <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
     <div class="col-md-10">
-        <form method="post" action="@Session["urlBase"]/Parceiro/AdicionarParceiro">
+        <form method="post" action="@Session["urlBase"]/Parceiro/EditarParceiro">
             @Html.Partial("_FormParceiro")
 
             <div class="col-md-12">
                 <div class="buttons-formcontrol">
-                    <input type="submit" class="btn btn-success" value="adicionar parceiro" />
+                    <input type="submit" class="btn btn-success" value="salvar" />
                 </div>
             </div>
 

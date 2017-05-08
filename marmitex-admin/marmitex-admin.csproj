@@ -195,6 +195,8 @@
     <Content Include="Views\Pedido\Index.cshtml" />
     <Content Include="Views\Parceiro\Index.cshtml" />
     <Content Include="Views\Parceiro\Adicionar.cshtml" />
+    <Content Include="Views\Parceiro\Editar.cshtml" />
+    <Content Include="Views\Shared\_FormParceiro.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
