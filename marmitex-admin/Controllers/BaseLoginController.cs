@@ -4,7 +4,6 @@ namespace marmitex_admin.Controllers
 {
     public class BaseLoginController : Controller
     {
-
         //sempre que uma requisição é feita em uma classe que herda esta, 
         //esse método é executado para preencher a sessão urlBase
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
@@ -18,10 +17,10 @@ namespace marmitex_admin.Controllers
         }
 
         /// <summary>
-        /// identifica a loja pela URL
+        /// busca a url da página atual
         /// </summary>
         /// <returns></returns>
-        public string PreencherSessaoDominioLoja()
+        public string BuscarUrlLoja()
         {
             //captura o host atual
             return Request.Url.Host.Replace('"', ' ').Trim();

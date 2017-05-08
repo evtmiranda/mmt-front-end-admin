@@ -12,7 +12,6 @@ namespace marmitex_admin.Controllers
     public class ParceiroController : BaseController
     {
         private RequisicoesREST rest;
-        private UsuarioLoja usuarioLogado;
         private DadosRequisicaoRest retornoRequest;
         private List<Parceiro> listaParceiros;
 
@@ -26,8 +25,16 @@ namespace marmitex_admin.Controllers
         // GET: Parceiro
         public ActionResult Index()
         {
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+            {
+                Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
+                return RedirectToAction("Index", "Login");
+            }
+
             //recebe o usuário logado
             usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+            usuarioLogado.UrlLoja = BuscarUrlLoja();
 
             //busca todos os parceiros da loja
             retornoRequest = rest.Get("/Parceiro/BuscarParceiroPorLoja/" + usuarioLogado.IdLoja);
@@ -55,7 +62,85 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Adicionar()
         {
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+            {
+                Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
+                return RedirectToAction("Index", "Login");
+            }
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+            usuarioLogado.UrlLoja = BuscarUrlLoja();
+
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult AdicionarParceiro(ParceiroCadastro parceiroCadastro)
+        {
+            //captura a loja em questão
+            Session["dominioLoja"] = BuscarUrlLoja();
+
+            //se não conseguir capturar a loja, direciona para a tela de erro
+            if (Session["dominioLoja"] == null)
+            {
+                Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente atualizar a página";
+                return View("Index");
+            }
+
+            string dominioLoja = Session["dominioLoja"].ToString();
+
+            DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
+           
+
+            try
+            {
+                Parceiro parceiro = new Parceiro()
+                {
+
+                    //cria um parceiro com os dados vindos da tela
+                    Nome = parceiroCadastro.Nome,
+                    Descricao = parceiroCadastro.Descricao,
+                    Codigo = Guid.NewGuid().ToString().Substring(0, 5).ToUpper(),
+                    Endereco = new Endereco
+                    {
+                        Cep = parceiroCadastro.Cep,
+                        UF = parceiroCadastro.UF,
+                        Cidade = parceiroCadastro.Cidade,
+                        Bairro = parceiroCadastro.Bairro,
+                        Logradouro = parceiroCadastro.Logradouro,
+                        NumeroEndereco = parceiroCadastro.NumeroEndereco,
+                        ComplementoEndereco = parceiroCadastro.ComplementoEndereco
+                    }
+                };
+
+                string urlPost = string.Format("/Parceiro/Adicionar/{0}", dominioLoja);
+
+                retornoRequest = rest.Post(urlPost, parceiro);
+
+                //se o parceiro for cadastrado, direciona para a tela de visualização de parceiros
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.Created)
+                    return RedirectToAction("Index", "Parceiro");
+
+                //se já existir um parceiro com este nome
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.Unauthorized)
+                {
+                    ViewBag.MensagemParceiro = "já existe um parceiro com este nome.";
+                    return View("Adicionar", parceiroCadastro);
+                }
+                //se for algum outro erro
+                else
+                {
+                    ViewBag.MensagemParceiro = "não foi possível cadastrar o parceiro. por favor, tente novamente";
+                    return View("Adicionar", parceiroCadastro);
+                }
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemParceiro = "não foi possível cadastrar o parceiro. por favor, tente novamente";
+                return View("Adicionar", parceiroCadastro);
+            }
         }
     }
 }

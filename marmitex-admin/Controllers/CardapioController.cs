@@ -12,7 +12,6 @@ namespace marmitex_admin.Controllers
         private DadosRequisicaoRest retornoRequest;
         private RequisicoesREST rest;
         private List<MenuCardapio> listaCardapio;
-        private UsuarioLoja usuarioLogado;
 
         public CardapioController(RequisicoesREST rest)
         {
@@ -25,8 +24,8 @@ namespace marmitex_admin.Controllers
         {
             try
             {
-                //recebe o usuário logado
-                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+                if(usuarioLogado == null)
+                    return View("Index");
 
                 //busca todos os cardápios da loja
                 retornoRequest = rest.Get("/menucardapio/listar/" + usuarioLogado.IdLoja);
@@ -69,13 +68,6 @@ namespace marmitex_admin.Controllers
             if (!ModelState.IsValid)
                 return View("Index", cardapio);
 
-            //captura a loja em questão
-            string dominioLoja = PreencherSessaoDominioLoja();
-
-            //se não conseguir capturar a rede, direciona para a tela de erro
-            if (dominioLoja == null)
-                return RedirectToAction("Index", "Erro");
-
             //variável para armazenar o retorno da api
             DadosRequisicaoRest retornoAutenticacao = new DadosRequisicaoRest();
 
@@ -83,7 +75,7 @@ namespace marmitex_admin.Controllers
             try
             {
                 //monta a url de chamada na api
-                string urlPost = string.Format("/api/MenuCardapio/Cadastrar/'{0}'", dominioLoja);
+                string urlPost = string.Format("/api/MenuCardapio/Cadastrar/'{0}'", usuarioLogado.UrlLoja);
 
                 //realiza o post passando o usuário no body
                 retornoAutenticacao = rest.Post(urlPost, cardapio);
@@ -108,14 +100,6 @@ namespace marmitex_admin.Controllers
             }
         }
 
-        /// <summary>
-        /// identifica a loja pela URL
-        /// </summary>
-        /// <returns></returns>
-        public string PreencherSessaoDominioLoja()
-        {
-            //captura o host atual
-            return Request.Url.Host.Replace('"', ' ').Trim();
-        }
+
     }
 }

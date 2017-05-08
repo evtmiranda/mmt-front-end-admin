@@ -129,6 +129,7 @@
     <Content Include="Content\sidebar.css" />
     <Content Include="Content\simple-sidebar.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\sweetalert.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
@@ -138,9 +139,10 @@
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
-    <Content Include="Scripts\marmitex.js" />
+    <Content Include="Scripts\marmitex-admin.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\bubble.js" />
+    <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\Erro\Index.cshtml" />

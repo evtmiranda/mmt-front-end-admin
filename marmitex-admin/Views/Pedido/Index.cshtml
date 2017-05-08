@@ -6,34 +6,7 @@
 }
 
 <script>
-    function allowDrop(ev) {
-        ev.preventDefault();
-    }
 
-    function drag(ev) {
-        ev.dataTransfer.setData("text", ev.target.id);
-    }
-
-    function dropEntregue(ev) {
-        alert('entregue');
-        ev.preventDefault();
-        var data = ev.dataTransfer.getData("text");
-        ev.target.appendChild(document.getElementById(data));
-    }
-
-    function dropFila(ev) {
-        alert('fila');
-        ev.preventDefault();
-        var data = ev.dataTransfer.getData("text");
-        ev.target.appendChild(document.getElementById(data));
-    }
-
-    function dropCancelado(ev) {
-        alert('cancelado');
-        ev.preventDefault();
-        var data = ev.dataTransfer.getData("text");
-        ev.target.appendChild(document.getElementById(data));
-    }
 
 </script>
 
@@ -49,7 +22,7 @@
                         Na fila
                     </h3>
 
-                    @foreach (var pedido in Model.Where(p => p.IdStatusPedido == 0))
+                    @foreach (var pedido in Model.Where(p => p.PedidoStatus.IdStatus == 0))
                     {
                         <div id="drag_@pedido.Id" class="board-pedido-item" draggable="true" ondragstart="drag(event)">
                             <a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
@@ -72,7 +45,7 @@
                         Entregue
                     </h3>
 
-                    @foreach (var pedido in Model.Where(p => p.IdStatusPedido == 1))
+                    @foreach (var pedido in Model.Where(p => p.PedidoStatus.IdStatus == 1))
                     {
                         <div id="drag_@pedido.Id" class="board-pedido-item" draggable="true" ondragstart="drag(event)">
                             <a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
@@ -90,12 +63,12 @@
             </div>
 
             <div class="col-md-4">
-                <div class="board-pedido" ondrop="dropCancelado(event)" ondragover="allowDrop(event)">
+                <div class="board-pedido" ondrop="dropCancelado(event, this)" ondragover="allowDrop(event)">
                     <h3 class="text-uppercase">
                         Cancelado
                     </h3>
 
-                    @foreach (var pedido in Model.Where(p => p.IdStatusPedido == 2))
+                    @foreach (var pedido in Model.Where(p => p.PedidoStatus.IdStatus == 2))
                     {
                         <div id="drag_@pedido.Id" class="board-pedido-item" draggable="true" ondragstart="drag(event)">
                             <a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">

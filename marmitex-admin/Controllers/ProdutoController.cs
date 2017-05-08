@@ -7,7 +7,6 @@ namespace marmitex_admin.Controllers
 {
     public class ProdutoController : BaseController
     {
-        private UsuarioLoja usuarioLogado;
         private RequisicoesREST rest;
         private DadosRequisicaoRest retornoRequest;
 
@@ -17,7 +16,6 @@ namespace marmitex_admin.Controllers
             this.rest = rest;
         }
 
-
         // GET: Produtos
         /// <summary>
         /// pesquisa os produtos cadastrados na base de dados para exibir na tela
@@ -25,6 +23,9 @@ namespace marmitex_admin.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
+            if (usuarioLogado == null)
+                return View("Index");
+
             return View();
         }
 
@@ -34,6 +35,8 @@ namespace marmitex_admin.Controllers
         /// <returns></returns>
         public ActionResult Adicionar()
         {
+            if (usuarioLogado == null)
+                return View("Index");
 
             return View();
         }

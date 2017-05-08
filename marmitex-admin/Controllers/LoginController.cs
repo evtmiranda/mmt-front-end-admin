@@ -33,12 +33,17 @@
         [HttpPost]
         public ActionResult Autenticar(Usuario usuario)
         {
+            //limpa a sessão de mensagem
+            Session["MensagemAutenticacao"] = null;
+
             //captura a loja em questão
-            Session["dominioLoja"] = PreencherSessaoDominioLoja();
+            Session["dominioLoja"] = BuscarUrlLoja();
 
             //se não conseguir capturar a loja, direciona para a tela de erro
-            if (Session["dominioLoja"] == null)
-                return RedirectToAction("Index", "Erro");
+            if (Session["dominioLoja"] == null) {
+                ViewBag.MensagemAutenticacao = "estamos com dificuldade em buscar dados no servidor. por favor, tente atualizar a página";
+                return View("Index");
+            }
 
             string dominioLoja = Session["dominioLoja"].ToString();
 

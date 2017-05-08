@@ -1,4 +1,5 @@
-﻿
+﻿@model ClassesMarmitex.ParceiroCadastro
+
 @{
     ViewBag.Title = "Adicionar";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,73 +7,225 @@
 
 <div class="profile-content">
     <h2>Adicionar parceiro</h2>
+    <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
     <div class="col-md-10">
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="nomeParceiro">nome parceiro</label>
-                <input type="text" id="nomeParceiro" class="form-control" />
+        <form method="post" action="@Session["urlBase"]/Parceiro/AdicionarParceiro">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <p class="vermelho-marmitex">@Html.ValidationMessage("Nome")</p>
+                    <label for="nome">nome parceiro *</label>
+
+                    @if (Model != null)
+                    {
+                        <input type="text" id="nome" name="Nome" value="@Model.Nome" class="form-control" />
+                    }
+                    else
+                    {
+                        <input type="text" id="nome" name="Nome" class="form-control" />
+                    }
+
+                </div>
             </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="descricaoParceiro">descrição</label>
-                <input type="text" id="descricaoParceiro" class="form-control" />
+            <div class="col-md-12">
+                <div class="form-group">
+                    <p class="vermelho-marmitex">@Html.ValidationMessage("Descricao")</p>
+                    <label for="descricao">descrição</label>
+
+                    @if (Model != null)
+                    {
+                        <input type="text" id="descricao" name="Descricao" value="@Model.Descricao" class="form-control" />
+                    }
+                    else
+                    {
+                        <input type="text" id="descricao" name="Descricao" class="form-control" />
+                    }
+
+                </div>
             </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="codigoParceiro">código parceiro</label>
-                <input type="text" id="codigoParceiro" class="form-control" />
+            <div class="col-md-12">
+                <div class="form-group">
+                    <p class="vermelho-marmitex">@Html.ValidationMessage("Cep")</p>
+                    <label for="cep">cep *</label>
+
+                    @if (Model != null)
+                    {
+                        <input type="text" id="cep" name="Cep" class="form-control" value="@Model.Cep" onkeyup="formataCEP(this, event)" maxlength="9" />
+                    }
+                    else
+                    {
+                        <input type="text" id="cep" name="Cep" class="form-control" onkeyup="formataCEP(this, event)" maxlength="9" />
+                    }
+                </div>
             </div>
-        </div>
-        @*Endereço*@
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="cepParceiro">cep</label>
-                <input type="text" id="cepParceiro" class="form-control" />
+            <div class="col-md-12">
+                <div class="form-group">
+                    <p class="vermelho-marmitex">@Html.ValidationMessage("UF")</p>
+                    <label for="uf">uf *</label>
+
+                    @if (Model != null)
+                    {
+                        <select class="form-control" id="uf" value="@Model.UF" name="UF">
+                            <option>AC</option>
+                            <option>AL</option>
+                            <option>AP</option>
+                            <option>AM</option>
+                            <option>BA</option>
+                            <option>CE</option>
+                            <option>DF</option>
+                            <option>ES</option>
+                            <option>GO</option>
+                            <option>MA</option>
+                            <option>MT</option>
+                            <option>MS</option>
+                            <option>MG</option>
+                            <option>PA</option>
+                            <option>PB</option>
+                            <option>PR</option>
+                            <option>PE</option>
+                            <option>PI</option>
+                            <option>RJ</option>
+                            <option>RN</option>
+                            <option>RS</option>
+                            <option>RO</option>
+                            <option>RR</option>
+                            <option>SC</option>
+                            <option>SP</option>
+                            <option>SE</option>
+                            <option>TO</option>
+                        </select>
+                    }
+                    else
+                    {
+                        <select class="form-control" id="uf" name="UF">
+                            <option>AC</option>
+                            <option>AL</option>
+                            <option>AP</option>
+                            <option>AM</option>
+                            <option>BA</option>
+                            <option>CE</option>
+                            <option>DF</option>
+                            <option>ES</option>
+                            <option>GO</option>
+                            <option>MA</option>
+                            <option>MT</option>
+                            <option>MS</option>
+                            <option>MG</option>
+                            <option>PA</option>
+                            <option>PB</option>
+                            <option>PR</option>
+                            <option>PE</option>
+                            <option>PI</option>
+                            <option>RJ</option>
+                            <option>RN</option>
+                            <option>RS</option>
+                            <option>RO</option>
+                            <option>RR</option>
+                            <option>SC</option>
+                            <option>SP</option>
+                            <option>SE</option>
+                            <option>TO</option>
+                        </select>
+                    }
+
+                </div>
             </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="ufParceiro">uf</label>
-                <input type="text" id="ufParceiro" class="form-control" />
+            <div class="col-md-12">
+                <div class="form-group">
+                    <p class="vermelho-marmitex">@Html.ValidationMessage("Cidade")</p>
+                    <label for="cidade">cidade *</label>
+
+                    @if (Model != null)
+                    {
+                        <input type="text" id="cidade" name="Cidade" value="@Model.Cidade" class="form-control" />
+                    }
+                    else
+                    {
+                        <input type="text" id="cidade" name="Cidade" class="form-control" />
+                    }
+                    
+                </div>
             </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="cidadeParceiro">cidade</label>
-                <input type="text" id="cidadeParceiro" class="form-control" />
+            <div class="col-md-12">
+                <div class="form-group">
+                    <p class="vermelho-marmitex">@Html.ValidationMessage("Bairro")</p>
+                    <label for="bairro">bairro *</label>
+
+                    @if (Model != null)
+                    {
+                        <input type="text" id="bairro" name="Bairro" value="@Model.Bairro" class="form-control" />
+                    }
+                    else
+                    {
+                        <input type="text" id="bairro" name="Bairro" class="form-control" />
+                    }
+                    
+                </div>
             </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="bairroParceiro">bairro</label>
-                <input type="text" id="bairroParceiro" class="form-control" />
+            <div class="col-md-12">
+                <div class="form-group">
+                    <p class="vermelho-marmitex">@Html.ValidationMessage("Logradouro")</p>
+                    <label for="logradouro">logradouro *</label>
+
+                    @if (Model != null)
+                    {
+                        <input type="text" id="logradouro" name="Logradouro" value="@Model.Logradouro" class="form-control" />
+                    }
+                    else
+                    {
+                        <input type="text" id="logradouro" name="Logradouro" class="form-control" />
+                    }
+
+                    
+                </div>
             </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="logradouroParceiro">logradouro</label>
-                <input type="text" id="logradouroParceiro" class="form-control" />
+            <div class="col-md-12">
+                <div class="form-group">
+                    <p class="vermelho-marmitex">@Html.ValidationMessage("NumeroEndereco")</p>
+                    <label for="numeroEndereco">número Endereço *</label>
+
+                    @if (Model != null)
+                    {
+                        <input type="text" id="numeroEndereco" name="NumeroEndereco" value="@Model.NumeroEndereco" class="form-control" />
+                    }
+                    else
+                    {
+                        <input type="text" id="numeroEndereco" name="NumeroEndereco" class="form-control" />
+                    }
+
+                    
+                </div>
             </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="nrEnderecoParceiro">número Endereço</label>
-                <input type="text" id="nrEnderecoParceiro" class="form-control" />
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="complementoEndereco">complemento Endereço</label>
+                    
+                    @if (Model != null)
+                    {
+                        <input type="text" id="complementoEndereco" name="ComplementoEndereco" value="@Model.ComplementoEndereco" class="form-control" />
+                    }
+                    else
+                    {
+                        <input type="text" id="complementoEndereco" name="ComplementoEndereco" class="form-control" />
+                    }
+
+                    
+                </div>
             </div>
-        </div>
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="complementoEndParceiro">complemento Endereço</label>
-                <input type="text" id="complementoEndParceiro" class="form-control" />
+            <div class="col-md-12">
+                <div class="form-group">
+                    @if (ViewBag.MensagemParceiro != null)
+                    {
+                        <p class="vermelho-marmitex">@ViewBag.MensagemParceiro</p>
+                    }
+                </div>
             </div>
-        </div>
-        <div class="col-md-12">
-            <div class="buttons-formcontrol">
-                <button class="btn btn-success">adicionar parceiro</button>
+            <div class="col-md-12">
+                <div class="buttons-formcontrol">
+                    <input type="submit" class="btn btn-success" value="adicionar parceiro" />
+                </div>
             </div>
-        </div>
+
+        </form>
     </div>
 
 </div>

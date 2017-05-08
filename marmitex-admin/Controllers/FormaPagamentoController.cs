@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using ClassesMarmitex;
 using System.Web.Mvc;
 
 namespace marmitex_admin.Controllers
@@ -11,6 +8,17 @@ namespace marmitex_admin.Controllers
         // GET: FormasPagamento
         public ActionResult Index()
         {
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+            {
+                Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
+                return RedirectToAction("Index", "Login");
+            }
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+            usuarioLogado.UrlLoja = BuscarUrlLoja();
+
             return View();
         }
     }
