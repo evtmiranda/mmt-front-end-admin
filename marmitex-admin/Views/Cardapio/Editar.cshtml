@@ -4,13 +4,13 @@
     <h2>Adicionar cardápio</h2>
     <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
     <div class="col-md-10">
-        <form method="post" action="@Session["urlBase"]/Cardapio/AdicionarCardapio">
+        <form method="post" action="@Session["urlBase"]/Cardapio/EditarCardapio">
 
             @Html.Partial("_FormCardapio")
 
             <div class="col-md-12">
                 <div class="buttons-formcontrol">
-                    <button class="btn btn-success">adicionar cardápio</button>
+                    <button class="btn btn-success">salvar</button>
                 </div>
             </div>
         </form>

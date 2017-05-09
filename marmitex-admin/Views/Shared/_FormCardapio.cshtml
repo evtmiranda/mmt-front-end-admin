@@ -1,0 +1,60 @@
+﻿@model ClassesMarmitex.MenuCardapio
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="nomeCardapio">nome cardápio *</label>
+
+        @if (Model != null)
+        {
+            <input type="hidden" name="id" value="@Model.Id" />
+            <input type="text" id="nomeCardapio" name="Nome" value="@Model.Nome" class="form-control" />
+        }
+        else
+        {
+            <input type="text" id="nomeCardapio" name="Nome" class="form-control" />
+        }
+
+
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="ordemExibicao">ordem de exibição *</label>
+
+        @if (Model != null)
+        {
+            <input type="number" min="0" id="ordemExibicao" name="OrdemExibicao" value="@Model.OrdemExibicao" class="form-control" />
+        }
+        else
+        {
+            <input type="number" min="0" id="ordemExibicao" name="OrdemExibicao" class="form-control" />
+        }
+
+
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="ativo">cardápio ativo?</label>
+
+        @Html.CheckBox("Ativo", true)
+
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group">
+        @if (ViewBag.MensagemCardapio != null)
+            {
+            <p class="vermelho-marmitex">@ViewBag.MensagemCardapio</p>
+        }
+
+        @if (ViewBag.MensagemEditarCardapio != null)
+        {
+            <p class="vermelho-marmitex">@ViewBag.MensagemEditarCardapio</p>
+        }
+    </div>
+</div>
+

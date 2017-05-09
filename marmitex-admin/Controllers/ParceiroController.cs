@@ -261,7 +261,7 @@ namespace marmitex_admin.Controllers
             }
             catch (Exception)
             {
-                ViewBag.MensagemParceiro = "não foi possível atualizar o parceiro. por favor, tente novamente";
+                ViewBag.MensagemEditarParceiro = "não foi possível atualizar o parceiro. por favor, tente novamente";
                 return View("Editar", parceiroCadastro);
             }
         }

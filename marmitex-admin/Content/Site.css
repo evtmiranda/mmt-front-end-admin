@@ -15,8 +15,9 @@ body {
     /*#bc2026 #fff #e7e7e7 #f8f8f8*/
 }
 
-h1, h2 {
-    font-family: 'Bangers', cursive !important;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Oswald', cursive !important;
+    text-transform: uppercase;
 }
 
 a, p {
@@ -202,8 +203,9 @@ a, p {
 /*#region  navbar*/
 
 .navbar-brand {
-    font-family: 'Bangers', cursive !important;
+    font-family: 'Oswald', cursive !important;
     letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .navbar-default {
