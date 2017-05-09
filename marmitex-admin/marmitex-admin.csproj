@@ -200,6 +200,7 @@
     <Content Include="Views\Shared\_FormParceiro.cshtml" />
     <Content Include="Views\Shared\_FormCardapio.cshtml" />
     <Content Include="Views\Cardapio\Editar.cshtml" />
+    <Content Include="Views\Shared\_FormProduto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

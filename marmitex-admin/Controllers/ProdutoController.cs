@@ -1,6 +1,8 @@
 ﻿using ClassesMarmitex;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Web.Mvc;
 
 namespace marmitex_admin.Controllers
@@ -23,22 +25,118 @@ namespace marmitex_admin.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            if (usuarioLogado == null)
-                return View("Index");
+            try
+            {
+                #region verificação de usuário logado
 
-            return View();
+                if (Session["UsuarioLogado"] == null)
+                {
+                    Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
+                    return RedirectToAction("Index", "Login");
+                }
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+                usuarioLogado.UrlLoja = BuscarUrlLoja();
+
+                #endregion
+
+                #region busca os dados da loja
+
+                Loja loja = new Loja();
+
+                string urlPostLoja = string.Format("/Loja/BuscarLoja/{0}", usuarioLogado.UrlLoja);
+
+                //busca o id da loja
+                retornoRequest = rest.Get(urlPostLoja);
+
+                //verifica se a loja foi encontrada
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                    throw new Exception();
+
+                loja = JsonConvert.DeserializeObject<Loja>(retornoRequest.objeto.ToString());
+
+                #endregion
+
+                #region busca os cardápios
+
+                List<MenuCardapio> listaMenuCardapio = new List<MenuCardapio>();
+
+                //busca todos os cardápios da loja
+                retornoRequest = rest.Get("/menucardapio/listar/" + loja.Id);
+
+                string jsonPedidos = retornoRequest.objeto.ToString();
+
+                listaMenuCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
+
+                //retorna para a view "Index" com os cardápios
+                return View(listaMenuCardapio);
+
+                #endregion
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemPedidos = "não foi possível exibir os produtos. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                return View("Index");
+            }
         }
 
         /// <summary>
-        /// Exibe 
+        /// Carrega a view de adição de produtos
         /// </summary>
         /// <returns></returns>
         public ActionResult Adicionar()
         {
-            if (usuarioLogado == null)
-                return View("Index");
+            #region verificação de usuário logado
 
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+            {
+                Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
+                return RedirectToAction("Index", "Login");
+            }
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+            usuarioLogado.UrlLoja = BuscarUrlLoja();
+
+            #endregion
+
+            #region busca os dados da loja
+
+            Loja loja = new Loja();
+
+            string urlPostLoja = string.Format("/Loja/BuscarLoja/{0}", usuarioLogado.UrlLoja);
+
+            //busca o id da loja
+            retornoRequest = rest.Get(urlPostLoja);
+
+            //verifica se a loja foi encontrada
+            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                throw new Exception();
+
+            loja = JsonConvert.DeserializeObject<Loja>(retornoRequest.objeto.ToString());
+
+            #endregion
+
+            #region busca os cardápios
+
+            List<MenuCardapio> listaMenuCardapio = new List<MenuCardapio>();
+
+            //busca todos os cardápios da loja
+            retornoRequest = rest.Get("/menucardapio/listar/" + loja.Id);
+
+            string jsonPedidos = retornoRequest.objeto.ToString();
+
+            listaMenuCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
+
+            //view bag com os cardápios
+            ViewBag.MenuCardapio = listaMenuCardapio;
+
+            //retorna para a view "Adicionar"
             return View();
+
+            #endregion
         }
     }
 }

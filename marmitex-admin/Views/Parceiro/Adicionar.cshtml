@@ -4,6 +4,7 @@
     <h2>Adicionar parceiro</h2>
     <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
     <div class="col-md-10">
+        
         <form method="post" action="@Session["urlBase"]/Parceiro/AdicionarParceiro">
             @Html.Partial("_FormParceiro")
 
@@ -12,7 +13,7 @@
                     <input type="submit" class="btn btn-success" value="adicionar parceiro" />
                 </div>
             </div>
-
         </form>
+
     </div>
 </div>
