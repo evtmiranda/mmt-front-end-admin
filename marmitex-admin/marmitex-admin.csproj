@@ -163,6 +163,7 @@
     <Compile Include="Controllers\CardapioController.cs" />
     <Compile Include="Controllers\ParceiroController.cs" />
     <Compile Include="Controllers\PedidoController.cs" />
+    <Compile Include="Controllers\ProdutoAdicionalController.cs" />
     <Compile Include="Controllers\ProdutoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
@@ -201,6 +202,10 @@
     <Content Include="Views\Shared\_FormCardapio.cshtml" />
     <Content Include="Views\Cardapio\Editar.cshtml" />
     <Content Include="Views\Shared\_FormProduto.cshtml" />
+    <Content Include="Views\Shared\_Produto.cshtml" />
+    <Content Include="Views\Shared\_ProdutoAdicional.cshtml" />
+    <Content Include="Views\Produto\Detalhes.cshtml" />
+    <Content Include="Views\ProdutoAdicional\Detalhes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

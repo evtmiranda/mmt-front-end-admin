@@ -1,50 +1,16 @@
-﻿@model List<ClassesMarmitex.MenuCardapio>
-
-<div class="profile-content-backfull">
+﻿<div class="profile-content-backfull">
     <row>
-        <h1 class="text-left">Produtos</h1>
 
-        <div class="text-right">
-            <a href="/Produto/Adicionar" class="btn btn-success">adicionar produto</a>
-        </div>
-        <hr />
+        <a href="#produto" data-toggle="collapse">Produtos</a>
+        <a href="#produtoAdicional" data-toggle="collapse">Produtos Adicionais</a>
 
-        <div class="col-md-12">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>nome</th>
-                            <th>descrição</th>
-                            <th>cardápio</th>
-                            <th>R$ preço</th>
-                            <th>imagem</th>
-                            <th>ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            @foreach (var cardapio in Model)
-                            {
-                                foreach (var produto in cardapio.Produtos)
-                                {
-                                    <th scope="row">@produto.Id</th>
-                                    <td>@produto.Nome</td>
-                                    <td>@produto.Descricao</td>
-                                    <td>@cardapio.Nome</td>
-                                    <td>@produto.Valor</td>
-                                    <td><img src="@produto.Imagem" class="img-responsive" alt="produto"></td>
-                                    <td>
-                                        <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                        <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                                    </td>
-                                }
-                            }
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div id="produto" class="collapse">
+            @Html.Partial("_Produto")
         </div>
+
+        <div id="produtoAdicional" class="collapse">
+            @Html.Partial("_ProdutoAdicional")
+        </div>
+
     </row>
 </div>

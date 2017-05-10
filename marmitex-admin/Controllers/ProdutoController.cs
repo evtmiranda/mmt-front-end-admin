@@ -138,5 +138,12 @@ namespace marmitex_admin.Controllers
 
             #endregion
         }
+
+        public ActionResult Detalhes(int id)
+        {
+            ProdutoDetalhes detalhesProduto = new ProdutoDetalhes();
+
+            return View(detalhesProduto);
+        }
     }
 }

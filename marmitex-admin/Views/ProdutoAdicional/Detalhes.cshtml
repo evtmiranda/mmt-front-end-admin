@@ -1,0 +1,40 @@
+﻿@model ClassesMarmitex.DadosProdutoAdicional
+
+<h1 class="text-left">@Model.Nome</h1>
+
+<div class="text-right">
+    <a href="#" class="btn btn-success">adicionar produto adicional</a>
+</div>
+<hr />
+
+<div class="col-md-12">
+    <h2>Produtos Adicionais</h2>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>nome</th>
+                    <th>descrição</th>
+                    <th>R$ valor</th>
+                    <th>ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @foreach (var itemAdicional in Model.ItensAdicionais)
+                    {
+                        <td>@itemAdicional.Nome</td>
+                        <td>@itemAdicional.Descricao</td>
+                        <td>@itemAdicional.Valor</td>
+                        
+                        <td>
+                            <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                        </td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
