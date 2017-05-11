@@ -22,24 +22,26 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                
                     @foreach (var cardapio in Model)
                     {
                         foreach (var produto in cardapio.Produtos)
                         {
-                            <th scope="row">@produto.Id</th>
-                            <td><a href="@Session["urlBase"]/Produto/Detalhes/@produto.Id">@produto.Nome</a></td>
-                            <td>@produto.Descricao</td>
-                            <td>@cardapio.Nome</td>
-                            <td>@produto.Valor</td>
-                            <td><img src="@produto.Imagem" class="img-responsive" alt="produto"></td>
-                            <td>
-                                <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                            </td>
+                            <tr>
+                                <th scope="row">@produto.Id</th>
+                                <td><a href="@Session["urlBase"]/Produto/Detalhes/@produto.Id">@produto.Nome</a></td>
+                                <td>@produto.Descricao</td>
+                                <td>@cardapio.Nome</td>
+                                <td>@produto.Valor</td>
+                                <td><img src="@produto.Imagem" class="img-responsive" alt="produto"></td>
+                                <td>
+                                    <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                </td>
+                            </tr>
                         }
                     }
-                </tr>
+                            
             </tbody>
         </table>
     </div>

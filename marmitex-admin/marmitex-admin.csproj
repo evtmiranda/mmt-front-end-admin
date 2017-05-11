@@ -206,6 +206,7 @@
     <Content Include="Views\Shared\_ProdutoAdicional.cshtml" />
     <Content Include="Views\Produto\Detalhes.cshtml" />
     <Content Include="Views\ProdutoAdicional\Detalhes.cshtml" />
+    <Content Include="Views\ProdutoAdicional\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

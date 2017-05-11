@@ -19,9 +19,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    @foreach (var produtoAdicional in Model)
-                    {
+
+                @foreach (var produtoAdicional in Model)
+                {
+                    <tr>
                         <th scope="row">@produtoAdicional.Id</th>
                         <td><a href="@Session["urlBase"]/ProdutoAdicional/Detalhes/@produtoAdicional.Id">@produtoAdicional.Nome</a></td>
                         <td>@produtoAdicional.Descricao</td>
@@ -29,8 +30,9 @@
                             <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
                             <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
                         </td>
-                    }
-                </tr>
+                    </tr>
+                }
+
             </tbody>
         </table>
     </div>

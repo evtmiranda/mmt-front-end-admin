@@ -1,15 +1,10 @@
-﻿<div class="profile-content-backfull">
+﻿@model List<ClassesMarmitex.MenuCardapio>
+
+<div class="profile-content-backfull">
     <row>
 
-        <a href="#produto" data-toggle="collapse">Produtos</a>
-        <a href="#produtoAdicional" data-toggle="collapse">Produtos Adicionais</a>
-
-        <div id="produto" class="collapse">
+        <div id="produto">
             @Html.Partial("_Produto")
-        </div>
-
-        <div id="produtoAdicional" class="collapse">
-            @Html.Partial("_ProdutoAdicional")
         </div>
 
     </row>
