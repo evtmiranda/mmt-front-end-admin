@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 
@@ -86,9 +87,64 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Detalhes(int id)
         {
-            DadosProdutoAdicional dadosProdutoAdicional = new DadosProdutoAdicional();
+            try
+            {
+                #region verificação de usuário logado
 
-            return View(dadosProdutoAdicional);
+                if (Session["UsuarioLogado"] == null)
+                {
+                    Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
+                    return RedirectToAction("Index", "Login");
+                }
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+                usuarioLogado.UrlLoja = BuscarUrlLoja();
+
+                #endregion
+
+                #region busca os dados da loja
+
+                Loja loja = new Loja();
+
+                string urlPostLoja = string.Format("/Loja/BuscarLoja/{0}", usuarioLogado.UrlLoja);
+
+                //busca o id da loja
+                retornoRequest = rest.Get(urlPostLoja);
+
+                //verifica se a loja foi encontrada
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                    throw new Exception();
+
+                loja = JsonConvert.DeserializeObject<Loja>(retornoRequest.objeto.ToString());
+
+                #endregion
+
+                #region busca os produtos adicionais
+
+                List<DadosProdutoAdicional> listaDadosProdutoAdicional = new List<DadosProdutoAdicional>();
+
+                //busca todos os cardápios da loja
+                retornoRequest = rest.Get("/ProdutoAdicional/listar/" + loja.Id);
+
+                string jsonPedidos = retornoRequest.objeto.ToString();
+
+                listaDadosProdutoAdicional = JsonConvert.DeserializeObject<List<DadosProdutoAdicional>>(jsonPedidos);
+
+                //filtra os produtos adicionais 
+                listaDadosProdutoAdicional = listaDadosProdutoAdicional.Where(p => p.Id == id).ToList();
+
+                //retorna para a view "Detalhes" com os produtos adicionais
+                return View(listaDadosProdutoAdicional.FirstOrDefault());
+
+                #endregion
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemPedidos = "não foi possível exibir os produtos adicionais. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                return View("Index");
+            }
+
         }
     }
 }

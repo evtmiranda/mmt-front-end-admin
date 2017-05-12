@@ -12,7 +12,6 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>#</th>
                     <th>nome</th>
                     <th>descrição</th>
                     <th>ações</th>
@@ -23,7 +22,6 @@
                 @foreach (var produtoAdicional in Model)
                 {
                     <tr>
-                        <th scope="row">@produtoAdicional.Id</th>
                         <td><a href="@Session["urlBase"]/ProdutoAdicional/Detalhes/@produtoAdicional.Id">@produtoAdicional.Nome</a></td>
                         <td>@produtoAdicional.Descricao</td>
                         <td>

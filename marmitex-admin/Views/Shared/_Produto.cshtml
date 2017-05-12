@@ -12,7 +12,6 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>#</th>
                     <th>nome</th>
                     <th>descrição</th>
                     <th>cardápio</th>
@@ -28,7 +27,6 @@
                         foreach (var produto in cardapio.Produtos)
                         {
                             <tr>
-                                <th scope="row">@produto.Id</th>
                                 <td><a href="@Session["urlBase"]/Produto/Detalhes/@produto.Id">@produto.Nome</a></td>
                                 <td>@produto.Descricao</td>
                                 <td>@cardapio.Nome</td>

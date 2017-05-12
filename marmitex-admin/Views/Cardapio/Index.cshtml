@@ -21,7 +21,6 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>nome</th>
                                 <th>ordem de exibição</th>
                                 <th>ações</th>
@@ -31,7 +30,6 @@
                             @foreach (var cardapio in Model)
                             {
                                 <tr>
-                                    <th scope="row">@cardapio.Id</th>
                                     <td>@cardapio.Nome</td>
                                     <td>@cardapio.OrdemExibicao</td>
                                     <td>

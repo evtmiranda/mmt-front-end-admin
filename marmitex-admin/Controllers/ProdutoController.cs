@@ -74,7 +74,7 @@ namespace marmitex_admin.Controllers
 
                 #endregion
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 ViewBag.MensagemPedidos = "não foi possível exibir os produtos. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View("Index");
@@ -141,9 +141,62 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Detalhes(int id)
         {
-            ProdutoDetalhes detalhesProduto = new ProdutoDetalhes();
+            try
+            {
+                #region verificação de usuário logado
 
-            return View(detalhesProduto);
+                if (Session["UsuarioLogado"] == null)
+                {
+                    Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
+                    return RedirectToAction("Index", "Login");
+                }
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+                usuarioLogado.UrlLoja = BuscarUrlLoja();
+
+                #endregion
+
+                #region busca o produto
+
+                Produto produto = new Produto();
+
+                //busca todos os cardápios da loja
+                retornoRequest = rest.Get("/Produto/" + id);
+
+                string jsonRetorno = retornoRequest.objeto.ToString();
+
+                produto = JsonConvert.DeserializeObject<Produto>(jsonRetorno);
+
+                #endregion
+
+                #region busca a relação de produtos adicionais do produto
+
+                ProdutoDetalhes produtoDetalhes = new ProdutoDetalhes()
+                {
+                    Produto = produto
+                };
+
+                List<DadosProdutoAdicionalProduto> listaDadosProdutoAdicionalProduto = new List<DadosProdutoAdicionalProduto>();
+
+                //busca os produtos adicionais deste produto
+                retornoRequest = rest.Get("/ProdutoAdicional/BuscarProdutosAdicionaisDeUmProduto/" + id);
+
+                jsonRetorno = retornoRequest.objeto.ToString();
+
+                listaDadosProdutoAdicionalProduto = JsonConvert.DeserializeObject<List<DadosProdutoAdicionalProduto>>(jsonRetorno);
+
+                produtoDetalhes.ProdutosAdicionais = listaDadosProdutoAdicionalProduto;
+
+                #endregion
+
+                return View(produtoDetalhes);
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemPedidos = "não foi possível exibir detalhes do produto  . por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                return View("Index");
+            }
         }
     }
 }

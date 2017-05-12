@@ -1,46 +1,51 @@
 ﻿@model ClassesMarmitex.ProdutoDetalhes
 
-<h1 class="text-left">@Model.Produto.Nome</h1>
+<div class="profile-content-backfull">
+    <row>
+        <h1 class="text-left">@Model.Produto.Nome</h1>
 
-<div class="text-right">
-    <a href="#" class="btn btn-success">adicionar produto adicional</a>
-</div>
-<hr />
+        <div class="text-right">
+            <a href="#" class="btn btn-success">adicionar produto adicional</a>
+        </div>
+        <hr />
 
-<div class="col-md-12">
-    <h2>Produtos Adicionais</h2>
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>nome</th>
-                    <th>descrição</th>
-                    <th>qtd mínima</th>
-                    <th>qtd máxima</th>
-                    <th>ordem de exibição</th>
-                    <th>ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    @*<th scope="row">@Model.Produto.Nome</th>
-                    <td><a href="@Session["urlBase"]/Produto/Detalhes/@produto.Id">@produto.Nome</a></td>*@
-                    @foreach (var produtoAdicional in Model.ProdutosAdicionais)
-                    {
-                        <td><a href="#">@produtoAdicional.ProdutosAdicionais.Nome</a></td>
-                        <td>@produtoAdicional.ProdutosAdicionais.Descricao</td>
-                        <td>@produtoAdicional.ProdutosAdicionaisProduto.QtdMin</td>
-                        <td>@produtoAdicional.ProdutosAdicionaisProduto.QtdMax</td>
-                        <td>@produtoAdicional.ProdutosAdicionaisProduto.OrdemExibicao</td>
+        <div class="col-md-12">
+            <h2>Produtos Adicionais</h2>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>nome</th>
+                            <th>descrição</th>
+                            <th>qtd mínima</th>
+                            <th>qtd máxima</th>
+                            <th>ordem de exibição</th>
+                            <th>ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                        <td>
-                            <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                        </td>
-                    }
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                        @*<th scope="row">@Model.Produto.Nome</th>
+                            <td><a href="@Session["urlBase"]/Produto/Detalhes/@produto.Id">@produto.Nome</a></td>*@
+                        @foreach (var produtoAdicional in Model.ProdutosAdicionais)
+                        {
+                        <tr>
+                            <td><a href="#">@produtoAdicional.NomeProdutoAdicional</a></td>
+                            <td>@produtoAdicional.DescricaoProdutoAdicional</td>
+                            <td>@produtoAdicional.QtdMin</td>
+                            <td>@produtoAdicional.QtdMax</td>
+                            <td>@produtoAdicional.OrdemExibicao</td>
+
+                            <td>
+                                <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                            </td>
+                        </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </row>
 </div>
