@@ -13,7 +13,7 @@
                 {
                     if (prodAdicional.Id == Model.IdProdutoAdicional)
                     {
-                        <option value="@prodAdicional.Id" select>@prodAdicional.Nome</option>
+                        <option value="@prodAdicional.Id" selected>@prodAdicional.Nome</option>
                     }
                     else
                     {
@@ -35,8 +35,8 @@
 
         @if (Model != null)
         {
+            <input type="hidden" name="Id" value="@Model.Id" />
             <input type="hidden" name="IdProduto" value="@Model.IdProduto" />
-
             <input type="number" id="QtdMin" name="QtdMin" value="@Model.QtdMin" class="form-control" />
         }
         else
