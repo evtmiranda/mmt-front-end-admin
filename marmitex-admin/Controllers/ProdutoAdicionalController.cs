@@ -25,34 +25,14 @@ namespace marmitex_admin.Controllers
 
             try
             {
-                #region verificação de usuário logado
+                #region validacao usuario logado
 
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
                 if (Session["UsuarioLogado"] == null)
-                {
-                    Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
                     return RedirectToAction("Index", "Login");
-                }
 
                 //recebe o usuário logado
                 usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-                usuarioLogado.UrlLoja = BuscarUrlLoja();
-
-                #endregion
-
-                #region busca os dados da loja
-
-                Loja loja = new Loja();
-
-                string urlPostLoja = string.Format("/Loja/BuscarLoja/{0}", usuarioLogado.UrlLoja);
-
-                //busca o id da loja
-                retornoRequest = rest.Get(urlPostLoja);
-
-                //verifica se a loja foi encontrada
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                    throw new Exception();
-
-                loja = JsonConvert.DeserializeObject<Loja>(retornoRequest.objeto.ToString());
 
                 #endregion
 
@@ -61,7 +41,7 @@ namespace marmitex_admin.Controllers
                 List<DadosProdutoAdicional> listaDadosProdutoAdicional = new List<DadosProdutoAdicional>();
 
                 //busca todos os cardápios da loja
-                retornoRequest = rest.Get("/ProdutoAdicional/listar/" + loja.Id);
+                retornoRequest = rest.Get("/ProdutoAdicional/listar/" + usuarioLogado.IdLoja);
 
                 string jsonPedidos = retornoRequest.objeto.ToString();
 
@@ -72,7 +52,7 @@ namespace marmitex_admin.Controllers
 
                 #endregion
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 ViewBag.MensagemPedidos = "não foi possível exibir os produtos adicionais. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View("Index");
@@ -89,43 +69,23 @@ namespace marmitex_admin.Controllers
         {
             try
             {
-                #region verificação de usuário logado
+                #region validacao usuario logado
 
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
                 if (Session["UsuarioLogado"] == null)
-                {
-                    Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
                     return RedirectToAction("Index", "Login");
-                }
 
                 //recebe o usuário logado
                 usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-                usuarioLogado.UrlLoja = BuscarUrlLoja();
 
                 #endregion
 
-                #region busca os dados da loja
-
-                Loja loja = new Loja();
-
-                string urlPostLoja = string.Format("/Loja/BuscarLoja/{0}", usuarioLogado.UrlLoja);
-
-                //busca o id da loja
-                retornoRequest = rest.Get(urlPostLoja);
-
-                //verifica se a loja foi encontrada
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                    throw new Exception();
-
-                loja = JsonConvert.DeserializeObject<Loja>(retornoRequest.objeto.ToString());
-
-                #endregion
-
-                #region busca os produtos adicionais
+                #region busca os itens dos produtos adicionais
 
                 List<DadosProdutoAdicional> listaDadosProdutoAdicional = new List<DadosProdutoAdicional>();
 
                 //busca todos os cardápios da loja
-                retornoRequest = rest.Get("/ProdutoAdicional/listar/" + loja.Id);
+                retornoRequest = rest.Get("/ProdutoAdicional/listar/" + usuarioLogado.IdLoja);
 
                 string jsonPedidos = retornoRequest.objeto.ToString();
 
@@ -145,6 +105,48 @@ namespace marmitex_admin.Controllers
                 return View("Index");
             }
 
+        }
+
+        public ActionResult Adicionar()
+        {
+            return View();
+        }
+
+        public ActionResult AdicionarProdutoAdicional(DadosProdutoAdicional prodAdicional)
+        {
+            try
+            {
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region adiciona o produto adicional
+
+                string urlPost = string.Format("/ProdutoAdicional/Adicionar/{0}", usuarioLogado.IdLoja);
+
+                retornoRequest = rest.Post(urlPost, prodAdicional);
+
+                //se o produto adicional for cadastrado, direciona para a tela de visualização de produtos
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.Created)
+                    return RedirectToAction("Index", "ProdutoAdicional");
+
+                ViewBag.MensagemErroCadProdAdicional = "não foi possível cadastrar o produto adicional. por favor, tente novamente";
+                return View("Adicionar", prodAdicional);
+
+                #endregion
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemErroCadProdAdicional = "não foi possível cadastrar o produto adicional. por favor, tente novamente";
+                return View("Index");
+            }
         }
     }
 }

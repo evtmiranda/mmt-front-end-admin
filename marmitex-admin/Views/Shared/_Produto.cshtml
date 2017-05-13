@@ -2,6 +2,17 @@
 
 <h1 class="text-left">Produtos</h1>
 
+<ul class="breadcrumb">
+    <li>
+        <i class="fa fa-globe"></i>
+        <a href="@Session["urlBase"]/Home">Inicio</a>
+    </li>
+    <li>
+        <i class="fa fa-shopping-cart"></i>
+        <a href="@Session["urlBase"]/Produto/">Produtos</a>
+    </li>
+</ul>
+
 <div class="text-right">
     <a href="/Produto/Adicionar" class="btn btn-success">adicionar produto</a>
 </div>
@@ -21,25 +32,30 @@
                 </tr>
             </thead>
             <tbody>
-                
-                    @foreach (var cardapio in Model)
+                @foreach (var cardapio in Model)
+                {
+                    foreach (var produto in cardapio.Produtos)
                     {
-                        foreach (var produto in cardapio.Produtos)
-                        {
-                            <tr>
-                                <td><a href="@Session["urlBase"]/Produto/Detalhes/@produto.Id">@produto.Nome</a></td>
-                                <td>@produto.Descricao</td>
-                                <td>@cardapio.Nome</td>
-                                <td>@produto.Valor</td>
-                                <td><img src="@produto.Imagem" class="img-responsive" alt="produto"></td>
-                                <td>
-                                    <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                    <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                                </td>
-                            </tr>
-                        }
+                        <tr>
+
+                            <td>
+                                <a href="@Session["urlBase"]/Produto/Detalhes/@produto.Id" title="ver detalhes">
+                                    @produto.Nome
+                                </a>
+                            </td>
+                            <td>@produto.Descricao</td>
+                            <td>@cardapio.Nome</td>
+                            <td>@produto.Valor</td>
+                            <td><img src="@Session["urlBase"]/Images/1/@produto.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
+
+                            <td>
+                                <a href="@Session["urlBase"]/Produto/Editar/@produto.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                <a href="@Session["urlBase"]/Produto/Excluir/@produto.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                            </td>
+                        </tr>
                     }
-                            
+                }
+
             </tbody>
         </table>
     </div>

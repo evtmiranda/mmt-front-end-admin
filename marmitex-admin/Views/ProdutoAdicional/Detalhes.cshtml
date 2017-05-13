@@ -4,13 +4,28 @@
     <row>
         <h1 class="text-left">@Model.Nome</h1>
 
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-globe"></i>
+                <a href="@Session["urlBase"]/Home">Inicio</a>
+            </li>
+            <li>
+                <i class="fa fa-glass"></i>
+                <a href="@Session["urlBase"]/ProdutoAdicional/">Produtos Adicionais</a>
+            </li>
+            <li>
+                <i class="fa fa-bars"></i>
+                <a href="@Session["urlBase"]/ProdutoAdicional/Detalhes/@Model.Id">Detalhes</a>
+            </li>
+        </ul>
+
         <div class="text-right">
             <a href="#" class="btn btn-success">adicionar item</a>
         </div>
         <hr />
 
         <div class="col-md-12">
-            <h2>Produtos Adicionais</h2>
+            <h2>Itens do produto adicional</h2>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>

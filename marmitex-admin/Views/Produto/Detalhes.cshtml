@@ -1,11 +1,26 @@
-﻿@model ClassesMarmitex.ProdutoDetalhes
+﻿@model List<ClassesMarmitex.DadosProdutoAdicionalProduto>
 
 <div class="profile-content-backfull">
     <row>
-        <h1 class="text-left">@Model.Produto.Nome</h1>
+        <h1 class="text-left">@Model[0].NomeProduto</h1>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-globe"></i>
+                <a href="@Session["urlBase"]/Home">Inicio</a>
+            </li>
+            <li>
+                <i class="fa fa-shopping-cart"></i>
+                <a href="@Session["urlBase"]/Produto/">Produtos</a>
+            </li>
+            <li>
+                <i class="fa fa-bars"></i>
+                <a href="@Session["urlBase"]/Produto/Detalhes/@Model.">Detalhes</a>
+            </li>
+        </ul>
 
         <div class="text-right">
-            <a href="#" class="btn btn-success">adicionar produto adicional</a>
+            <a href="@Session["urlBase"]/Produto/AdicionarProdutoAdicional/@Model[0].IdProduto" class="btn btn-success">adicionar produto adicional</a>
         </div>
         <hr />
 
@@ -27,20 +42,23 @@
 
                         @*<th scope="row">@Model.Produto.Nome</th>
                             <td><a href="@Session["urlBase"]/Produto/Detalhes/@produto.Id">@produto.Nome</a></td>*@
-                        @foreach (var produtoAdicional in Model.ProdutosAdicionais)
+                        @foreach (var produtoAdicional in Model)
                         {
-                        <tr>
-                            <td><a href="#">@produtoAdicional.NomeProdutoAdicional</a></td>
-                            <td>@produtoAdicional.DescricaoProdutoAdicional</td>
-                            <td>@produtoAdicional.QtdMin</td>
-                            <td>@produtoAdicional.QtdMax</td>
-                            <td>@produtoAdicional.OrdemExibicao</td>
+                            if (!(produtoAdicional.OrdemExibicao == 0 && produtoAdicional.QtdMin == 0 && produtoAdicional.QtdMax == 0))
+                            {
+                                <tr>
+                                    <td>@produtoAdicional.NomeProdutoAdicional</td>
+                                    <td>@produtoAdicional.DescricaoProdutoAdicional</td>
+                                    <td>@produtoAdicional.QtdMin</td>
+                                    <td>@produtoAdicional.QtdMax</td>
+                                    <td>@produtoAdicional.OrdemExibicao</td>
 
-                            <td>
-                                <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                            </td>
-                        </tr>
+                                    <td>
+                                        <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                        <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                    </td>
+                                </tr>
+                            }
                         }
 
                     </tbody>

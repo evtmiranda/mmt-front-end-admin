@@ -1,17 +1,11 @@
 ﻿using ClassesMarmitex;
 using System.Web.Mvc;
-using System.Web.Routing;
 
 namespace marmitex_admin.Controllers
 {
     public class BaseController : Controller
     {
         public UsuarioLoja usuarioLogado;
-
-        public BaseController()
-        {
-
-        }
 
         //sempre que um controller for carregado irá passar antes por este método
         //aqui o usuárioLogado é preenchido

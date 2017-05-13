@@ -155,7 +155,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BaseLoginController.cs" />
-    <Compile Include="Controllers\ErroController.cs" />
     <Compile Include="Controllers\FormaPagamentoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HorarioEntregaController.cs" />
@@ -207,6 +206,11 @@
     <Content Include="Views\Produto\Detalhes.cshtml" />
     <Content Include="Views\ProdutoAdicional\Detalhes.cshtml" />
     <Content Include="Views\ProdutoAdicional\Index.cshtml" />
+    <Content Include="Views\ProdutoAdicional\Adicionar.cshtml" />
+    <Content Include="Views\Shared\_FormProdutoAdicional.cshtml" />
+    <Content Include="Views\Produto\Editar.cshtml" />
+    <Content Include="Views\Produto\AdicionarProdutoAdicional.cshtml" />
+    <Content Include="Views\Shared\_FormProdutoAdicionalProduto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

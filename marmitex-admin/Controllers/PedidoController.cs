@@ -30,16 +30,16 @@ namespace marmitex_admin.Controllers
         {
             try
             {
+                #region validacao usuario logado
+
                 //se a sessão de usuário não estiver preenchida, direciona para a tela de login
                 if (Session["UsuarioLogado"] == null)
-                {
-                    Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
                     return RedirectToAction("Index", "Login");
-                }
 
                 //recebe o usuário logado
                 usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-                usuarioLogado.UrlLoja = BuscarUrlLoja();
+
+                #endregion
 
 
                 //busca todos os pedidos da loja com data de entrega == hoje
@@ -75,16 +75,7 @@ namespace marmitex_admin.Controllers
         public string AtualizarStatusPedido(string dadosJson)
         {
             DadosAtualizarStatusPedido dadosAtualizarPedido = new DadosAtualizarStatusPedido();
-
             dadosAtualizarPedido = JsonConvert.DeserializeObject<DadosAtualizarStatusPedido>(dadosJson);
-
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                throw new Exception("por favor, faça o login e tente novamente");
-
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-            usuarioLogado.UrlLoja = BuscarUrlLoja();
 
             //variável para armazenar o retorno da api
             DadosRequisicaoRest retornoAutenticacao = new DadosRequisicaoRest();

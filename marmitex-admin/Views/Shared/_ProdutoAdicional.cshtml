@@ -1,9 +1,20 @@
 ﻿@model List<ClassesMarmitex.DadosProdutoAdicional>
 
-<h1 class="text-left">Produtos Adicionais</h1>
+<h1 class="text-left">Produtos adicionais</h1>
+
+<ul class="breadcrumb">
+    <li>
+        <i class="fa fa-globe"></i>
+        <a href="@Session["urlBase"]/Home">Inicio</a>
+    </li>
+    <li>
+        <i class="fa fa-glass"></i>
+        <a href="@Session["urlBase"]/ProdutoAdicional/">Produtos Adicionais</a>
+    </li>
+</ul>
 
 <div class="text-right">
-    <a href="/Produto/Adicionar" class="btn btn-success">adicionar produto adicional</a>
+    <a href="/ProdutoAdicional/Adicionar" class="btn btn-success">adicionar produto adicional</a>
 </div>
 <hr />
 
@@ -18,12 +29,16 @@
                 </tr>
             </thead>
             <tbody>
-
-                @foreach (var produtoAdicional in Model)
+                @foreach (var prodAdicional in Model)
                 {
                     <tr>
-                        <td><a href="@Session["urlBase"]/ProdutoAdicional/Detalhes/@produtoAdicional.Id">@produtoAdicional.Nome</a></td>
-                        <td>@produtoAdicional.Descricao</td>
+
+                        <td>
+                            <a href="@Session["urlBase"]/ProdutoAdicional/Detalhes/@prodAdicional.Id" title="ver detalhes">
+                                @prodAdicional.Nome
+                            </a>
+                        </td>
+                        <td>@prodAdicional.Descricao</td>
                         <td>
                             <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
                             <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>

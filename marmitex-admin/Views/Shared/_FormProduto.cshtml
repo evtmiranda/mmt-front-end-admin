@@ -2,10 +2,11 @@
 
 <div class="col-md-12">
     <div class="form-group">
-        <label for="nome">nome produto</label>
+        <label for="nome">nome produto *</label>
 
         @if (Model != null)
         {
+            <input type="hidden" name="id" value="@Model.Id" />
             <input type="text" id="nome" name="Nome" value="@Model.Nome" class="form-control" />
         }
         else
@@ -34,9 +35,11 @@
 </div>
 <div class="col-md-12">
     <div class="form-group">
-        <label for="cardapioProduto">cardápio</label>
+        <label for="cardapioProduto">cardápio *</label>
 
-        <select>
+        <select class="form-control" name="IdMenuCardapio">
+            <option value="0" selected>escolher cardápio...</option>
+            
             @foreach (ClassesMarmitex.MenuCardapio cardapio in ViewBag.MenuCardapio)
             {
                 if (Model != null)
@@ -61,15 +64,15 @@
 </div>
 <div class="col-md-12">
     <div class="form-group">
-        <label for="valor">R$ preço</label>
+        <label for="valor">R$ preço *</label>
 
         @if (Model != null)
         {
-            <input type="text" id="valor" name="Valor" value="@Model.Valor" class="form-control" />
+            <input type="text" id="valor" name="Valor" value="@Model.Valor" class="form-control" onkeyup="formataValor(this, event)" />
         }
         else
         {
-            <input type="text" id="valor" name="Valor" class="form-control" />
+            <input type="text" id="valor" name="Valor" class="form-control" onkeyup="formataValor(this, event)" />
         }
 
 
@@ -77,24 +80,27 @@
 </div>
 <div class="col-md-12">
     <div class="form-group">
-        <label for="imagem">imagem</label>
+
+        <label for="file">imagem do produto *</label>
 
         @if (Model != null)
         {
-            <input type="file" name="ImagemProduto" value="@Model.Imagem" />
+            <input type="file" name="file" id="file" value="@Model.Imagem"/>
         }
         else
         {
-            <input type="file" name="ImagemProduto" />
+            <input type="file" name="file" id="file" onclick="ValidarImagem()"/>
         }
 
     </div>
 </div>
 <div class="col-md-12">
     <div class="form-group">
-
-        <label for="ativo">produto ativo?</label>
-        @Html.CheckBox("Ativo", true)
-
+        <div class="checkbox">
+            <label>
+                @Html.CheckBox("Ativo", true)
+                produto ativo?
+            </label>
+        </div>
     </div>
 </div>

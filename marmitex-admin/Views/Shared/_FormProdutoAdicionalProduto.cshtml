@@ -1,0 +1,80 @@
+﻿@model ClassesMarmitex.DadosProdutoAdicionalProduto
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="cardapioProduto">produto adicional *</label>
+
+        <select class="form-control" name="IdProdutoAdicional">
+            <option value="0" selected>escolher produto adicional...</option>
+
+            @foreach (ClassesMarmitex.DadosProdutoAdicional prodAdicional in ViewBag.ProdutosAdicionais)
+            {
+                if (Model != null)
+                {
+                    if (prodAdicional.Id == Model.IdProdutoAdicional)
+                    {
+                        <option value="@prodAdicional.Id" select>@prodAdicional.Nome</option>
+                    }
+                    else
+                    {
+                        <option value="@prodAdicional.Id">@prodAdicional.Nome</option>
+                    }
+                }
+                else
+                {
+                    <option value="@prodAdicional.Id">@prodAdicional.Nome</option>
+                }
+            }
+        </select>
+
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="valor">quantidade mínima *</label>
+
+        @if (Model != null)
+        {
+            <input type="hidden" name="IdProduto" value="@Model.IdProduto" />
+
+            <input type="number" id="QtdMin" name="QtdMin" value="@Model.QtdMin" class="form-control" />
+        }
+        else
+        {
+            <input type="number" id="QtdMin" name="QtdMin" value="0" class="form-control" />
+        }
+
+
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="valor">quantidade máxima *</label>
+
+        @if(Model != null)
+        {
+            <input type="number" id="QtdMax" name="QtdMax" value="@Model.QtdMax" class="form-control" />
+        }
+        else
+        {
+            <input type="number" id="QtdMax" name="QtdMax" value="0" class="form-control" />
+        }
+
+
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="valor">ordem de exibição *</label>
+
+        @if (Model != null)
+        {
+            <input type="number" id="OrdemExibicao" name="OrdemExibicao" value="@Model.OrdemExibicao" class="form-control" />
+        }
+        else
+        {
+            <input type="number" id="OrdemExibicao" name="OrdemExibicao" value="0" class="form-control" />
+        }
+
+    </div>
+</div>

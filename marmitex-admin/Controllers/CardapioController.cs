@@ -24,16 +24,16 @@ namespace marmitex_admin.Controllers
         {
             try
             {
+                #region validacao usuario logado
+
                 //se a sessão de usuário não estiver preenchida, direciona para a tela de login
                 if (Session["UsuarioLogado"] == null)
-                {
-                    Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
                     return RedirectToAction("Index", "Login");
-                }
 
                 //recebe o usuário logado
                 usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-                usuarioLogado.UrlLoja = BuscarUrlLoja();
+
+                #endregion
 
                 //busca todos os cardápios da loja
                 retornoRequest = rest.Get("/menucardapio/listar/" + usuarioLogado.IdLoja);
@@ -67,16 +67,16 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Adicionar()
         {
+            #region validacao usuario logado
+
             //se a sessão de usuário não estiver preenchida, direciona para a tela de login
             if (Session["UsuarioLogado"] == null)
-            {
-                Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
                 return RedirectToAction("Index", "Login");
-            }
 
             //recebe o usuário logado
             usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-            usuarioLogado.UrlLoja = BuscarUrlLoja();
+
+            #endregion
 
             return View();
         }
@@ -88,23 +88,23 @@ namespace marmitex_admin.Controllers
         /// <returns></returns>
         public ActionResult AdicionarCardapio(MenuCardapio cardapio)
         {
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
             //limpa a sessão de mensagens
             Session["MensagemAvisoCadastroCardapio"] = null;
 
             //validação dos campos
             if (!ModelState.IsValid)
                 return View("Index", cardapio);
-
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-            {
-                Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
-                return RedirectToAction("Index", "Login");
-            }
-
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-            usuarioLogado.UrlLoja = BuscarUrlLoja();
 
             //variável para armazenar o retorno da api
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
@@ -113,7 +113,7 @@ namespace marmitex_admin.Controllers
             try
             {
                 //monta a url de chamada na api
-                string urlPost = string.Format("MenuCardapio/Cadastrar/{0}", usuarioLogado.UrlLoja);
+                string urlPost = string.Format("MenuCardapio/Cadastrar/{0}", usuarioLogado.IdLoja);
 
                 //realiza o post passando o usuário no body
                 retornoRequest = rest.Post(urlPost, cardapio);
@@ -141,16 +141,16 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Editar(int id)
         {
+            #region validacao usuario logado
+
             //se a sessão de usuário não estiver preenchida, direciona para a tela de login
             if (Session["UsuarioLogado"] == null)
-            {
-                Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
                 return RedirectToAction("Index", "Login");
-            }
 
             //recebe o usuário logado
             usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-            usuarioLogado.UrlLoja = BuscarUrlLoja();
+
+            #endregion
 
             //busca os dados do parceiro
             MenuCardapio cardapio = new MenuCardapio();
@@ -182,17 +182,16 @@ namespace marmitex_admin.Controllers
         [HttpPost]
         public ActionResult EditarCardapio(MenuCardapio cardapio)
         {
-            //captura a loja em questão
-            Session["dominioLoja"] = BuscarUrlLoja();
+            #region validacao usuario logado
 
-            //se não conseguir capturar a loja, direciona para a tela de erro
-            if (Session["dominioLoja"] == null)
-            {
-                Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente atualizar a página";
-                return View("Index");
-            }
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
 
-            string dominioLoja = Session["dominioLoja"].ToString();
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
 
             //variável para armazenar o retorno da requisição
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
@@ -224,25 +223,25 @@ namespace marmitex_admin.Controllers
         {
             try
             {
+                #region validacao usuario logado
+
                 //se a sessão de usuário não estiver preenchida, direciona para a tela de login
                 if (Session["UsuarioLogado"] == null)
-                {
-                    Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
                     return RedirectToAction("Index", "Login");
-                }
 
                 //recebe o usuário logado
                 usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-                usuarioLogado.UrlLoja = BuscarUrlLoja();
 
-                //busca os dados do parceiro
+                #endregion
+
+                //busca os dados do cardápio
                 MenuCardapio cardapio = new MenuCardapio
                 {
                     Id = id,
                     Ativo = false
                 };
 
-                //inativa o parceiro
+                //inativa o cardápio
                 string urlPost = string.Format("/MenuCardapio/Excluir");
 
                 retornoRequest = rest.Post(urlPost, cardapio);

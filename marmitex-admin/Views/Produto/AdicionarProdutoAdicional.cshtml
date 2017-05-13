@@ -1,0 +1,32 @@
+﻿@model  ClassesMarmitex.DadosProdutoAdicionalProduto
+
+<div class="profile-content">
+    <h2>Adicionar produto adicional</h2>
+    <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
+    <div class="col-md-10">
+
+        <form method="post" action="@Session["urlBase"]/Produto/AdicionarProdutoAdicionalProduto" enctype="multipart/form-data">
+
+            @Html.Partial("_FormProdutoAdicionalProduto")
+
+            @*se houver alguma mensagem de erro no cadastro do produto adicional ao produto, lança um alert com a mensagem*@
+            @if (Session["MensagemErroCadProdutoAdicional"] != null)
+            {
+                <script>
+                    swal(
+                        'Oops...',
+                        '@Session["MensagemErroCadProdutoAdicional"]',
+                        'error'
+                    );
+                </script>
+            }
+
+            <div class="col-md-12">
+                <div class="buttons-formcontrol">
+                    <input type="submit" class="btn btn-success" value="adicionar produto adicional" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

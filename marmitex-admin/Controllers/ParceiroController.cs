@@ -26,16 +26,16 @@ namespace marmitex_admin.Controllers
         {
             List<Parceiro> listaParceiros = new List<Parceiro>();
 
+            #region validacao usuario logado
+
             //se a sessão de usuário não estiver preenchida, direciona para a tela de login
             if (Session["UsuarioLogado"] == null)
-            {
-                Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
                 return RedirectToAction("Index", "Login");
-            }
 
             //recebe o usuário logado
             usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-            usuarioLogado.UrlLoja = BuscarUrlLoja();
+
+            #endregion
 
             //busca todos os parceiros da loja
             retornoRequest = rest.Get("/Parceiro/BuscarParceiroPorLoja/" + usuarioLogado.IdLoja);
@@ -66,37 +66,34 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Adicionar()
         {
+            #region validacao usuario logado
+
             //se a sessão de usuário não estiver preenchida, direciona para a tela de login
             if (Session["UsuarioLogado"] == null)
-            {
-                Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
                 return RedirectToAction("Index", "Login");
-            }
 
             //recebe o usuário logado
             usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-            usuarioLogado.UrlLoja = BuscarUrlLoja();
+
+            #endregion
 
             return View();
         }
 
-        [HttpPost]
         public ActionResult AdicionarParceiro(ParceiroCadastro parceiroCadastro)
         {
-            //captura a loja em questão
-            Session["dominioLoja"] = BuscarUrlLoja();
+            #region validacao usuario logado
 
-            //se não conseguir capturar a loja, direciona para a tela de erro
-            if (Session["dominioLoja"] == null)
-            {
-                Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente atualizar a página";
-                return View("Index");
-            }
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
 
-            string dominioLoja = Session["dominioLoja"].ToString();
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
 
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
-
 
             try
             {
@@ -119,7 +116,7 @@ namespace marmitex_admin.Controllers
                     }
                 };
 
-                string urlPost = string.Format("/Parceiro/Adicionar/{0}", dominioLoja);
+                string urlPost = string.Format("/Parceiro/Adicionar/{0}", usuarioLogado.IdLoja);
 
                 retornoRequest = rest.Post(urlPost, parceiro);
 
@@ -149,16 +146,16 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Editar(int id)
         {
+            #region validacao usuario logado
+
             //se a sessão de usuário não estiver preenchida, direciona para a tela de login
             if (Session["UsuarioLogado"] == null)
-            {
-                Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
                 return RedirectToAction("Index", "Login");
-            }
 
             //recebe o usuário logado
             usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-            usuarioLogado.UrlLoja = BuscarUrlLoja();
+
+            #endregion
 
             //busca os dados do parceiro
             Parceiro parceiro = new Parceiro();
@@ -206,17 +203,17 @@ namespace marmitex_admin.Controllers
         [HttpPost]
         public ActionResult EditarParceiro(ParceiroCadastro parceiroCadastro)
         {
-            //captura a loja em questão
-            Session["dominioLoja"] = BuscarUrlLoja();
+            #region validacao usuario logado
 
-            //se não conseguir capturar a loja, direciona para a tela de erro
-            if (Session["dominioLoja"] == null)
-            {
-                Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente atualizar a página";
-                return View("Index");
-            }
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
 
-            string dominioLoja = Session["dominioLoja"].ToString();
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
 
             //variável para armazenar o retorno da requisição
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
@@ -270,16 +267,16 @@ namespace marmitex_admin.Controllers
         {
             try
             {
+                #region validacao usuario logado
+
                 //se a sessão de usuário não estiver preenchida, direciona para a tela de login
                 if (Session["UsuarioLogado"] == null)
-                {
-                    Session["MensagemAutenticacao"] = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
                     return RedirectToAction("Index", "Login");
-                }
 
                 //recebe o usuário logado
                 usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-                usuarioLogado.UrlLoja = BuscarUrlLoja();
+
+                #endregion
 
                 //busca os dados do parceiro
                 Parceiro parceiro = new Parceiro
