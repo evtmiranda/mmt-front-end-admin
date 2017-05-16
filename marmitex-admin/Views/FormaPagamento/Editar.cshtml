@@ -1,0 +1,33 @@
+﻿@model ClassesMarmitex.FormaDePagamento
+
+<div class="profile-content-backfull">
+    <h2>Editar forma de pagamento</h2>
+    <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
+    <div class="col-md-10">
+
+        <form method="post" action="@Session["urlBase"]/FormaPagamento/EditarPagamento">
+
+            @Html.Partial("_FormFormaPagamento")
+
+            @*se houver alguma mensagem de erro na edição, lança um alert com a mensagem*@
+            @if (Session["MensagemErroEditarFormaPagamento"] != null)
+            {
+                <script>
+                    swal(
+                        'Oops...',
+                        '@Session["MensagemErroEditarFormaPagamento"]',
+                        'error'
+                    );
+                </script>
+            }
+
+            <div class="col-md-12">
+                <div class="buttons-formcontrol">
+                    <input type="submit" class="btn btn-success" value="salvar" />
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>

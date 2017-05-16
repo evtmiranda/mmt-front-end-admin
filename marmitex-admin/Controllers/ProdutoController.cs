@@ -476,6 +476,8 @@ namespace marmitex_admin.Controllers
 
             listaDadosProdutoAdicional = JsonConvert.DeserializeObject<List<DadosProdutoAdicional>>(json);
 
+            listaDadosProdutoAdicional = listaDadosProdutoAdicional.FindAll(p => p.Ativo);
+
             ViewBag.ProdutosAdicionais = listaDadosProdutoAdicional;
 
             #endregion

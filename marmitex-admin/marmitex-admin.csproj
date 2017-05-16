@@ -216,6 +216,9 @@
     <Content Include="Views\ProdutoAdicional\AdicionarItem.cshtml" />
     <Content Include="Views\Shared\_FormProdutoAdicionalItem.cshtml" />
     <Content Include="Views\ProdutoAdicional\EditarItem.cshtml" />
+    <Content Include="Views\FormaPagamento\Adicionar.cshtml" />
+    <Content Include="Views\Shared\_FormFormaPagamento.cshtml" />
+    <Content Include="Views\FormaPagamento\Editar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,13 +1,19 @@
 ﻿@model IList<ClassesMarmitex.Parceiro>
 
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
 <div class="col-md-12">
     <div class="profile-content-backfull">
         <h1 class="text-left">Parceiros</h1>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-globe"></i>
+                <a href="@Session["urlBase"]/Home">Inicio</a>
+            </li>
+            <li>
+                <i class="fa fa-handshake-o fa-lg"></i>
+                <a href="@Session["urlBase"]/Parceiro/">Parceiros</a>
+            </li>
+        </ul>
 
         <div class="text-right">
             <a href="/Parceiro/Adicionar" class="btn btn-success">adicionar parceiro</a>
@@ -42,12 +48,6 @@
                             </tr>
                         </thead>
                         <tbody>
-
-                            @*<th scope="row">1</th>
-                                <td>Lojas Marisa</td>
-                                <td>Lojas de roupas e calçados, próxima ao fórum trabalhista</td>
-                                <td>Rua Dr. Carmelo Jorge Almeida, 19 - Barra Funda</td>
-                                <td>J9PHQ</td>*@
                             @foreach (var parceiro in Model)
                             {
                                 <tr>

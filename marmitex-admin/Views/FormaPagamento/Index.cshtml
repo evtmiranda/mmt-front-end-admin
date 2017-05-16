@@ -1,8 +1,4 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model List<ClassesMarmitex.FormaDePagamento>
 
 <head>
     <link href="~/Content/bubble.css" rel="stylesheet" />
@@ -13,34 +9,60 @@
         <h1 class="text-left">Formas de pagamento</h1>
 
         <div class="text-right">
-            <a href="/Produtos/Adicionar" class="btn btn-success">adicionar forma de pagamento</a>
+            <a href="@Session["urlBase"]/FormaPagamento/Adicionar" class="btn btn-success">adicionar forma de pagamento</a>
         </div>
         <hr />
         <div class="col-md-12 bubble">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-2">
-                    <div class="col-md-3">
-                        <h4>nome</h4>
-                        <div class="bubble-item">
-                            <p>dinheiro</p>
+
+            @{ int i = 0;}
+
+            @foreach (var formaPagamento in Model)
+            {
+                { i++; }
+
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-2">
+                        <div class="col-md-3">
+                            @if (i == 1)
+                            { <h4>nome</h4> }
+                            <div class="bubble-item">
+                                <p>@formaPagamento.Nome</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        <h4>status</h4>
-                        <div class="bubble-item bubble-status">
-                            <input type="checkbox" value="None" id="status1" name="check" checked />
-                            <label for="status1"></label>
+                        <div class="col-md-2">
+                            @if (i == 1)
+                            { <h4>status</h4> }
+                            <div class="bubble-item bubble-status">
+                                @if (formaPagamento.Ativo)
+                                {
+                                    <input type="checkbox" value="None" id="status_@formaPagamento.Id" name="check" checked />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" value="None" id="status_@formaPagamento.Id" name="check" />
+                                }
+                                <label for="#"></label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        <h4>ações</h4>
-                        <div class="text-center bubble-item">
-                            <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                        <div class="col-md-2">
+                            @if (i == 1)
+                            { <h4>ações</h4> }
+                            <div class="text-center bubble-item">
+                                @*se a forma de pagamento for dinheiro não é permitido editar, pois se mudar o nome irá quebrar a lógica do troco*@
+                                @if (formaPagamento.Nome == "dinheiro")
+                                {
+                                    <a href="#" title="não é permitido modificar este item" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                }
+                                else
+                                {
+                                    <a href="@Session["urlBase"]/FormaPagamento/Editar/@formaPagamento.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                }
+                                <a href="@Session["urlBase"]/FormaPagamento/Excluir/@formaPagamento.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     </row>
 </div>
