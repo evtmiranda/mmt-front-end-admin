@@ -212,6 +212,10 @@
     <Content Include="Views\Produto\AdicionarProdutoAdicional.cshtml" />
     <Content Include="Views\Shared\_FormProdutoAdicionalProduto.cshtml" />
     <Content Include="Views\Produto\EditarProdutoAdicional.cshtml" />
+    <Content Include="Views\ProdutoAdicional\Editar.cshtml" />
+    <Content Include="Views\ProdutoAdicional\AdicionarItem.cshtml" />
+    <Content Include="Views\Shared\_FormProdutoAdicionalItem.cshtml" />
+    <Content Include="Views\ProdutoAdicional\EditarItem.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

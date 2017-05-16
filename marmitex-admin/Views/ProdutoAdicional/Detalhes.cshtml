@@ -20,7 +20,7 @@
         </ul>
 
         <div class="text-right">
-            <a href="#" class="btn btn-success">adicionar item</a>
+            <a href="@Session["urlBase"]/ProdutoAdicional/AdicionarItem/@Model.Id" class="btn btn-success">adicionar item</a>
         </div>
         <hr />
 
@@ -37,8 +37,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
-                            @foreach (var itemAdicional in Model.ItensAdicionais)
+
+                        @foreach (var itemAdicional in Model.ItensAdicionais)
+                        {
+                            if (itemAdicional.Ativo)
                             {
                                 <tr>
                                     <td>@itemAdicional.Nome</td>
@@ -46,12 +48,13 @@
                                     <td>@itemAdicional.Valor</td>
 
                                     <td>
-                                        <a href="#" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                        <a href="#" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                        <a href="@Session["urlBase"]/ProdutoAdicional/EditarItem/@itemAdicional.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                        <a href="@Session["urlBase"]/ProdutoAdicional/ExcluirItem/@itemAdicional.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
                                     </td>
                                 </tr>
                             }
-                        
+                        }
+
                     </tbody>
                 </table>
             </div>

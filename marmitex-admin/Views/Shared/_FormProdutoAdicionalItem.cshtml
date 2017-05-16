@@ -1,0 +1,62 @@
+﻿@model ClassesMarmitex.DadosProdutoAdicionalItem
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="nome">nome item *</label>
+
+        @if (Model != null)
+        {
+            <input type="hidden" name="id" value="@Model.Id" />
+            <input type="hidden" name="IdProdutoAdicional" value="@Model.IdProdutoAdicional" />
+            <input type="text" id="nome" name="Nome" value="@Model.Nome" class="form-control" />
+        }
+        else
+        {
+            <input type="text" id="nome" name="Nome" class="form-control" />
+        }
+
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="descricao">descrição</label>
+
+        @if (Model != null)
+        {
+            <input type="text" id="descricao" name="Descricao" value="@Model.Descricao" class="form-control" />
+        }
+        else
+        {
+            <input type="text" id="descricao" name="Descricao" class="form-control" />
+        }
+
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="valor">R$ preço *</label>
+
+        @if (Model != null)
+        {
+            <input type="text" id="valor" name="Valor" value="@Model.Valor" class="form-control" onkeyup="formataValor(this, event)" />
+        }
+        else
+        {
+            <input type="text" id="valor" name="Valor" class="form-control" onkeyup="formataValor(this, event)" />
+        }
+
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group">
+        <div class="checkbox">
+            <label>
+                @Html.CheckBox("Ativo", true)
+                item ativo?
+            </label>
+        </div>
+    </div>
+</div>

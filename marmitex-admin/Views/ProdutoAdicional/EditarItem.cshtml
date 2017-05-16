@@ -1,0 +1,20 @@
+﻿@model ClassesMarmitex.DadosProdutoAdicionalItem
+
+<div class="profile-content-backfull">
+    <h2>Editar item</h2>
+    <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
+    <div class="col-md-10">
+
+        <form method="post" action="@Session["urlBase"]/ProdutoAdicional/EditarItemProdutoAdicional">
+            @Html.Partial("_FormProdutoAdicionalItem")
+
+            <div class="col-md-12">
+                <div class="buttons-formcontrol">
+                    <input type="submit" class="btn btn-success" value="salvar" />
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>

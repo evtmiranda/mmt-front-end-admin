@@ -395,7 +395,7 @@ namespace marmitex_admin.Controllers
 
             List<DadosProdutoAdicional> listaDadosProdutoAdicional = new List<DadosProdutoAdicional>();
 
-            //busca todos os cardápios da loja
+            //busca todos os produtos adicionais da loja
             retornoRequest = rest.Get("/ProdutoAdicional/listar/" + usuarioLogado.IdLoja);
 
             string json = retornoRequest.objeto.ToString();
