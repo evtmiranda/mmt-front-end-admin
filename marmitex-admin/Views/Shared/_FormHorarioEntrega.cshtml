@@ -1,0 +1,29 @@
+﻿@model ClassesMarmitex.HorarioEntrega
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="nome">nome *</label>
+
+        @if (Model != null)
+        {
+            <input type="hidden" name="id" value="@Model.Id" />
+            <input type="time" id="horario" name="Horario" value="@Model.Horario" class="form-control" />
+        }
+        else
+        {
+            <input type="time" id="horario" name="Horario" class="form-control" />
+        }
+
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group">
+        <div class="checkbox">
+            <label>
+                @Html.CheckBox("Ativo", true)
+                horário de entrega ativo?
+            </label>
+        </div>
+    </div>
+</div>

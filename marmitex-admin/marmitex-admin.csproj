@@ -219,6 +219,10 @@
     <Content Include="Views\FormaPagamento\Adicionar.cshtml" />
     <Content Include="Views\Shared\_FormFormaPagamento.cshtml" />
     <Content Include="Views\FormaPagamento\Editar.cshtml" />
+    <Content Include="Views\HorarioEntrega\Adicionar.cshtml" />
+    <Content Include="Views\Shared\_FormHorarioEntrega.cshtml" />
+    <Content Include="Views\HorarioEntrega\Editar.cshtml" />
+    <Content Include="Views\HorarioEntrega\EditarTempoAntecedencia.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

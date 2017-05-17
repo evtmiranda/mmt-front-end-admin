@@ -1,0 +1,33 @@
+﻿@model ClassesMarmitex.HorarioEntrega
+
+<div class="profile-content-backfull">
+    <h2>Editar horário de entrega</h2>
+    <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
+    <div class="col-md-10">
+
+        <form method="post" action="@Session["urlBase"]/HorarioEntrega/EditarHorario">
+
+            @Html.Partial("_FormHorarioEntrega")
+
+            @*se houver alguma mensagem de erro na edição, lança um alert com a mensagem*@
+            @if (Session["MensagemErroEditarHorarioEntrega"] != null)
+            {
+                <script>
+                    swal(
+                        'Oops...',
+                        '@Session["MensagemErroEditarHorarioEntrega"]',
+                        'error'
+                    );
+                </script>
+            }
+
+            <div class="col-md-12">
+                <div class="buttons-formcontrol">
+                    <input type="submit" class="btn btn-success" value="salvar" />
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
