@@ -12,71 +12,72 @@
     </div>
 
     <hr />
-    
+
     <div class="col-md-12 bubble">
-
-        <div class="row">
-            <div class="col-md-10 col-md-offset-2">
-                <div class="col-md-3">
-                    <h4>tempo mínimo de antecedência pedido</h4>
-                    <div class="bubble-item">
-                        <p>@Model.TempoAntecedenciaEntrega.MinutosAntecedencia minutos</p>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <h4><br />ações</h4>
-                    <div class="text-center bubble-item">
-                        <a href="@Session["urlBase"]/HorarioEntrega/TempoAntecedencia/Editar/@Model.TempoAntecedenciaEntrega.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <hr />
-
-        @{ int i = 0;}
-
-        @foreach (var horarioEntrega in Model.HorariosEntrega)
+        @if (Model != null)
         {
-            { i++; }
-            
             <div class="row">
                 <div class="col-md-10 col-md-offset-2">
                     <div class="col-md-3">
-                        @if (i == 1)
-                        { <h4>horário</h4> }
+                        <h4>tempo mínimo de antecedência pedido</h4>
                         <div class="bubble-item">
-                            <p>@horarioEntrega.Horario</p>
+                            <p>@Model.TempoAntecedenciaEntrega.MinutosAntecedencia minutos</p>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        @if (i == 1)
-                        { <h4>status</h4> }
-                        <div class="bubble-item bubble-status">
-                            @if (horarioEntrega.Ativo)
-                            {
-                                <input type="checkbox" value="None" id="status_@horarioEntrega.Id" name="check" checked />
-                            }
-                            else
-                            {
-                                <input type="checkbox" value="None" id="status_@horarioEntrega.Id" name="check" />
-                            }
-                            <label for="#"></label>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        @if (i == 1)
-                        { <h4>ações</h4> }
+                        <h4><br />ações</h4>
                         <div class="text-center bubble-item">
-                            <a href="@Session["urlBase"]/HorarioEntrega/Editar/@horarioEntrega.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a href="@Session["urlBase"]/HorarioEntrega/Excluir/@horarioEntrega.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                            <a href="@Session["urlBase"]/HorarioEntrega/EditarTempoAntecedencia/@Model.TempoAntecedenciaEntrega.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <br />
-        }
+            <hr />
 
+            int i = 0;
+
+            foreach (var horarioEntrega in Model.HorariosEntrega)
+            {
+                i++;
+
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-2">
+                        <div class="col-md-3">
+                            @if (i == 1)
+                            { <h4>horário</h4> }
+                            <div class="bubble-item">
+                                <p>@horarioEntrega.Horario</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            @if (i == 1)
+                            { <h4>status</h4> }
+                            <div class="bubble-item bubble-status">
+                                @if (horarioEntrega.Ativo)
+                                {
+                                    <input type="checkbox" value="None" id="status_@horarioEntrega.Id" name="check" checked />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" value="None" id="status_@horarioEntrega.Id" name="check" />
+                                }
+                                <label for="#"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            @if (i == 1)
+                            { <h4>ações</h4> }
+                            <div class="text-center bubble-item">
+                                <a href="@Session["urlBase"]/HorarioEntrega/Editar/@horarioEntrega.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                <a href="@Session["urlBase"]/HorarioEntrega/Excluir/@horarioEntrega.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+            }
+        }
     </div>
 </div>

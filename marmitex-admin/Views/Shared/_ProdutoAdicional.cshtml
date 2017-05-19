@@ -29,23 +29,25 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var prodAdicional in Model)
+                @if (Model != null)
                 {
-                    <tr>
+                    foreach (var prodAdicional in Model)
+                    {
+                        <tr>
 
-                        <td>
-                            <a href="@Session["urlBase"]/ProdutoAdicional/Detalhes/@prodAdicional.Id" title="ver detalhes">
-                                @prodAdicional.Nome
-                            </a>
-                        </td>
-                        <td>@prodAdicional.Descricao</td>
-                        <td>
-                            <a href="@Session["urlBase"]/ProdutoAdicional/Editar/@prodAdicional.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a href="@Session["urlBase"]/ProdutoAdicional/Excluir/@prodAdicional.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                        </td>
-                    </tr>
+                            <td>
+                                <a href="@Session["urlBase"]/ProdutoAdicional/Detalhes/@prodAdicional.Id" title="ver detalhes">
+                                    @prodAdicional.Nome
+                                </a>
+                            </td>
+                            <td>@prodAdicional.Descricao</td>
+                            <td>
+                                <a href="@Session["urlBase"]/ProdutoAdicional/Editar/@prodAdicional.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                <a href="@Session["urlBase"]/ProdutoAdicional/Excluir/@prodAdicional.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                            </td>
+                        </tr>
+                    }
                 }
-
             </tbody>
         </table>
     </div>

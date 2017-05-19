@@ -32,7 +32,8 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var cardapio in Model)
+                @if(Model != null) { 
+                foreach (var cardapio in Model)
                 {
                     foreach (var produto in cardapio.Produtos)
                     {
@@ -55,7 +56,7 @@
                         </tr>
                     }
                 }
-
+                }
             </tbody>
         </table>
     </div>

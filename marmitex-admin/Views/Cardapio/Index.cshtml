@@ -6,8 +6,6 @@
 }
 
 <div class="profile-content-backfull">
-    @if (Model != null)
-    {
         <row>
             <h1 class="text-left">Cardápio</h1>
 
@@ -27,8 +25,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var cardapio in Model)
+                            @if (Model != null)
                             {
+                                foreach (var cardapio in Model)
+                                {
                                 <tr>
                                     <td>@cardapio.Nome</td>
                                     <td>@cardapio.OrdemExibicao</td>
@@ -37,17 +37,11 @@
                                         <a href="@Session["urlBase"]/Cardapio/Excluir/@cardapio.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
                                     </td>
                                 </tr>
+                                }
                             }
                     </table>
                 </div>
 
             </div>
         </row>
-    }
-    else
-    {
-        <div class="col-md-12 text-center">
-            <h3>@ViewBag.MensagemCardapio</h3>
-        </div>
-    }
 </div>
