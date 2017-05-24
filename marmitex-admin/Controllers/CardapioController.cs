@@ -113,7 +113,10 @@ namespace marmitex_admin.Controllers
             try
             {
                 //monta a url de chamada na api
-                string urlPost = string.Format("MenuCardapio/Cadastrar/{0}", usuarioLogado.IdLoja);
+                string urlPost = "MenuCardapio/Cadastrar";
+
+                //seta a loja
+                cardapio.IdLoja = usuarioLogado.IdLoja;
 
                 //realiza o post passando o usuário no body
                 retornoRequest = rest.Post(urlPost, cardapio);
@@ -156,7 +159,7 @@ namespace marmitex_admin.Controllers
             MenuCardapio cardapio = new MenuCardapio();
 
             //busca o cardapio pelo id
-            retornoRequest = rest.Get("/Cardapio/BuscarCardapio/" + id);
+            retornoRequest = rest.Get(string.Format("/Cardapio/BuscarCardapio/{0}/{1}", id, usuarioLogado.IdLoja));
 
             //se não encontrar um cardápio com este id
             if (retornoRequest.HttpStatusCode == HttpStatusCode.NotFound)
@@ -200,6 +203,9 @@ namespace marmitex_admin.Controllers
             {
                 string urlPost = string.Format("/MenuCardapio/Atualizar");
 
+                //seta a loja
+                cardapio.IdLoja = usuarioLogado.IdLoja;
+
                 retornoRequest = rest.Post(urlPost, cardapio);
 
                 //se o cardápio não for atualizado
@@ -238,6 +244,7 @@ namespace marmitex_admin.Controllers
                 MenuCardapio cardapio = new MenuCardapio
                 {
                     Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
                     Ativo = false
                 };
 

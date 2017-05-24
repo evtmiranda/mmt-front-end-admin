@@ -41,9 +41,8 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
-
                 //busca todos os pedidos da loja com data de entrega == hoje
-                retornoRequest = rest.Get("/Pedido/BuscarPedidos/" + usuarioLogado.IdLoja + "/true/false/false/false");
+                retornoRequest = rest.Get(string.Format("/Pedido/BuscarPedidos/{0}/{1}", usuarioLogado.IdLoja, "true"));
 
                 //se não encontrar pedidos para a loja
                 if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
@@ -84,7 +83,7 @@ namespace marmitex_admin.Controllers
             try
             {
                 //monta a url de chamada na api
-                string urlPost = "/Pedido/AtualizarStatusPedido/";
+                string urlPost = string.Format("/Pedido/AtualizarStatusPedido/{0}", usuarioLogado.IdLoja);
 
                 //realiza o post passando o usuário no body
                 retornoAutenticacao = rest.Post(urlPost, dadosAtualizarPedido);

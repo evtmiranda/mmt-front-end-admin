@@ -104,6 +104,7 @@ namespace marmitex_admin.Controllers
                     Nome = parceiroCadastro.Nome,
                     Descricao = parceiroCadastro.Descricao,
                     Codigo = Guid.NewGuid().ToString().Substring(0, 5).ToUpper(),
+                    IdLoja = usuarioLogado.IdLoja,
                     Endereco = new Endereco
                     {
                         Cep = parceiroCadastro.Cep,
@@ -161,7 +162,7 @@ namespace marmitex_admin.Controllers
             Parceiro parceiro = new Parceiro();
 
             //busca o parceiro pelo id
-            retornoRequest = rest.Get("/Parceiro/BuscarParceiro/" + id);
+            retornoRequest = rest.Get(string.Format("/Parceiro/BuscarParceiro/{0}/{1}", id, usuarioLogado.IdLoja));
 
             //se não encontrar um parceiro com este id
             if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
@@ -229,6 +230,7 @@ namespace marmitex_admin.Controllers
                     Nome = parceiroCadastro.Nome,
                     Descricao = parceiroCadastro.Descricao,
                     Ativo = parceiroCadastro.Ativo,
+                    IdLoja = usuarioLogado.IdLoja,
                     Endereco = new Endereco
                     {
                         Id = parceiroCadastro.IdEndereco,
@@ -282,6 +284,7 @@ namespace marmitex_admin.Controllers
                 Parceiro parceiro = new Parceiro
                 {
                     Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
                     Ativo = false
                 };
 

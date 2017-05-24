@@ -208,10 +208,10 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
-                //busca os dados do parceiro
                 HorarioEntrega horarioEntrega = new HorarioEntrega
                 {
                     Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
                     Ativo = false
                 };
 

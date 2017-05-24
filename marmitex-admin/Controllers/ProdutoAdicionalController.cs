@@ -168,7 +168,7 @@ namespace marmitex_admin.Controllers
             DadosProdutoAdicional produtoAdicional = new DadosProdutoAdicional();
 
             //busca os dados do produto adicional
-            retornoRequest = rest.Get("/ProdutoAdicional/" + id);
+            retornoRequest = rest.Get(string.Format("/ProdutoAdicional/{0}/{1}", id, usuarioLogado.IdLoja));
 
             string jsonRetorno = retornoRequest.objeto.ToString();
 
@@ -198,6 +198,9 @@ namespace marmitex_admin.Controllers
             try
             {
                 string urlPost = string.Format("/ProdutoAdicional/Atualizar");
+
+                //seta a loja
+                prodAdicional.IdLoja = usuarioLogado.IdLoja;
 
                 retornoRequest = rest.Post(urlPost, prodAdicional);
 
@@ -239,6 +242,7 @@ namespace marmitex_admin.Controllers
                 DadosProdutoAdicional produtoAdicional = new DadosProdutoAdicional()
                 {
                     Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
                     Ativo = false
                 };
 
@@ -294,6 +298,9 @@ namespace marmitex_admin.Controllers
 
                 string urlPost = "/ProdutoAdicional/AdicionarItem";
 
+                //seta a loja
+                item.IdLoja = usuarioLogado.IdLoja;
+
                 retornoRequest = rest.Post(urlPost, item);
 
                 //se o item for cadastrado, direciona para a tela de visualização de itens do produto adicional
@@ -330,6 +337,7 @@ namespace marmitex_admin.Controllers
                 DadosProdutoAdicionalItem item = new DadosProdutoAdicionalItem()
                 {
                     Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
                     Ativo = false
                 };
 
@@ -372,7 +380,7 @@ namespace marmitex_admin.Controllers
             DadosProdutoAdicionalItem item = new DadosProdutoAdicionalItem();
 
             //busca os dados do produto adicional
-            retornoRequest = rest.Get("/ProdutoAdicional/Item/" + id);
+            retornoRequest = rest.Get(string.Format("/ProdutoAdicional/Item/{0}/{1}", id, usuarioLogado.IdLoja));
 
             string jsonRetorno = retornoRequest.objeto.ToString();
 
@@ -402,6 +410,9 @@ namespace marmitex_admin.Controllers
             try
             {
                 string urlPost = string.Format("/ProdutoAdicional/AtualizarItem");
+
+                //seta a loja
+                item.IdLoja = usuarioLogado.IdLoja;
 
                 retornoRequest = rest.Post(urlPost, item);
 

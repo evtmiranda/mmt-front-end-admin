@@ -213,6 +213,7 @@ namespace marmitex_admin.Controllers
                 FormaDePagamento pagamento = new FormaDePagamento
                 {
                     Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
                     Ativo = false
                 };
 

@@ -152,6 +152,9 @@ namespace marmitex_admin.Controllers
                 // after successfully uploading redirect the user
                 //return RedirectToAction("actionname", "controller name");
 
+                //seta a loja
+                produto.IdLoja = usuarioLogado.IdLoja;
+
                 retornoRequest = rest.Post(urlPost, produto);
 
                 //se o produto for cadastrado, direciona para a tela de visualização de produtos
@@ -191,7 +194,7 @@ namespace marmitex_admin.Controllers
                 Produto produto = new Produto();
 
                 //busca todos os cardápios da loja
-                retornoRequest = rest.Get("/Produto/" + id);
+                retornoRequest = rest.Get(string.Format("/Produto/{0}/{1}", id, usuarioLogado.IdLoja));
 
                 string jsonRetorno = retornoRequest.objeto.ToString();
 
@@ -204,7 +207,7 @@ namespace marmitex_admin.Controllers
                 List<DadosProdutoAdicionalProduto> listaDadosProdutoAdicionalProduto = new List<DadosProdutoAdicionalProduto>();
 
                 //busca os produtos adicionais deste produto
-                retornoRequest = rest.Get("/Produto/BuscarProdutosAdicionaisDeUmProduto/" + id);
+                retornoRequest = rest.Get(string.Format("/Produto/BuscarProdutosAdicionaisDeUmProduto/{0}/{1}", id, usuarioLogado.IdLoja));
 
                 jsonRetorno = retornoRequest.objeto.ToString();
 
@@ -243,6 +246,7 @@ namespace marmitex_admin.Controllers
                 Produto produto = new Produto()
                 {
                     Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
                     Ativo = false
                 };
 
@@ -356,6 +360,9 @@ namespace marmitex_admin.Controllers
 
                 string urlPost = string.Format("/Produto/Atualizar");
 
+                //seta a loja
+                produto.IdLoja = usuarioLogado.IdLoja;
+
                 retornoRequest = rest.Post(urlPost, produto);
 
                 //se o produto não for atualizado
@@ -408,7 +415,8 @@ namespace marmitex_admin.Controllers
 
             DadosProdutoAdicionalProduto dadosProdutoAdicionalProduto = new DadosProdutoAdicionalProduto()
             {
-                IdProduto = id
+                IdProduto = id,
+                IdLoja = usuarioLogado.IdLoja
             };
 
             if (Session["ProdutoAdicionalProdutoCadastro"] != null)
@@ -435,6 +443,9 @@ namespace marmitex_admin.Controllers
             #region cadastra o produto adicional para este produto
 
             string urlPost = "/Produto/AdicionarProdutoAdicional";
+
+            //seta a loja
+            produtoAdicionalProduto.IdLoja = usuarioLogado.IdLoja;
 
             retornoRequest = rest.Post(urlPost, produtoAdicionalProduto);
 
@@ -487,7 +498,7 @@ namespace marmitex_admin.Controllers
             DadosProdutoAdicionalProduto dadosProdutoAdicionalProduto = new DadosProdutoAdicionalProduto();
 
             //busca todos os cardápios da loja
-            retornoRequest = rest.Get("/Produto/BuscarProdutoAdicional/" + id);
+            retornoRequest = rest.Get(string.Format("/Produto/BuscarProdutoAdicional/{0}/{1}", id, usuarioLogado.IdLoja));
 
             string jsonResult = retornoRequest.objeto.ToString();
 
@@ -517,6 +528,9 @@ namespace marmitex_admin.Controllers
             try
             {
                 string urlPost = string.Format("/Produto/ProdutoAdicional/Atualizar");
+
+                //seta a loja
+                produtoAdicional.IdLoja = usuarioLogado.IdLoja;
 
                 retornoRequest = rest.Post(urlPost, produtoAdicional);
 
@@ -559,6 +573,7 @@ namespace marmitex_admin.Controllers
                 DadosProdutoAdicionalProduto dadosProdutoAdicionalProduto = new DadosProdutoAdicionalProduto
                 {
                     Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
                     Ativo = false
                 };
 

@@ -32,11 +32,12 @@
                 </tr>
             </thead>
             <tbody>
-                @if(Model != null) { 
-                foreach (var cardapio in Model)
-                {
-                    foreach (var produto in cardapio.Produtos)
+                @if(Model != null) {
+                    foreach (var cardapio in Model)
                     {
+                        if(cardapio.Produtos != null) { 
+                        foreach (var produto in cardapio.Produtos)
+                        {
                         <tr>
 
                             <td>
@@ -54,8 +55,9 @@
                                 <a href="@Session["urlBase"]/Produto/Excluir/@produto.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
                             </td>
                         </tr>
+                            }
+                        }
                     }
-                }
                 }
             </tbody>
         </table>
