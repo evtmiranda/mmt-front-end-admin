@@ -129,7 +129,7 @@ namespace marmitex_admin.Controllers
 
             FormaDePagamento pagamento = new FormaDePagamento();
 
-            retornoRequest = rest.Get("/FormaPagamento/" + id);
+            retornoRequest = rest.Get(string.Format("/FormaPagamento/{0}/{1}", id, usuarioLogado.IdLoja));
 
             //se não encontrar com este id
             if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)

@@ -128,7 +128,7 @@ namespace marmitex_admin.Controllers
 
             HorarioEntrega horarioEntrega = new HorarioEntrega();
 
-            retornoRequest = rest.Get("/HorarioEntrega/" + id);
+            retornoRequest = rest.Get(string.Format("/HorarioEntrega/{0}/{1}", id, usuarioLogado.IdLoja));
 
             //se não encontrar com este id
             if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
@@ -253,7 +253,7 @@ namespace marmitex_admin.Controllers
 
             TempoAntecedenciaEntrega tempoAntecedenciaEntrega = new TempoAntecedenciaEntrega();
 
-            retornoRequest = rest.Get("/HorarioEntrega/TempoAntecedencia/" + id);
+            retornoRequest = rest.Get(string.Format("/HorarioEntrega/TempoAntecedencia/{0}/{1}", id, usuarioLogado.IdLoja));
 
             //se não encontrar com este id
             if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
