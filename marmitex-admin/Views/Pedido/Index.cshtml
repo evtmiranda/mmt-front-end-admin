@@ -178,8 +178,11 @@
 
                                         @if (Convert.ToDecimal(pedido.Troco) > 0)
                                         {
-                                            <p>R$ @pedido.Troco de troco</p>
+                                            <p>R$ @pedido.Troco.ToString("F") de troco</p>
                                         }
+
+                                        <h4>Valor total do pedido</h4>
+                                        <p>R$ @pedido.ValorTotalPedido.ToString("F")</p>
 
                                         <br />
 

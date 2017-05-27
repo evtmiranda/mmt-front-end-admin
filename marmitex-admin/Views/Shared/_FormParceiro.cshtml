@@ -207,6 +207,23 @@
 
 <div class="col-md-12">
     <div class="form-group">
+        <label for="taxaEntrega">taxa de entrega</label>
+
+        @if (Model != null)
+        {
+            <input type="text" id="taxaEntrega" name="TaxaEntrega" value="@Model.TaxaEntrega" onkeyup="formataValor(this, event)" class="form-control" />
+        }
+        else
+        {
+            <input type="text" id="taxaEntrega" name="TaxaEntrega" class="form-control" />
+        }
+
+
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group">
         <label for="ativo">parceiro ativo? </label>
             @Html.CheckBox("Ativo", true)
     </div>

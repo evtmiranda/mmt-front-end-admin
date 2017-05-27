@@ -44,6 +44,7 @@
                                 <th>descrição</th>
                                 <th>endereço</th>
                                 <th>código parceiro</th>
+                                <th>taxa de entrega</th>
                                 <th>ações</th>
                             </tr>
                         </thead>
@@ -55,6 +56,7 @@
                                     <td>@parceiro.Descricao</td>
                                     <td>@parceiro.Endereco.Logradouro, @parceiro.Endereco.NumeroEndereco - @parceiro.Endereco.Bairro</td>
                                     <td>@parceiro.Codigo</td>
+                                    <td>R$ @parceiro.TaxaEntrega.ToString("F")</td>
                                     <td>
                                         <a href="@Session["urlBase"]/Parceiro/Editar/@parceiro.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
                                         <a href="@Session["urlBase"]/Parceiro/Excluir/@parceiro.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>

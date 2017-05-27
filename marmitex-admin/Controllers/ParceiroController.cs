@@ -105,6 +105,7 @@ namespace marmitex_admin.Controllers
                     Descricao = parceiroCadastro.Descricao,
                     Codigo = Guid.NewGuid().ToString().Substring(0, 5).ToUpper(),
                     IdLoja = usuarioLogado.IdLoja,
+                    TaxaEntrega = parceiroCadastro.TaxaEntrega,
                     Endereco = new Endereco
                     {
                         Cep = parceiroCadastro.Cep,
@@ -195,7 +196,8 @@ namespace marmitex_admin.Controllers
                 Bairro = parceiro.Endereco.Bairro,
                 Logradouro = parceiro.Endereco.Logradouro,
                 NumeroEndereco = parceiro.Endereco.NumeroEndereco,
-                ComplementoEndereco = parceiro.Endereco.ComplementoEndereco
+                ComplementoEndereco = parceiro.Endereco.ComplementoEndereco,
+                TaxaEntrega = parceiro.TaxaEntrega
             };
 
             return View(parceiroCadastro);
@@ -231,6 +233,7 @@ namespace marmitex_admin.Controllers
                     Descricao = parceiroCadastro.Descricao,
                     Ativo = parceiroCadastro.Ativo,
                     IdLoja = usuarioLogado.IdLoja,
+                    TaxaEntrega = parceiroCadastro.TaxaEntrega,
                     Endereco = new Endereco
                     {
                         Id = parceiroCadastro.IdEndereco,

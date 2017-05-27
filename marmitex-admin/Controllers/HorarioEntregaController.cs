@@ -318,6 +318,95 @@ namespace marmitex_admin.Controllers
             }
         }
 
+        public ActionResult AtivarDiaFuncionamento(int id)
+        {
+            try
+            {
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                DiasDeFuncionamento diaFuncionamento = new DiasDeFuncionamento
+                {
+                    Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
+                    Ativo = true
+                };
+
+                //recurso do post
+                string urlPost = string.Format("/HorarioEntrega/DiaFuncionamento/Ativar");
+
+                //faz o post
+                retornoRequest = rest.Post(urlPost, diaFuncionamento);
+
+                //se não for atualizado
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemExcluirHorarioEntrega = "não foi possível ativar. por favor, tente novamente";
+                    return View("Index");
+                }
+
+                //se for atualizado, direciona para a tela de visualização
+                return RedirectToAction("Index", "HorarioEntrega");
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemExcluirHorarioEntrega = "não foi possível ativar. por favor, tente novamente";
+                return View("Index");
+            }
+        }
+
+        public ActionResult ExcluirDiaFuncionamento(int id)
+        {
+            try
+            {
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                DiasDeFuncionamento diaFuncionamento = new DiasDeFuncionamento
+                {
+                    Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
+                    Ativo = false
+                };
+
+                //recurso do post
+                string urlPost = string.Format("/HorarioEntrega/DiaFuncionamento/Excluir");
+
+                //faz o post
+                retornoRequest = rest.Post(urlPost, diaFuncionamento);
+
+                //se não for atualizado
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemExcluirHorarioEntrega = "não foi possível excluir. por favor, tente novamente";
+                    return View("Index");
+                }
+
+                //se for inativado, direciona para a tela de visualização
+                return RedirectToAction("Index", "HorarioEntrega");
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemExcluirHorarioEntrega = "não foi possível excluir. por favor, tente novamente";
+                return View("Index");
+            }
+        }
 
     }
 }

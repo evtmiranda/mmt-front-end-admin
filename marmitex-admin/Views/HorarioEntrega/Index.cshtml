@@ -5,7 +5,7 @@
 </head>
 
 <div class="profile-content-backfull">
-    <h1 class="text-left">Horários de entrega</h1>
+    <h1 class="text-left">Horários de entrega e dias de funcionamento</h1>
 
     <div class="text-right">
         <a href="/HorarioEntrega/Adicionar" class="btn btn-success">adicionar horário de entrega</a>
@@ -16,6 +16,8 @@
     <div class="col-md-12 bubble">
         @if (Model != null)
         {
+            <h2>Tempo mínimo de antecedência pedido</h2>
+
             <div class="row">
                 <div class="col-md-10 col-md-offset-2">
                     <div class="col-md-3">
@@ -34,6 +36,8 @@
             </div>
 
             <hr />
+
+            <h2>Horários de entrega</h2>
 
             int i = 0;
 
@@ -78,6 +82,55 @@
 
                 <br />
             }
+
+            <hr />
+
+            <h2>Dias de funcionamento</h2>
+            int iDiaSemana = 0;
+
+            foreach (var diasFuncionamento in Model.DiasDeFuncionamento)
+            {
+                iDiaSemana++;
+
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-2">
+                        <div class="col-md-3">
+                            @if (iDiaSemana == 1)
+                            { <h4>dia da semana</h4> }
+                            <div class="bubble-item">
+                                <p>@diasFuncionamento.DiaDaSemana</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            @if (iDiaSemana == 1)
+                            { <h4>status</h4> }
+                            <div class="bubble-item bubble-status">
+                                @if (diasFuncionamento.Ativo)
+                                {
+                                    <input type="checkbox" value="None" id="status_@diasFuncionamento.Id" name="check" checked />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" value="None" id="status_@diasFuncionamento.Id" name="check" />
+                                }
+                                <label for="#"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            @if (iDiaSemana == 1)
+                            { <h4>ações</h4> }
+                            <div class="text-center bubble-item">
+                                <a href="@Session["urlBase"]/HorarioEntrega/AtivarDiaFuncionamento/@diasFuncionamento.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-check"></i></a>
+                                <a href="@Session["urlBase"]/HorarioEntrega/ExcluirDiaFuncionamento/@diasFuncionamento.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+            }
+
+
         }
     </div>
 </div>
