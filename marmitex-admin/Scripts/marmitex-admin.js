@@ -20,19 +20,37 @@ function drag(ev) {
  * @param {any} ev ev
  */
 function dropEntregue(ev) {
-    alert('entregue');
+    //captura o id do objeto que foi dropado aqui
+    ev.preventDefault();
+    var nomeDiv = ev.dataTransfer.getData("text");
 
     //faz um post no endpoint de pedidos para setar como entregue
-    $.post("/Pedido/AtualizarStatusPedido",
-        {
-            IdPedido: 1,
-            IdStatusPedido: 1
-        });
+    var trataIdPedido = nomeDiv.split('/');
+    var tamVet = trataIdPedido.length-1;
 
+    var dadosPedido = new Object();
+    dadosPedido.IdPedido = trataIdPedido[tamVet];
+    dadosPedido.IdStatusPedido = 1;
 
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
+    var urlPost = "/Pedido/AtualizarStatusPedido";
+    var dadosPedidoJson = JSON.stringify(dadosPedido, null, 0);
+
+    $.post(urlPost, { dadosJson: dadosPedidoJson },
+        function (data) {
+            if (data == "erro") {
+                swal(
+                    'Oops...',
+                    'não foi possível atualizar o pedido para entregue. por favor, tente novamente ou entre em contato com o administrador',
+                    'error'
+                )
+            }
+            else {
+                //ev.target.appendChild(document.getElementById(nomeDiv));
+                //recarrega o html da página
+                window.location.reload();
+            }
+        }
+    );
 }
 
 /**
@@ -41,19 +59,37 @@ function dropEntregue(ev) {
  * @param {any} ev ev
  */
 function dropFila(ev) {
-    alert('fila');
-
-    //faz um post no endpoint de pedidos para setar como "na fila"
-    $.post("/Pedido/AtualizarStatusPedido",
-        {
-            IdPedido: 1,
-            IdStatusPedido: 0
-        });
-
-
+    //captura o id do objeto que foi dropado aqui
     ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
+    var nomeDiv = ev.dataTransfer.getData("text");
+
+    //faz um post no endpoint de pedidos para setar como fila
+    var trataIdPedido = nomeDiv.split('/');
+    var tamVet = trataIdPedido.length - 1;
+
+    var dadosPedido = new Object();
+    dadosPedido.IdPedido = trataIdPedido[tamVet];
+    dadosPedido.IdStatusPedido = 0;
+
+    var urlPost = "/Pedido/AtualizarStatusPedido";
+    var dadosPedidoJson = JSON.stringify(dadosPedido, null, 0);
+
+    $.post(urlPost, { dadosJson: dadosPedidoJson },
+        function (data) {
+            if (data == "erro") {
+                swal(
+                    'Oops...',
+                    'não foi possível voltar o pedido para fila. por favor, tente novamente ou entre em contato com o administrador',
+                    'error'
+                )
+            }
+            else {
+                //ev.target.appendChild(document.getElementById(nomeDiv));
+                //recarrega o html da página
+                window.location.reload();
+            }
+        }
+    );
 }
 
 /**
@@ -68,35 +104,47 @@ function dropCancelado(ev) {
     var nomeDiv = ev.dataTransfer.getData("text");
 
     //faz um post no endpoint de pedidos para setar como cancelado
+    var trataIdPedido = nomeDiv.split('/');
+    var tamVet = trataIdPedido.length - 1;
+
     var dadosPedido = new Object();
-    dadosPedido.IdPedido = nomeDiv.replace('drag_', '');
+    dadosPedido.IdPedido = trataIdPedido[tamVet];
     dadosPedido.IdStatusPedido = 2;
 
     var urlPost = "/Pedido/AtualizarStatusPedido";
     var dadosPedidoJson = JSON.stringify(dadosPedido, null, 0);
 
-    $.post(urlPost, { dadosJson: dadosPedidoJson },
-        function (data) {
-            if (data == "erro") {
-                swal(
-                    'Oops...',
-                    'não foi possível cancelar o pedido. por favor, tente novamente ou entre em contato com o administrador',
-                    'error'
-                )
+    swal({
+        title: 'Confirma o cancelamento do pedido?',
+        text: "Ao cancelar, o cliente será notificado.",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#f9',
+        cancelButtonColor: '#f9',
+        cancelButtonText: 'Voltar',
+        confirmButtonText: 'Sim, cancelar!'
+    }).then(function () {
+        $.post(urlPost, { dadosJson: dadosPedidoJson },
+            function (data) {
+                if (data == "erro") {
+                    swal(
+                        'Oops...',
+                        'não foi possível cancelar o pedido. por favor, tente novamente ou entre em contato com o administrador',
+                        'error'
+                    )
+                }
+                else {
+                    //ev.target.appendChild(document.getElementById(nomeDiv));
+                    //recarrega o html da página
+                    window.location.reload();
+                }
             }
-            else {
-                ev.target.appendChild(document.getElementById(nomeDiv));
-            }
-        }
-    );
+        );
+
+    });
+
+
 }
-
-
-
-
-
-
-
 
 
 //mascaras

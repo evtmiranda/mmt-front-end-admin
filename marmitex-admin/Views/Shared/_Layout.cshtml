@@ -16,8 +16,11 @@
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 
-    <script src="~/Scripts/sweetalert.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="~/Content/sweetalert.css">
+    @*<script src="~/Scripts/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/sweetalert.css">*@
+
+    <script src="https://cdn.jsdelivr.net/sweetalert2/6.6.0/sweetalert2.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.6.0/sweetalert2.css">
 
     <script src="~/Scripts/marmitex-admin.js"></script>
 
@@ -44,7 +47,7 @@
                             }
                             else
                             {
-                                ClassesMarmitex.Usuario usuarioLogado = (ClassesMarmitex.Usuario)Session["usuarioLogado"];
+                                ClassesMarmitex.UsuarioLoja usuarioLogado = (ClassesMarmitex.UsuarioLoja)Session["usuarioLogado"];
 
                                 string nomeUsuario = usuarioLogado.Apelido != null ? usuarioLogado.Apelido : usuarioLogado.Nome;
 
@@ -81,7 +84,12 @@
                         <div class="profile-sidebar">
                             <!-- SIDEBAR USERPIC -->
                             <div class="profile-userpic">
-                                <img src="~/Images/Spoleto.png" class="img-responsive" alt="logo">
+                                @if (Session["usuarioLogado"] != null)
+                                {
+                                    ClassesMarmitex.UsuarioLoja usuarioLogado = (ClassesMarmitex.UsuarioLoja)Session["usuarioLogado"];
+                                    <img src="~/Images/@usuarioLogado.IdLoja/@usuarioLogado.Imagem" class="img-responsive" alt="logo">
+                                }
+
                             </div>
                             <!-- END SIDEBAR USERPIC -->
                             <!-- SIDEBAR USER TITLE -->
@@ -165,17 +173,17 @@
 
 
     @*<script>
-        (function ($) {
-            $(document).ready(function () {
-                $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    $(this).parent().siblings().removeClass('open');
-                    $(this).parent().toggleClass('open');
+            (function ($) {
+                $(document).ready(function () {
+                    $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        $(this).parent().siblings().removeClass('open');
+                        $(this).parent().toggleClass('open');
+                    });
                 });
-            });
-        })(jQuery);
-    </script>*@
+            })(jQuery);
+        </script>*@
 
 </body>
 </html>

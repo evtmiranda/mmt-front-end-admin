@@ -1,9 +1,8 @@
 ﻿@model IList<ClassesMarmitex.Pedido>
 
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+<head>
+    <meta http-equiv="refresh" content="30">
+</head>
 
 <script>
 
@@ -24,14 +23,16 @@
 
                     @foreach (var pedido in Model.Where(p => p.PedidoStatus.IdStatus == 0))
                     {
-                        <div id="drag_@pedido.Id" class="board-pedido-item" draggable="true" ondragstart="drag(event)">
-                            <a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
+                        <div id="drag/@pedido.Id" class="board-pedido-item" draggable="true" ondragstart="drag(event)">
+                            <a href="drag/@pedido.Id" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
                                 <p>
                                     <strong>Hr de entrega:</strong> às @pedido.DataEntrega.ToString("HH:mm") hrs
                                     <br />
                                     <strong>Cliente:</strong> @pedido.Cliente.Nome
                                     <br />
                                     <strong>Parceiro:</strong> @pedido.Parceiro.Nome
+                                    <br />
+                                    <strong>ID Pedido:</strong> @pedido.Id
                                 </p>
                             </a>
                         </div>
@@ -47,13 +48,15 @@
 
                     @foreach (var pedido in Model.Where(p => p.PedidoStatus.IdStatus == 1))
                     {
-                        <div id="drag_@pedido.Id" class="board-pedido-item" draggable="true" ondragstart="drag(event)">
-                            <a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
+                        <div id="drag/@pedido.Id" class="board-pedido-item" draggable="true" ondragstart="drag(event)">
+                            <a href="drag/@pedido.Id" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
                                 <strong>Hr de entrega:</strong> às @pedido.DataEntrega.ToString("HH:mm") hrs
                                 <br />
                                 <strong>Cliente:</strong> @pedido.Cliente.Nome
                                 <br />
                                 <strong>Parceiro:</strong> @pedido.Parceiro.Nome
+                                <br />
+                                <strong>ID Pedido:</strong> @pedido.Id
                             </a>
                             <p></p>
                         </div>
@@ -70,13 +73,15 @@
 
                     @foreach (var pedido in Model.Where(p => p.PedidoStatus.IdStatus == 2))
                     {
-                        <div id="drag_@pedido.Id" class="board-pedido-item" draggable="true" ondragstart="drag(event)">
-                            <a href="#" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
+                        <div id="drag/@pedido.Id" class="board-pedido-item" draggable="true" ondragstart="drag(event)">
+                            <a href="drag/@pedido.Id" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
                                 <strong>Hr de entrega:</strong> às @pedido.DataEntrega.ToString("HH:mm") hrs
                                 <br />
                                 <strong>Cliente:</strong> @pedido.Cliente.Nome
                                 <br />
                                 <strong>Parceiro:</strong> @pedido.Parceiro.Nome
+                                <br />
+                                <strong>ID Pedido:</strong> @pedido.Id
                             </a>
                             <p></p>
                         </div>
@@ -128,7 +133,7 @@
                                             if (p.Produto.DadosAdicionaisProdutos.Sum(adicional => adicional.ItensAdicionais.Sum(item => item.Qtd)) > 0)
                                             {
                                                 <div class="col-md-11 border-pedido-mmt">
-                                                    <p><span class="badge">1</span> @p.Produto.Nome R$@p.ValorTotal</p>
+                                                    <p><span class="badge">1</span> @p.Produto.Nome R$@p.ValorTotal.ToString("F")</p>
                                                     @foreach (var adicional in p.Produto.DadosAdicionaisProdutos)
                                                     {
                                                         <p class="vermelho-marmitex">@adicional.Nome</p>
@@ -153,7 +158,7 @@
                                             else
                                             {
                                                 <div class="col-md-11 border-pedido-mmt">
-                                                    <p><span class="badge">@p.Quantidade</span> @p.Produto.Nome R$ @p.ValorTotal</p>
+                                                    <p><span class="badge">@p.Quantidade</span> @p.Produto.Nome R$ @p.ValorTotal.ToString("F")</p>
                                                 </div>
                                             }
                                         }

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -51,6 +52,10 @@ namespace marmitex_admin.Controllers
                 string jsonPedidos = retornoRequest.objeto.ToString();
 
                 listaMenuCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
+
+                //monta a sessão com o caminho das imagens dos produtos
+                string caminhoImagem = "http://" + usuarioLogado.UrlLoja + ":45237/Images/" + usuarioLogado.UrlLoja;
+                Session["CaminhoImagem"] = caminhoImagem;
 
                 //retorna para a view "Index" com os cardápios
                 return View(listaMenuCardapio);
@@ -133,10 +138,9 @@ namespace marmitex_admin.Controllers
                 if (file != null)
                 {
                     string pic = System.IO.Path.GetFileName(file.FileName);
-                    string path = System.IO.Path.Combine(
-                                           Server.MapPath("~/Images/" + usuarioLogado.IdLoja + "/"), pic);
+                    string path = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/" + pic;
 
-                    string caminhoPasta = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory.ToString()) + "/Images/" + usuarioLogado.IdLoja + "/";
+                    string caminhoPasta = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/";
 
                     //se o diretório ainda não existir, cria um novo
                     if (!Directory.Exists(caminhoPasta))
@@ -145,7 +149,7 @@ namespace marmitex_admin.Controllers
                     //salva a imagem na pasta
                     file.SaveAs(path);
 
-                    //seta o nome da imagem no produto
+                    //seta o nome e caminho da imagem no produto
                     produto.Imagem = pic;
                 }
 

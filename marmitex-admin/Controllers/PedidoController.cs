@@ -73,11 +73,22 @@ namespace marmitex_admin.Controllers
 
         public string AtualizarStatusPedido(string dadosJson)
         {
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return "erro";
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
             DadosAtualizarStatusPedido dadosAtualizarPedido = new DadosAtualizarStatusPedido();
             dadosAtualizarPedido = JsonConvert.DeserializeObject<DadosAtualizarStatusPedido>(dadosJson);
 
             //variável para armazenar o retorno da api
-            DadosRequisicaoRest retornoAutenticacao = new DadosRequisicaoRest();
+            DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
 
             //tratamento de erros
             try
@@ -86,10 +97,10 @@ namespace marmitex_admin.Controllers
                 string urlPost = string.Format("/Pedido/AtualizarStatusPedido/{0}", usuarioLogado.IdLoja);
 
                 //realiza o post passando o usuário no body
-                retornoAutenticacao = rest.Post(urlPost, dadosAtualizarPedido);
+                retornoRequest = rest.Post(urlPost, dadosAtualizarPedido);
 
                 //se o status não for OK, uma exception é lançada e sera exibida na tela via alert
-                if (retornoAutenticacao.HttpStatusCode != HttpStatusCode.OK)
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
                     return "erro";
 
                 return "sucesso";
