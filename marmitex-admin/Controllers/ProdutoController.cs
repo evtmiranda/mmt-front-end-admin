@@ -138,9 +138,9 @@ namespace marmitex_admin.Controllers
                 if (file != null)
                 {
                     string pic = System.IO.Path.GetFileName(file.FileName);
-                    string path = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/" + pic;
+                    string caminhoPasta = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/Produtos/";
 
-                    string caminhoPasta = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/";
+                    string path = caminhoPasta + pic;
 
                     //se o diretório ainda não existir, cria um novo
                     if (!Directory.Exists(caminhoPasta))
@@ -346,10 +346,9 @@ namespace marmitex_admin.Controllers
                 if (file != null)
                 {
                     string pic = System.IO.Path.GetFileName(file.FileName);
-                    string path = System.IO.Path.Combine(
-                                           Server.MapPath("~/Images/" + usuarioLogado.IdLoja + "/"), pic);
+                    string caminhoPasta = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/Produtos/";
 
-                    string caminhoPasta = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory.ToString()) + "/Images/" + usuarioLogado.IdLoja + "/";
+                    string path = caminhoPasta + pic;
 
                     //se o diretório ainda não existir, cria um novo
                     if (!Directory.Exists(caminhoPasta))

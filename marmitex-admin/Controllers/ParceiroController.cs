@@ -429,7 +429,7 @@ namespace marmitex_admin.Controllers
             #endregion
         }
 
-        public void ExcluirBrindeParceiro(int id)
+        public string ExcluirBrindeParceiro(int id)
         {
             try
             {
@@ -439,7 +439,7 @@ namespace marmitex_admin.Controllers
                 if (Session["UsuarioLogado"] != null)
                     usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
                 else
-                    return;
+                    return "erro";
 
                 #endregion
 
@@ -457,11 +457,13 @@ namespace marmitex_admin.Controllers
 
                 //se o parceiro não for atualizado
                 if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                    ViewBag.MensagemExcluirBrinde = "não foi possível excluir o brinde. por favor, tente novamente";
+                    return "erro";
+
+                return "sucesso";
             }
             catch (Exception)
             {
-                ViewBag.MensagemExcluirBrinde = "não foi possível excluir o brinde. por favor, tente novamente";
+                return "erro";
             }
         }
 

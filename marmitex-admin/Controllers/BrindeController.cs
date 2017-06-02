@@ -100,9 +100,9 @@ namespace marmitex_admin.Controllers
                 if (file != null)
                 {
                     string pic = System.IO.Path.GetFileName(file.FileName);
-                    string path = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/" + pic;
+                    string caminhoPasta = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/Brindes/";
 
-                    string caminhoPasta = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/";
+                    string path = caminhoPasta + pic;
 
                     //se o diretório ainda não existir, cria um novo
                     if (!Directory.Exists(caminhoPasta))
@@ -173,7 +173,7 @@ namespace marmitex_admin.Controllers
             return View(brinde);
         }
 
-        public ActionResult EditarBrinde(Brinde brindeCadastro)
+        public ActionResult EditarBrinde(Brinde brindeCadastro, HttpPostedFileBase file)
         {
             #region validacao usuario logado
 
@@ -191,9 +191,28 @@ namespace marmitex_admin.Controllers
 
             try
             {
+                //recebe a imagem do brinde
+                if (file != null)
+                {
+                    string pic = System.IO.Path.GetFileName(file.FileName);
+                    string caminhoPasta = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/Brindes/";
+
+                    string path = caminhoPasta + pic;
+
+                    //se o diretório ainda não existir, cria um novo
+                    if (!Directory.Exists(caminhoPasta))
+                        Directory.CreateDirectory(caminhoPasta);
+
+                    //salva a imagem na pasta
+                    file.SaveAs(path);
+
+                    //seta o nome e caminho da imagem no brinde
+                    brindeCadastro.Imagem = pic;
+                }
 
                 Brinde brinde = new Brinde
                 {
+                    Id = brindeCadastro.Id,
                     Nome = brindeCadastro.Nome,
                     IdLoja = usuarioLogado.IdLoja,
                     Descricao = brindeCadastro.Descricao,
