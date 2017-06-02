@@ -1,0 +1,83 @@
+﻿@model List<ClassesMarmitex.Brinde>
+
+<div class="profile-content-backfull">
+    <row>
+        <h1 class="text-left">@Model[0].Nome</h1>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-globe"></i>
+                <a href="@Session["urlBase"]/Home">Inicio</a>
+            </li>
+            <li>
+                <i class="fa fa-shopping-cart"></i>
+                <a href="@Session["urlBase"]/Parceiro/">Parceiros</a>
+            </li>
+            <li>
+                <i class="fa fa-bars"></i>
+                <a href="@Session["urlBase"]/Parceiro/Detalhes/@Model">Detalhes</a>
+            </li>
+        </ul>
+
+        <div class="text-right">
+            <a href="@Session["urlBase"]/Parceiro/AdicionarBrinde/" class="btn btn-success">adicionar brinde parceiro</a>
+        </div>
+        <hr />
+
+        <div class="col-md-12">
+            <h2>Brindes</h2>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>nome</th>
+                            <th>descrição</th>
+                            <th>imagem</th>
+                            <th>ativo</th>
+                            <th>ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var brinde in Model)
+                        {
+                            ClassesMarmitex.BrindeParceiro brindeParceiro = new ClassesMarmitex.BrindeParceiro
+                            {
+                                IdBrinde = brinde.Id,
+                                IdParceiro = Convert.ToInt32(Session["IdParceiro"])
+                            };
+
+                            if (brinde.Ativo)
+                            {
+                                <tr>
+                                    <td>@brinde.Nome</td>
+                                    <td>@brinde.Descricao</td>
+                                    <td><img src="@Session["CaminhoImagensBrindes"]/@brinde.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
+                                    <td>@(brinde.Ativo == true ? "Sim" : "Não")</td>
+                                    <td>
+                                        <button onclick="Get('@Session["urlBase"]/Parceiro/DesativarBrindeParceiro/@brinde.Id')" style="color: #E67E22" class="btn-link"><i class="glyphicon glyphicon-off"></i></button>
+                                        <a href="@Session["urlBase"]/Parceiro/ExcluirBrindeParceiro/@brinde.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr class="danger">
+                                    <td>@brinde.Nome</td>
+                                    <td>@brinde.Descricao</td>
+                                    <td><img src="@Session["CaminhoImagensBrindes"]/@brinde.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
+                                    <td>@(brinde.Ativo == true ? "Sim" : "Não")</td>
+                                    <td>
+                                        <button onclick="Get('@Session["urlBase"]/Parceiro/DesativarBrindeParceiro/@brinde.Id')" style="color: #E67E22" class="btn-link"><i class="glyphicon glyphicon-off"></i></button>
+                                        @*<a href="@Session["urlBase"]/Parceiro/DesativarBrindeParceiro/@brinde.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off"></i></a>*@
+                                        <a href="@Session["urlBase"]/Parceiro/ExcluirBrindeParceiro/@brinde.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                </table>
+            </div>
+
+        </div>
+    </row>
+</div>

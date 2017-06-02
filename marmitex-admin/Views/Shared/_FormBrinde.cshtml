@@ -1,0 +1,61 @@
+﻿@model ClassesMarmitex.Brinde
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="nome">nome brinde *</label>
+
+        @if (Model != null)
+        {
+            <input type="hidden" name="id" value="@Model.Id" />
+            <input type="text" id="nome" name="Nome" value="@Model.Nome" class="form-control" />
+        }
+        else
+        {
+            <input type="text" id="nome" name="Nome" class="form-control" />
+        }
+
+
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="descricao">descrição</label>
+
+        @if (Model != null)
+        {
+            <input type="text" id="descricao" name="Descricao" value="@Model.Descricao" class="form-control" />
+        }
+        else
+        {
+            <input type="text" id="descricao" name="Descricao" class="form-control" />
+        }
+
+
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group">
+
+        <label for="file">imagem do brinde *</label>
+
+        @if (Model != null)
+        {
+            <input type="file" name="file" id="file" value="@Model.Imagem" />
+        }
+        else
+        {
+            <input type="file" name="file" id="file" onclick="ValidarImagem()" />
+        }
+
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group">
+        <div class="checkbox">
+            <label>
+                @Html.CheckBox("Ativo", true)
+                brinde ativo?
+            </label>
+        </div>
+    </div>
+</div>

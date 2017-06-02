@@ -146,6 +146,25 @@ function dropCancelado(ev) {
 
 }
 
+function Get(url) {
+    $.get(url, function (data) {
+        if (data == "erro") {
+            swal(
+                'Oops...',
+                'Ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador',
+                'error'
+            )
+        }
+        else {
+            //recarrega o html da página
+            window.location.reload();
+        }
+    })
+
+    $.post(dadosPost.Recurso, { dadosJson: jsonBodyPost }, function () {
+        AtualizarVisualizacaoDiv(dadosPost.ViewParcial, dadosPost.DivASerAtualizada);
+    });
+}
 
 //mascaras
 function formataMascara(campo, evt, formato) {

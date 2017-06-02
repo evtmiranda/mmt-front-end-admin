@@ -1,0 +1,31 @@
+﻿@model ClassesMarmitex.DadosBrindeParceiro
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="brinde">brinde *</label>
+
+        <input type="hidden" name="IdParceiro" value="@Model.IdParceiro" />
+
+        <select class="form-control" name="IdBrinde">
+            <option value="0" selected>escolher brinde...</option>
+
+            @if (Model != null)
+            {
+                foreach (ClassesMarmitex.Brinde brinde in Model.Brindes)
+                {
+                    <option value="@brinde.Id">@brinde.Nome</option>
+                }
+            }
+        </select>
+
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="ativo">brinde ativo?</label>
+
+        @Html.CheckBox("Ativo", true)
+
+    </div>
+</div>

@@ -54,7 +54,7 @@ namespace marmitex_admin.Controllers
                 listaMenuCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
 
                 //monta a sessão com o caminho das imagens dos produtos
-                string caminhoImagem = "http://" + usuarioLogado.UrlLoja + ":45237/Images/" + usuarioLogado.UrlLoja;
+                string caminhoImagem = "http://" + usuarioLogado.UrlLoja + ":45237/Images/" + usuarioLogado.UrlLoja + "/Produtos/";
                 Session["CaminhoImagem"] = caminhoImagem;
 
                 //retorna para a view "Index" com os cardápios

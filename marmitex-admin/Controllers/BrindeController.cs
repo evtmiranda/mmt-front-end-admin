@@ -2,8 +2,10 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Configuration;
+using System.IO;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 
 namespace marmitex_admin.Controllers
@@ -38,13 +40,13 @@ namespace marmitex_admin.Controllers
 
             if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
             {
-                ViewBag.MensagemParceiros = "nenhum brinde encontrado";
+                ViewBag.MensagemBrindes = "nenhum brinde encontrado";
                 return View("Index");
             }
 
             if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
             {
-                ViewBag.MensagemParceiros = "não foi possível consultar os brindes. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                ViewBag.MensagemBrindes = "não foi possível consultar os brindes. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View("Index");
             }
 
@@ -52,8 +54,14 @@ namespace marmitex_admin.Controllers
 
             listaBrindes = JsonConvert.DeserializeObject<List<Brinde>>(jsonBrindes);
 
+            //monta a sessão com o caminho das imagens dos brindes
+            string caminhoImagem = "http://" + usuarioLogado.UrlLoja + ":45237/Images/" + usuarioLogado.UrlLoja + "/Brindes/";
+            Session["CaminhoImagensBrindes"] = caminhoImagem;
+
             return View(listaBrindes);
         }
+
+        #region brindes
 
         public ActionResult Adicionar()
         {
@@ -71,7 +79,7 @@ namespace marmitex_admin.Controllers
             return View();
         }
 
-        public ActionResult AdicionarBrinde(Brinde brindeCadastro)
+        public ActionResult AdicionarBrinde(Brinde brindeCadastro, HttpPostedFileBase file)
         {
             #region validacao usuario logado
 
@@ -88,10 +96,28 @@ namespace marmitex_admin.Controllers
 
             try
             {
+                //recebe a imagem do brinde
+                if (file != null)
+                {
+                    string pic = System.IO.Path.GetFileName(file.FileName);
+                    string path = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/" + pic;
+
+                    string caminhoPasta = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/";
+
+                    //se o diretório ainda não existir, cria um novo
+                    if (!Directory.Exists(caminhoPasta))
+                        Directory.CreateDirectory(caminhoPasta);
+
+                    //salva a imagem na pasta
+                    file.SaveAs(path);
+
+                    //seta o nome e caminho da imagem no brinde
+                    brindeCadastro.Imagem = pic;
+                }
+
                 Brinde brinde = new Brinde
                 {
                     IdLoja = usuarioLogado.IdLoja,
-                    IdParceiro = brindeCadastro.IdParceiro,
                     Nome = brindeCadastro.Nome,
                     Descricao = brindeCadastro.Descricao,
                     Imagem = brindeCadastro.Imagem,
@@ -106,13 +132,13 @@ namespace marmitex_admin.Controllers
                     return RedirectToAction("Index", "Brinde");
                 else
                 {
-                    ViewBag.MensagemBrinde = "não foi possível cadastrar o brinde. por favor, tente novamente";
+                    ViewBag.MensagemErroCadBrinde = "não foi possível cadastrar o brinde. por favor, tente novamente";
                     return View("Adicionar", brindeCadastro);
                 }
             }
             catch (Exception)
             {
-                ViewBag.MensagemBrinde = "não foi possível cadastrar o brinde. por favor, tente novamente";
+                ViewBag.MensagemErroCadBrinde = "não foi possível cadastrar o brinde. por favor, tente novamente";
                 return View("Adicionar", brindeCadastro);
             }
         }
@@ -147,7 +173,6 @@ namespace marmitex_admin.Controllers
             return View(brinde);
         }
 
-        [HttpPost]
         public ActionResult EditarBrinde(Brinde brindeCadastro)
         {
             #region validacao usuario logado
@@ -170,6 +195,7 @@ namespace marmitex_admin.Controllers
                 Brinde brinde = new Brinde
                 {
                     Nome = brindeCadastro.Nome,
+                    IdLoja = usuarioLogado.IdLoja,
                     Descricao = brindeCadastro.Descricao,
                     Imagem = brindeCadastro.Imagem,
                     Ativo = brindeCadastro.Ativo
@@ -234,5 +260,47 @@ namespace marmitex_admin.Controllers
                 return View("Index");
             }
         }
+
+        public ActionResult Desativar(int id)
+        {
+            try
+            {
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                Brinde brinde = new Brinde
+                {
+                    Id = id,
+                    IdLoja = usuarioLogado.IdLoja
+                };
+
+                string urlPost = string.Format("/Brinde/Desativar");
+
+                retornoRequest = rest.Post(urlPost, brinde);
+
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemDesativarBrinde = "não foi possível desativar o brinde. por favor, tente novamente";
+                    return View("Index");
+                }
+
+                return RedirectToAction("Index", "Brinde");
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemDesativarBrinde = "não foi possível desativar o brinde. por favor, tente novamente";
+                return View("Index");
+            }
+        }
+
+        #endregion
     }
 }

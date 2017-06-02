@@ -224,6 +224,13 @@
     <Content Include="Views\Shared\_FormHorarioEntrega.cshtml" />
     <Content Include="Views\HorarioEntrega\Editar.cshtml" />
     <Content Include="Views\HorarioEntrega\EditarTempoAntecedencia.cshtml" />
+    <Content Include="Views\Brinde\Index.cshtml" />
+    <Content Include="Views\Brinde\Editar.cshtml" />
+    <Content Include="Views\Shared\_FormBrinde.cshtml" />
+    <Content Include="Views\Brinde\Adicionar.cshtml" />
+    <Content Include="Views\Parceiro\Detalhes.cshtml" />
+    <Content Include="Views\Parceiro\AdicionarBrinde.cshtml" />
+    <Content Include="Views\Shared\_FormBrindeParceiro.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -235,7 +242,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Brinde\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

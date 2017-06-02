@@ -203,7 +203,6 @@ namespace marmitex_admin.Controllers
             return View(parceiroCadastro);
         }
 
-        [HttpPost]
         public ActionResult EditarParceiro(ParceiroCadastro parceiroCadastro)
         {
             #region validacao usuario logado
@@ -312,5 +311,197 @@ namespace marmitex_admin.Controllers
                 return View("Index");
             }
         }
+
+        public ActionResult Detalhes(int id)
+        {
+            try
+            {
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region busca os brindes
+
+                List<Brinde> listaBrindes = new List<Brinde>();
+
+                //busca todos os brindes do parceiro
+                retornoRequest = rest.Get(string.Format("/BrindeParceiro/ListarPorParceiro/{0}/{1}", id, usuarioLogado.IdLoja));
+
+                string jsonRetorno = retornoRequest.objeto.ToString();
+
+                listaBrindes = JsonConvert.DeserializeObject<List<Brinde>>(jsonRetorno);
+
+                Session["IdParceiro"] = id;
+
+                #endregion
+
+                return View(listaBrindes);
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemPedidos = "não foi possível exibir detalhes do parceiro. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                return View("Index");
+            }
+        }
+
+        #region brindes parceiros
+
+        public ActionResult AdicionarBrinde()
+        {
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            #region busca os brindes
+
+            List<Brinde> listaBrindes = new List<Brinde>();
+
+            Int32.TryParse(Session["IdParceiro"].ToString(), out int idParceiro);
+
+            //busca todos os produtos adicionais da loja
+            retornoRequest = rest.Get(string.Format("/Brinde/ListarPorLoja/{0}", usuarioLogado.IdLoja));
+
+            //Session["IdParceiro"] = null;
+
+            string json = retornoRequest.objeto.ToString();
+
+            listaBrindes = JsonConvert.DeserializeObject<List<Brinde>>(json);
+
+            DadosBrindeParceiro dadosBrindeParceiro = new DadosBrindeParceiro
+            {
+                Brindes = listaBrindes,
+                IdParceiro = idParceiro
+            };
+
+            //ViewBag.ProdutosAdicionais = listaDadosProdutoAdicional;
+
+            #endregion
+
+            return View(dadosBrindeParceiro);
+        }
+
+        public ActionResult AdicionarBrindeParceiro(DadosBrindeParceiro dadosBrindeParceiro)
+        {
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            #region cadastra o brinde para o parceiro
+
+            string urlPost = "/BrindeParceiro/Adicionar";
+
+            //seta a loja
+            dadosBrindeParceiro.IdLoja = usuarioLogado.IdLoja;
+
+            retornoRequest = rest.Post(urlPost, dadosBrindeParceiro);
+
+            //se o brinde for cadastrado, direciona para a tela de visualização de brindes do parceiro
+            if (retornoRequest.HttpStatusCode == HttpStatusCode.Created)
+            {
+                ViewBag.MensagemErroCadBrindeParceiro = null;
+                return RedirectToAction("Detalhes", "Parceiro", new { id = dadosBrindeParceiro.IdParceiro });
+            }
+
+            ViewBag.MensagemErroCadBrindeParceiro = "não foi possível cadastrar o brinde. por favor, tente novamente";
+            return View("Adicionar", dadosBrindeParceiro);
+
+            #endregion
+        }
+
+        public void ExcluirBrindeParceiro(int id)
+        {
+            try
+            {
+                #region validacao usuario logado
+
+                //recebe o usuário logado
+                if (Session["UsuarioLogado"] != null)
+                    usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+                else
+                    return;
+
+                #endregion
+
+                //busca os dados do brinde
+                BrindeParceiro brindeParceiro = new BrindeParceiro
+                {
+                    Id = id,
+                    IdLoja = usuarioLogado.IdLoja
+                };
+
+                //inativa o parceiro
+                string urlPost = string.Format("/BrindeParceiro/Excluir");
+
+                retornoRequest = rest.Post(urlPost, brindeParceiro);
+
+                //se o parceiro não for atualizado
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                    ViewBag.MensagemExcluirBrinde = "não foi possível excluir o brinde. por favor, tente novamente";
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemExcluirBrinde = "não foi possível excluir o brinde. por favor, tente novamente";
+            }
+        }
+
+        public string DesativarBrindeParceiro(int id)
+        {
+            try
+            {
+                #region validacao usuario logado
+
+                //recebe o usuário logado
+                if (Session["UsuarioLogado"] != null)
+                    usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+                else
+                    return "erro";
+
+                #endregion
+
+                //busca os dados do brinde
+                BrindeParceiro brindeParceiro = new BrindeParceiro
+                {
+                    Id = id,
+                    IdLoja = usuarioLogado.IdLoja
+                };
+
+                //inativa o parceiro
+                string urlPost = string.Format("/BrindeParceiro/Desativar");
+
+                retornoRequest = rest.Post(urlPost, brindeParceiro);
+
+                //se o parceiro não for atualizado
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                    return "erro";
+
+                return "sucesso";
+            }
+            catch (Exception)
+            {
+                return "erro";
+            }
+        }
+        #endregion
     }
 }

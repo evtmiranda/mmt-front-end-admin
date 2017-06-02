@@ -52,7 +52,11 @@
                             @foreach (var parceiro in Model)
                             {
                                 <tr>
-                                    <td>@parceiro.Nome</td>
+                                    <td>
+                                        <a href="@Session["urlBase"]/Parceiro/Detalhes/@parceiro.Id" title="ver detalhes">
+                                            @parceiro.Nome
+                                        </a>
+                                    </td>
                                     <td>@parceiro.Descricao</td>
                                     <td>@parceiro.Endereco.Logradouro, @parceiro.Endereco.NumeroEndereco - @parceiro.Endereco.Bairro</td>
                                     <td>@parceiro.Codigo</td>

@@ -1,0 +1,43 @@
+﻿@model ClassesMarmitex.Brinde
+
+<div class="profile-content-backfull">
+    <h2>Editar brinde</h2>
+    <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
+    <div class="col-md-10">
+        <form method="post" action="@Session["urlBase"]/Brinde/EditarBrinde" enctype="multipart/form-data">
+
+            @Html.Partial("_FormBrinde")
+
+            @*se houver alguma mensagem de erro na edição do brinde, lança um alert com a mensagem*@
+            @if (ViewBag.MensagemEditarBrinde != null)
+            {
+                <script>
+                    swal(
+                        'Oops...',
+                        '@ViewBag.MensagemEditarBrinde',
+                        'error'
+                    );
+                </script>
+            }
+
+            @if (ViewBag.MensagemDesativarBrinde != null)
+            {
+                <script>
+                    swal(
+                        'Oops...',
+                        '@ViewBag.MensagemDesativarBrinde',
+                        'error'
+                    );
+                </script>
+            }
+
+
+            <div class="col-md-12">
+                <div class="buttons-formcontrol">
+                    <input type="submit" class="btn btn-success" value="salvar" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
