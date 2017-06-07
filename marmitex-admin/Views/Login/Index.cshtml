@@ -26,16 +26,16 @@
                         <label for="email">e-mail:</label>
                         @if (@Session["usuarioLogin"] != null)
                         {
-                            <input type="email" class="form-control" id="email" name="Email" value="@usuarioLogin.Email">
+                            <input type="email" class="form-control" id="email" name="Email" required value="@usuarioLogin.Email">
                         }
                         else
                         {
-                            <input type="email" class="form-control" id="email" name="Email">
+                            <input type="email" class="form-control" id="email" name="Email" required>
                         }
                     </div>
                     <div class="form-group">
                         <label for="pwd">senha:</label>
-                        <input type="password" class="form-control" id="pwd" name="Senha" value="@usuarioLogin.Senha">
+                        <input type="password" class="form-control" id="pwd" name="Senha" required value="@usuarioLogin.Senha">
                     </div>
                     <div class="checkbox">
                         <label><input type="checkbox"> lembrar minha senha</label>

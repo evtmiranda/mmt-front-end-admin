@@ -1,6 +1,7 @@
 ﻿@model ClassesMarmitex.DadosProdutoAdicional
 
 <div class="profile-content-backfull">
+    @if(Model != null) { 
     <row>
         <h1 class="text-left">@Model.Nome</h1>
 
@@ -60,4 +61,5 @@
             </div>
         </div>
     </row>
+    }
 </div>

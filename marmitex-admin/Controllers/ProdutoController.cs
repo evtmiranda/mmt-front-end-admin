@@ -266,12 +266,56 @@ namespace marmitex_admin.Controllers
                     return View("Index");
                 }
 
-                //se o produto for inativado, direciona para a tela de visualização de parceiros
+                //se o produto for inativado, direciona para a tela de visualização de produtos
                 return RedirectToAction("Index", "Produto");
             }
             catch (Exception)
             {
                 ViewBag.MensagemExcluirParceiro = "não foi possível excluir o produto. por favor, tente novamente";
+                return View("Index");
+            }
+        }
+
+        public ActionResult Desativar(int id)
+        {
+            try
+            {
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                Produto produto = new Produto()
+                {
+                    Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
+                    Ativo = false
+                };
+
+                //inativa o parceiro
+                string urlPost = "/Produto/Desativar";
+
+                retornoRequest = rest.Post(urlPost, produto);
+
+                //se o parceiro não for atualizado
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemExcluirParceiro = "não foi possível desativar o produto. por favor, tente novamente";
+                    return View("Index");
+                }
+
+                //se o produto for inativado, direciona para a tela de visualização de produtos
+                return RedirectToAction("Index", "Produto");
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemExcluirParceiro = "não foi possível desativar o produto. por favor, tente novamente";
                 return View("Index");
             }
         }

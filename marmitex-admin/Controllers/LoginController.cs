@@ -45,6 +45,13 @@
                 return View("Index");
             }
 
+            if(string.IsNullOrEmpty(usuario.Email) || string.IsNullOrEmpty(usuario.Senha))
+            {
+                ViewBag.MensagemAutenticacao = "preencha o login e senha";
+                return View("Index");
+            }
+
+
             string dominioLoja = Session["dominioLoja"].ToString();
 
             DadosRequisicaoRest retornoAutenticacao = new DadosRequisicaoRest();

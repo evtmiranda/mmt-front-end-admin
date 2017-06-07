@@ -48,7 +48,7 @@ namespace marmitex_admin.Controllers
                 listaDadosProdutoAdicional = JsonConvert.DeserializeObject<List<DadosProdutoAdicional>>(jsonPedidos);
 
                 //filtra somente os produtos adicionais ativos
-                listaDadosProdutoAdicional = listaDadosProdutoAdicional.Where(p => p.Ativo).ToList();
+                //listaDadosProdutoAdicional = listaDadosProdutoAdicional.Where(p => p.Ativo).ToList();
 
                 //retorna para a view "Index" com os produtos adicionais
                 return View(listaDadosProdutoAdicional);
@@ -267,6 +267,49 @@ namespace marmitex_admin.Controllers
             }
         }
 
+        public ActionResult Desativar(int id)
+        {
+            try
+            {
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                DadosProdutoAdicional produtoAdicional = new DadosProdutoAdicional()
+                {
+                    Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
+                    Ativo = false
+                };
+
+                //inativa o parceiro
+                string urlPost = "/ProdutoAdicional/Desativar";
+
+                retornoRequest = rest.Post(urlPost, produtoAdicional);
+
+                //se o parceiro não for atualizado
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemExcluirProdutoAdicional = "não foi possível desativar o produto adicional. por favor, tente novamente";
+                    return View("Index");
+                }
+
+                return RedirectToAction("Index", "ProdutoAdicional");
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemExcluirProdutoAdicional = "não foi possível desativar o produto adicional. por favor, tente novamente";
+                return View("Index");
+            }
+        }
+
         #region itens dos produtos adicionais
 
         public ActionResult AdicionarItem(int id)
@@ -358,6 +401,49 @@ namespace marmitex_admin.Controllers
             catch (Exception)
             {
                 ViewBag.MensagemExcluirProdutoAdicional = "não foi possível excluir o item. por favor, tente novamente";
+                return View("Index");
+            }
+        }
+
+        public ActionResult DesativarItem(int id)
+        {
+            try
+            {
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                DadosProdutoAdicionalItem item = new DadosProdutoAdicionalItem()
+                {
+                    Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
+                    Ativo = false
+                };
+
+                //inativa o parceiro
+                string urlPost = "/ProdutoAdicional/DesativarItem";
+
+                retornoRequest = rest.Post(urlPost, item);
+
+                //se o parceiro não for atualizado
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemExcluirProdutoAdicional = "não foi possível desativar o item. por favor, tente novamente";
+                    return View("Index");
+                }
+
+                return RedirectToAction("Index", "ProdutoAdicional");
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemExcluirProdutoAdicional = "não foi possível desativar o item. por favor, tente novamente";
                 return View("Index");
             }
         }

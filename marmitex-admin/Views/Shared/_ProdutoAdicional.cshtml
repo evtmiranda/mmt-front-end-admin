@@ -25,6 +25,7 @@
                 <tr>
                     <th>nome</th>
                     <th>descrição</th>
+                    <th>ativo</th>
                     <th>ações</th>
                 </tr>
             </thead>
@@ -33,19 +34,40 @@
                 {
                     foreach (var prodAdicional in Model)
                     {
-                        <tr>
-
-                            <td>
-                                <a href="@Session["urlBase"]/ProdutoAdicional/Detalhes/@prodAdicional.Id" title="ver detalhes">
-                                    @prodAdicional.Nome
-                                </a>
-                            </td>
-                            <td>@prodAdicional.Descricao</td>
-                            <td>
-                                <a href="@Session["urlBase"]/ProdutoAdicional/Editar/@prodAdicional.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                <a href="@Session["urlBase"]/ProdutoAdicional/Excluir/@prodAdicional.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                            </td>
-                        </tr>
+                        if (prodAdicional.Ativo)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Session["urlBase"]/ProdutoAdicional/Detalhes/@prodAdicional.Id" title="ver detalhes">
+                                        @prodAdicional.Nome
+                                    </a>
+                                </td>
+                                <td>@prodAdicional.Descricao</td>
+                                <td>@(prodAdicional.Ativo == true ? "Sim" : "Não")</td>
+                                <td>
+                                    <a href="@Session["urlBase"]/ProdutoAdicional/Editar/@prodAdicional.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit" title="Editar"></i></a>
+                                    <a href="@Session["urlBase"]/ProdutoAdicional/Desativar/@prodAdicional.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off" title="Desativar"></i></a>
+                                    <a href="@Session["urlBase"]/ProdutoAdicional/Excluir/@prodAdicional.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove" title="Excluir"></i></a>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr class="danger">
+                                <td>
+                                    <a href="@Session["urlBase"]/ProdutoAdicional/Detalhes/@prodAdicional.Id" title="ver detalhes">
+                                        @prodAdicional.Nome
+                                    </a>
+                                </td>
+                                <td>@prodAdicional.Descricao</td>
+                                <td>@(prodAdicional.Ativo == true ? "Sim" : "Não")</td>
+                                <td>
+                                    <a href="@Session["urlBase"]/ProdutoAdicional/Editar/@prodAdicional.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a href="@Session["urlBase"]/ProdutoAdicional/Desativar/@prodAdicional.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off"></i></a>
+                                    <a href="@Session["urlBase"]/ProdutoAdicional/Excluir/@prodAdicional.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                </td>
+                            </tr>
+                        }
                     }
                 }
             </tbody>
