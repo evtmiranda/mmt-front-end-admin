@@ -9,11 +9,11 @@
         @if (Model != null)
         {
             <input type="hidden" name="id" value="@Model.Id" />
-            <input type="text" id="nome" name="Nome" value="@Model.Nome" class="form-control" />
+            <input type="text" id="nome" name="Nome" value="@Model.Nome" class="form-control" required/>
         }
         else
         {
-            <input type="text" id="nome" name="Nome" class="form-control" />
+            <input type="text" id="nome" name="Nome" class="form-control" required/>
         }
 
     </div>
@@ -41,12 +41,12 @@
 
         @if (Model != null)
         {
-            <input type="hidden" name="IdEndereco" value="@Model.IdEndereco" />
-            <input type="text" id="cep" name="Cep" class="form-control" value="@Model.Cep" onkeyup="formataCEP(this, event)" maxlength="9" />
+            <input type="hidden" name="IdEndereco" value="@Model.IdEndereco"/>
+            <input type="text" id="cep" name="Cep" class="form-control" value="@Model.Cep" onkeyup="formataCEP(this, event)" maxlength="9" required/>
         }
         else
         {
-            <input type="text" id="cep" name="Cep" class="form-control" onkeyup="formataCEP(this, event)" maxlength="9" />
+            <input type="text" id="cep" name="Cep" class="form-control" onkeyup="formataCEP(this, event)" maxlength="9" required/>
         }
     </div>
 </div>
@@ -57,7 +57,7 @@
 
         @if (Model != null)
         {
-            <select class="form-control" id="uf" value="@Model.UF" name="UF">
+            <select class="form-control" id="uf" value="@Model.UF" name="UF" required>
                 <option>AC</option>
                 <option>AL</option>
                 <option>AP</option>
@@ -89,7 +89,7 @@
         }
         else
         {
-            <select class="form-control" id="uf" name="UF">
+            <select class="form-control" id="uf" name="UF" required>
                 <option>AC</option>
                 <option>AL</option>
                 <option>AP</option>
@@ -129,11 +129,11 @@
 
         @if (Model != null)
         {
-            <input type="text" id="cidade" name="Cidade" value="@Model.Cidade" class="form-control" />
+            <input type="text" id="cidade" name="Cidade" value="@Model.Cidade" class="form-control" required/>
         }
         else
         {
-            <input type="text" id="cidade" name="Cidade" class="form-control" />
+            <input type="text" id="cidade" name="Cidade" class="form-control" required/>
         }
 
     </div>
@@ -145,11 +145,11 @@
 
         @if (Model != null)
         {
-            <input type="text" id="bairro" name="Bairro" value="@Model.Bairro" class="form-control" />
+            <input type="text" id="bairro" name="Bairro" value="@Model.Bairro" class="form-control" required/>
         }
         else
         {
-            <input type="text" id="bairro" name="Bairro" class="form-control" />
+            <input type="text" id="bairro" name="Bairro" class="form-control" required/>
         }
 
     </div>
@@ -161,11 +161,11 @@
 
         @if (Model != null)
         {
-            <input type="text" id="logradouro" name="Logradouro" value="@Model.Logradouro" class="form-control" />
+            <input type="text" id="logradouro" name="Logradouro" value="@Model.Logradouro" class="form-control" required/>
         }
         else
         {
-            <input type="text" id="logradouro" name="Logradouro" class="form-control" />
+            <input type="text" id="logradouro" name="Logradouro" class="form-control" required/>
         }
 
 
@@ -178,11 +178,11 @@
 
         @if (Model != null)
         {
-            <input type="text" id="numeroEndereco" name="NumeroEndereco" value="@Model.NumeroEndereco" class="form-control" />
+            <input type="text" id="numeroEndereco" name="NumeroEndereco" value="@Model.NumeroEndereco" class="form-control" required/>
         }
         else
         {
-            <input type="text" id="numeroEndereco" name="NumeroEndereco" class="form-control" />
+            <input type="text" id="numeroEndereco" name="NumeroEndereco" class="form-control" required/>
         }
 
 
@@ -236,7 +236,7 @@
 <div class="col-md-12">
     <div class="form-group">
         @if (ViewBag.MensagemParceiro != null)
-            {
+        {
             <p class="vermelho-marmitex">@ViewBag.MensagemParceiro</p>
         }
 
