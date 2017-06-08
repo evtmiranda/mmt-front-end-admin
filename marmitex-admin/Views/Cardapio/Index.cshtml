@@ -21,6 +21,7 @@
                             <tr>
                                 <th>nome</th>
                                 <th>ordem de exibição</th>
+                                <th>ativo</th>
                                 <th>ações</th>
                             </tr>
                         </thead>
@@ -29,14 +30,33 @@
                             {
                                 foreach (var cardapio in Model)
                                 {
-                                <tr>
-                                    <td>@cardapio.Nome</td>
-                                    <td>@cardapio.OrdemExibicao</td>
-                                    <td>
-                                        <a href="@Session["urlBase"]/Cardapio/Editar/@cardapio.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                        <a href="@Session["urlBase"]/Cardapio/Excluir/@cardapio.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                                    </td>
-                                </tr>
+                                    if (cardapio.Ativo)
+                                    {
+                                        <tr>
+                                            <td>@cardapio.Nome</td>
+                                            <td>@cardapio.OrdemExibicao</td>
+                                            <td>@(cardapio.Ativo == true ? "Sim" : "Não")</td>
+                                            <td>
+                                                <a href="@Session["urlBase"]/Cardapio/Editar/@cardapio.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                                <a href="@Session["urlBase"]/Cardapio/Desativar/@cardapio.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off"></i></a>
+                                                <a href="@Session["urlBase"]/Cardapio/Excluir/@cardapio.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr class="danger">
+                                            <td>@cardapio.Nome</td>
+                                            <td>@cardapio.OrdemExibicao</td>
+                                            <td>@(cardapio.Ativo == true ? "Sim" : "Não")</td>
+                                            <td>
+                                                <a href="@Session["urlBase"]/Cardapio/Editar/@cardapio.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                                <a href="@Session["urlBase"]/Cardapio/Desativar/@cardapio.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off"></i></a>
+                                                <a href="@Session["urlBase"]/Cardapio/Excluir/@cardapio.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+
                                 }
                             }
                     </table>

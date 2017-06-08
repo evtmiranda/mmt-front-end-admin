@@ -59,7 +59,7 @@ namespace marmitex_admin.Controllers
             listaParceiros = JsonConvert.DeserializeObject<List<Parceiro>>(jsonParceiros);
 
             //mantém somente os parceiros ativos
-            listaParceiros = listaParceiros.Where(p => p.Ativo).ToList();
+            //listaParceiros = listaParceiros.Where(p => p.Ativo).ToList();
 
             return View(listaParceiros);
         }
@@ -308,6 +308,51 @@ namespace marmitex_admin.Controllers
             catch (Exception)
             {
                 ViewBag.MensagemExcluirParceiro = "não foi possível excluir o parceiro. por favor, tente novamente";
+                return View("Index");
+            }
+        }
+
+        public ActionResult Desativar(int id)
+        {
+            try
+            {
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                //busca os dados do parceiro
+                Parceiro parceiro = new Parceiro
+                {
+                    Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
+                    Ativo = false
+                };
+
+                //inativa o parceiro
+                string urlPost = string.Format("/Parceiro/Desativar");
+
+                retornoRequest = rest.Post(urlPost, parceiro);
+
+                //se o parceiro não for atualizado
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemExcluirParceiro = "não foi possível desativar o parceiro. por favor, tente novamente";
+                    return View("Index");
+                }
+
+                //se o parceiro for inativado, direciona para a tela de visualização de parceiros
+                return RedirectToAction("Index", "Parceiro");
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemExcluirParceiro = "não foi possível desativar o parceiro. por favor, tente novamente";
                 return View("Index");
             }
         }

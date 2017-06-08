@@ -270,5 +270,50 @@ namespace marmitex_admin.Controllers
             }
         }
 
+        public ActionResult Desativar(int id)
+        {
+            try
+            {
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                //busca os dados do cardápio
+                MenuCardapio cardapio = new MenuCardapio
+                {
+                    Id = id,
+                    IdLoja = usuarioLogado.IdLoja,
+                    Ativo = false
+                };
+
+                //inativa o cardápio
+                string urlPost = string.Format("/MenuCardapio/Desativar");
+
+                retornoRequest = rest.Post(urlPost, cardapio);
+
+                //se o cardápio não for atualizado
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemExcluirCardapio = "não foi possível desativar o cardápio. por favor, tente novamente";
+                    return View("Index");
+                }
+
+                //se o cardápio for inativado, direciona para a tela de visualização de cardápio
+                return RedirectToAction("Index", "Cardapio");
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemExcluirCardapio = "não foi possível desativar o cardápio. por favor, tente novamente";
+                return View("Index");
+            }
+        }
+
     }
 }

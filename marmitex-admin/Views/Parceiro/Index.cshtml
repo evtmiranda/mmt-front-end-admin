@@ -45,27 +45,54 @@
                                 <th>endereço</th>
                                 <th>código parceiro</th>
                                 <th>taxa de entrega</th>
+                                <th>ativo</th>
                                 <th>ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var parceiro in Model)
                             {
-                                <tr>
-                                    <td>
-                                        <a href="@Session["urlBase"]/Parceiro/Detalhes/@parceiro.Id" title="ver detalhes">
-                                            @parceiro.Nome
-                                        </a>
-                                    </td>
-                                    <td>@parceiro.Descricao</td>
-                                    <td>@parceiro.Endereco.Logradouro, @parceiro.Endereco.NumeroEndereco - @parceiro.Endereco.Bairro</td>
-                                    <td>@parceiro.Codigo</td>
-                                    <td>R$ @parceiro.TaxaEntrega.ToString("F")</td>
-                                    <td>
-                                        <a href="@Session["urlBase"]/Parceiro/Editar/@parceiro.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                        <a href="@Session["urlBase"]/Parceiro/Excluir/@parceiro.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                                    </td>
-                                </tr>
+                                if (parceiro.Ativo)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a href="@Session["urlBase"]/Parceiro/Detalhes/@parceiro.Id" title="ver detalhes">
+                                                @parceiro.Nome
+                                            </a>
+                                        </td>
+                                        <td>@parceiro.Descricao</td>
+                                        <td>@parceiro.Endereco.Logradouro, @parceiro.Endereco.NumeroEndereco - @parceiro.Endereco.Bairro</td>
+                                        <td>@parceiro.Codigo</td>
+                                        <td>R$ @parceiro.TaxaEntrega.ToString("F")</td>
+                                        <td>@(parceiro.Ativo == true ? "Sim" : "Não")</td>
+                                        <td>
+                                            <a href="@Session["urlBase"]/Parceiro/Editar/@parceiro.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                            <a href="@Session["urlBase"]/Parceiro/Desativar/@parceiro.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off" title="Desativar"></i></a>
+                                            <a href="@Session["urlBase"]/Parceiro/Excluir/@parceiro.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr class="danger">
+                                        <td>
+                                            <a href="@Session["urlBase"]/Parceiro/Detalhes/@parceiro.Id" title="ver detalhes">
+                                                @parceiro.Nome
+                                            </a>
+                                        </td>
+                                        <td>@parceiro.Descricao</td>
+                                        <td>@parceiro.Endereco.Logradouro, @parceiro.Endereco.NumeroEndereco - @parceiro.Endereco.Bairro</td>
+                                        <td>@parceiro.Codigo</td>
+                                        <td>R$ @parceiro.TaxaEntrega.ToString("F")</td>
+                                        <td>@(parceiro.Ativo == true ? "Sim" : "Não")</td>
+                                        <td>
+                                            <a href="@Session["urlBase"]/Parceiro/Editar/@parceiro.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                                            <a href="@Session["urlBase"]/Parceiro/Desativar/@parceiro.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off" title="Desativar"></i></a>
+                                            <a href="@Session["urlBase"]/Parceiro/Excluir/@parceiro.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+
                             }
 
                     </table>
