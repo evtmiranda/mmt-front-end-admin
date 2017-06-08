@@ -295,7 +295,7 @@ namespace marmitex_admin.Controllers
             try
             {
                 tempoAntecedenciaEntrega.IdLoja = usuarioLogado.IdLoja;
-                tempoAntecedenciaEntrega.Ativo = true;
+                //tempoAntecedenciaEntrega.Ativo = true;
 
                 string urlPost = string.Format("/HorarioEntrega/TempoAntecedencia/Atualizar");
 

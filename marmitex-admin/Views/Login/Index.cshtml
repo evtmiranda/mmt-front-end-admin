@@ -1,18 +1,18 @@
-﻿@{
+﻿@model ClassesMarmitex.Usuario
+
+@{
     ViewBag.Title = "login";
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
-@model ClassesMarmitex.Usuario
-
-
-@{ 
+@*@{
     ClassesMarmitex.Usuario usuarioLogin = new ClassesMarmitex.Usuario();
 
-    if (Session["usuarioLogin"] != null) {
+    if (Session["usuarioLogin"] != null)
+    {
         usuarioLogin = (ClassesMarmitex.Usuario)Session["usuarioLogin"];
     }
-}
+}*@
 
 <div class="container-fluid">
     <div class="row">
@@ -24,9 +24,9 @@
                 <form method="post" action="@Session["urlBase"]/Login/Autenticar">
                     <div class="form-group">
                         <label for="email">e-mail:</label>
-                        @if (@Session["usuarioLogin"] != null)
+                        @if (@Model != null)
                         {
-                            <input type="email" class="form-control" id="email" name="Email" required value="@usuarioLogin.Email">
+                            <input type="email" class="form-control" id="email" name="Email" required value="@Model.Email">
                         }
                         else
                         {
@@ -35,23 +35,30 @@
                     </div>
                     <div class="form-group">
                         <label for="pwd">senha:</label>
-                        <input type="password" class="form-control" id="pwd" name="Senha" required value="@usuarioLogin.Senha">
+                        @if (@Model != null)
+                        {
+                            <input type="password" class="form-control" id="pwd" name="Senha" required value="@Model.Senha">
+                        }
+                        else
+                        {
+                            <input type="password" class="form-control" id="pwd" name="Senha" required>
+                        }
+
                     </div>
-                    <div class="checkbox">
+                    @*<div class="checkbox">
                         <label><input type="checkbox"> lembrar minha senha</label>
-                    </div>
+                    </div>*@
 
                     @if (ViewBag.MensagemAutenticacao != null)
-                    { 
+                    {
                         <br /><p style="color: #bc2026">@ViewBag.MensagemAutenticacao</p><br />
                     }
 
-                    @if (Session["MensagemAutenticacao"] != null)
+                    @*@if (Session["MensagemAutenticacao"] != null)
                     {
                         <br /><p style="color: #bc2026">@Session["MensagemAutenticacao"]</p><br />
-                    }
+                    }*@
 
-                    @*<a href="~/home" class="btn btn-vermelho-sem-animacao" role="button">entrar</a>*@
                     <input type="submit" class="btn btn-vermelho-sem-animacao" value="entrar" />
                 </form>
 

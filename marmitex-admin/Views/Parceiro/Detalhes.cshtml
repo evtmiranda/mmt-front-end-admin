@@ -55,7 +55,7 @@
                                     <td>@(brinde.Ativo == true ? "Sim" : "Não")</td>
                                     <td>
                                         <button onclick="Get('@Session["urlBase"]/Parceiro/DesativarBrindeParceiro/@brinde.Id')" style="color: #E67E22" class="btn-link"><i class="glyphicon glyphicon-off"></i></button>
-                                        <a href="@Session["urlBase"]/Parceiro/ExcluirBrindeParceiro/@brinde.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                        <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Parceiro/ExcluirBrindeParceiro/@brinde.Id')"><i class="glyphicon glyphicon-remove"></i></button>
                                     </td>
                                 </tr>
                             }
@@ -68,8 +68,7 @@
                                     <td>@(brinde.Ativo == true ? "Sim" : "Não")</td>
                                     <td>
                                         <button onclick="Get('@Session["urlBase"]/Parceiro/DesativarBrindeParceiro/@brinde.Id')" style="color: #E67E22" class="btn-link"><i class="glyphicon glyphicon-off"></i></button>
-                                        @*<a href="@Session["urlBase"]/Parceiro/DesativarBrindeParceiro/@brinde.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off"></i></a>*@
-                                        <a href="@Session["urlBase"]/Parceiro/ExcluirBrindeParceiro/@brinde.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                        <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Parceiro/ExcluirBrindeParceiro/@brinde.Id')"><i class="glyphicon glyphicon-remove"></i></button>
                                     </td>
                                 </tr>
                             }

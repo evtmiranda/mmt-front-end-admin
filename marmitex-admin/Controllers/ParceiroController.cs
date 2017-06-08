@@ -1,10 +1,10 @@
 ﻿using ClassesMarmitex;
+using marmitex_admin.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Web;
+using System.Text;
 using System.Web.Mvc;
 
 namespace marmitex_admin.Controllers
@@ -14,14 +14,12 @@ namespace marmitex_admin.Controllers
         private RequisicoesREST rest;
         private DadosRequisicaoRest retornoRequest;
 
-
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
         public ParceiroController(RequisicoesREST rest)
         {
             this.rest = rest;
         }
 
-        // GET: Parceiro
         public ActionResult Index()
         {
             List<Parceiro> listaParceiros = new List<Parceiro>();
@@ -165,17 +163,11 @@ namespace marmitex_admin.Controllers
             //busca o parceiro pelo id
             retornoRequest = rest.Get(string.Format("/Parceiro/BuscarParceiro/{0}/{1}", id, usuarioLogado.IdLoja));
 
-            //se não encontrar um parceiro com este id
-            if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
-            {
-                ViewBag.MensagemEditarParceiro = "não foi possível carregar os dados do parceiro. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-                return View();
-            }
-
             //se ocorrer algum erro
             if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
             {
                 ViewBag.MensagemEditarParceiro = "não foi possível carregar os dados do parceiro. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+
                 return View();
             }
 
@@ -267,94 +259,71 @@ namespace marmitex_admin.Controllers
             }
         }
 
+        /// <summary>
+        /// Faz o post para excluir o parceiro. Se ocorrer algum erro a classe MyErrorHandler irá transformar em json e o método 'Excluir'
+        /// do arquivo marmitex-admin.js irá exibir uma mensagem amigável. Em caso de sucesso, o método 'Excluir' também irá 
+        /// exibir uma mensagem amigável
+        /// </summary>
+        /// <param name="id">id do parceiro que deve ser excluido</param>
+        /// <returns></returns>
+        [MyErrorHandler]
         public ActionResult Excluir(int id)
         {
-            try
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            //busca os dados do parceiro
+            Parceiro parceiro = new Parceiro
             {
-                #region validacao usuario logado
+                Id = id,
+                IdLoja = usuarioLogado.IdLoja,
+                Ativo = false
+            };
 
-                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-                if (Session["UsuarioLogado"] == null)
-                    return RedirectToAction("Index", "Login");
+            //inativa o parceiro
+            string urlPost = string.Format("/Parceiro/Excluir");
 
-                //recebe o usuário logado
-                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+            retornoRequest = rest.Post(urlPost, parceiro);
 
-                #endregion
-
-                //busca os dados do parceiro
-                Parceiro parceiro = new Parceiro
-                {
-                    Id = id,
-                    IdLoja = usuarioLogado.IdLoja,
-                    Ativo = false
-                };
-
-                //inativa o parceiro
-                string urlPost = string.Format("/Parceiro/Excluir");
-
-                retornoRequest = rest.Post(urlPost, parceiro);
-
-                //se o parceiro não for atualizado
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                {
-                    ViewBag.MensagemExcluirParceiro = "não foi possível excluir o parceiro. por favor, tente novamente";
-                    return View("Index");
-                }
-
-                //se o parceiro for inativado, direciona para a tela de visualização de parceiros
-                return RedirectToAction("Index", "Parceiro");
-            }
-            catch (Exception)
-            {
-                ViewBag.MensagemExcluirParceiro = "não foi possível excluir o parceiro. por favor, tente novamente";
-                return View("Index");
-            }
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
+        [MyErrorHandler]
         public ActionResult Desativar(int id)
         {
-            try
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            //busca os dados do parceiro
+            Parceiro parceiro = new Parceiro
             {
-                #region validacao usuario logado
+                Id = id,
+                IdLoja = usuarioLogado.IdLoja,
+                Ativo = false
+            };
 
-                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-                if (Session["UsuarioLogado"] == null)
-                    return RedirectToAction("Index", "Login");
+            //inativa o parceiro
+            string urlPost = string.Format("/Parceiro/Desativar");
 
-                //recebe o usuário logado
-                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+            retornoRequest = rest.Post(urlPost, parceiro);
 
-                #endregion
-
-                //busca os dados do parceiro
-                Parceiro parceiro = new Parceiro
-                {
-                    Id = id,
-                    IdLoja = usuarioLogado.IdLoja,
-                    Ativo = false
-                };
-
-                //inativa o parceiro
-                string urlPost = string.Format("/Parceiro/Desativar");
-
-                retornoRequest = rest.Post(urlPost, parceiro);
-
-                //se o parceiro não for atualizado
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                {
-                    ViewBag.MensagemExcluirParceiro = "não foi possível desativar o parceiro. por favor, tente novamente";
-                    return View("Index");
-                }
-
-                //se o parceiro for inativado, direciona para a tela de visualização de parceiros
-                return RedirectToAction("Index", "Parceiro");
-            }
-            catch (Exception)
-            {
-                ViewBag.MensagemExcluirParceiro = "não foi possível desativar o parceiro. por favor, tente novamente";
-                return View("Index");
-            }
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Detalhes(int id)
@@ -474,81 +443,71 @@ namespace marmitex_admin.Controllers
             #endregion
         }
 
-        public string ExcluirBrindeParceiro(int id)
+        /// <summary>
+        /// Faz o post para excluir o brinde do parceiro. Se ocorrer algum erro a classe MyErrorHandler irá 
+        /// transformar em json e o método 'Excluir' do arquivo marmitex-admin.js irá exibir uma mensagem amigável. 
+        /// Em caso de sucesso, o método 'Excluir' também irá exibir uma mensagem amigável
+        /// </summary>
+        /// <param name="id">id do brinde que deve ser excluido</param>
+        /// <returns></returns>
+        [MyErrorHandler]
+        public ActionResult ExcluirBrindeParceiro(int id)
         {
-            try
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            //busca os dados do brinde
+            BrindeParceiro brindeParceiro = new BrindeParceiro
             {
-                #region validacao usuario logado
+                Id = id,
+                IdLoja = usuarioLogado.IdLoja
+            };
 
-                //recebe o usuário logado
-                if (Session["UsuarioLogado"] != null)
-                    usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-                else
-                    return "erro";
+            //inativa o parceiro
+            string urlPost = string.Format("/BrindeParceiro/Excluir");
 
-                #endregion
+            retornoRequest = rest.Post(urlPost, brindeParceiro);
 
-                //busca os dados do brinde
-                BrindeParceiro brindeParceiro = new BrindeParceiro
-                {
-                    Id = id,
-                    IdLoja = usuarioLogado.IdLoja
-                };
-
-                //inativa o parceiro
-                string urlPost = string.Format("/BrindeParceiro/Excluir");
-
-                retornoRequest = rest.Post(urlPost, brindeParceiro);
-
-                //se o parceiro não for atualizado
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                    return "erro";
-
-                return "sucesso";
-            }
-            catch (Exception)
-            {
-                return "erro";
-            }
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
-        public string DesativarBrindeParceiro(int id)
+        [MyErrorHandler]
+        public ActionResult DesativarBrindeParceiro(int id)
         {
-            try
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            //busca os dados do brinde
+            BrindeParceiro brindeParceiro = new BrindeParceiro
             {
-                #region validacao usuario logado
+                Id = id,
+                IdLoja = usuarioLogado.IdLoja
+            };
 
-                //recebe o usuário logado
-                if (Session["UsuarioLogado"] != null)
-                    usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-                else
-                    return "erro";
+            //inativa o parceiro
+            string urlPost = string.Format("/BrindeParceiro/Desativar");
 
-                #endregion
+            retornoRequest = rest.Post(urlPost, brindeParceiro);
 
-                //busca os dados do brinde
-                BrindeParceiro brindeParceiro = new BrindeParceiro
-                {
-                    Id = id,
-                    IdLoja = usuarioLogado.IdLoja
-                };
-
-                //inativa o parceiro
-                string urlPost = string.Format("/BrindeParceiro/Desativar");
-
-                retornoRequest = rest.Post(urlPost, brindeParceiro);
-
-                //se o parceiro não for atualizado
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                    return "erro";
-
-                return "sucesso";
-            }
-            catch (Exception)
-            {
-                return "erro";
-            }
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
+
         #endregion
     }
 }

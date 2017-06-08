@@ -34,7 +34,7 @@
         public ActionResult Autenticar(Usuario usuario)
         {
             //limpa a sessão de mensagem
-            Session["MensagemAutenticacao"] = null;
+            //Session["MensagemAutenticacao"] = null;
 
             //captura a loja em questão
             Session["dominioLoja"] = BuscarUrlLoja();
@@ -42,13 +42,13 @@
             //se não conseguir capturar a loja, direciona para a tela de erro
             if (Session["dominioLoja"] == null) {
                 ViewBag.MensagemAutenticacao = "estamos com dificuldade em buscar dados no servidor. por favor, tente atualizar a página";
-                return View("Index");
+                return View("Index", usuario);
             }
 
             if(string.IsNullOrEmpty(usuario.Email) || string.IsNullOrEmpty(usuario.Senha))
             {
                 ViewBag.MensagemAutenticacao = "preencha o login e senha";
-                return View("Index");
+                return View("Index", usuario);
             }
 
 
@@ -93,7 +93,7 @@
                     catch (Exception)
                     {
                         ViewBag.MensagemAutenticacao = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
-                        return View("Index");
+                        return View("Index", usuario);
                     }
                 }
                 else if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.Unauthorized)

@@ -4,17 +4,34 @@
     <h2>Editar parceiro</h2>
     <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
     <div class="col-md-10">
-        <form method="post" action="@Session["urlBase"]/Parceiro/EditarParceiro">
-            
-            @Html.Partial("_FormParceiro")
+        @if (ViewBag.MensagemEditarParceiro != null)
+        {
+            <script>
+                swal({
+                    title: 'Oops',
+                    html: "@ViewBag.MensagemEditarParceiro",
+                    type: 'error',
+                    confirmButtonText: 'Ok'
+                }).then(function () {
+                    //volta para a tela de parceiros
+                    window.location = "@Session["urlBase"]/Parceiro/";
+                    });
+            </script>
+        }
+        else
+        {
+            <form method="post" action="@Session["urlBase"]/Parceiro/EditarParceiro">
+
+                @Html.Partial("_FormParceiro")
 
 
-            <div class="col-md-12">
-                <div class="buttons-formcontrol">
-                    <input type="submit" class="btn btn-success" value="salvar" />
+                <div class="col-md-12">
+                    <div class="buttons-formcontrol">
+                        <input type="submit" class="btn btn-success" value="salvar" />
+                    </div>
                 </div>
-            </div>
 
-        </form>
+            </form>
+        }
     </div>
 </div>

@@ -146,9 +146,60 @@ function dropCancelado(ev) {
 
 }
 
+/**
+ * 1. Exibe mensagem de confirmação de exclusão
+   2. Se a exclusão for confirmada, faz um get na url. Se não for, sai da função
+   3. Se o retorno do get for sucesso, exibe mensagem amigável e recarrega a página. Se for erro, exibe mensagem amigável
+ * @param {any} url
+ */
+function Excluir(url) {
+    swal({
+        title: 'Confirma a exclusão?',
+        html: "Ao excluir, não será possível desfazer a ação",
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Voltar',
+        confirmButtonText: 'Sim, excluir!'
+    }).then(function () {
+        $.getJSON(url, { id: null }, function (result) {
+            if (!result.success) {
+                swal(
+                    'Oops',
+                    'não foi possível excluir. por favor, tente novamente ou entre em contato com o administrador',
+                    'error'
+                )
+            }
+            else {
+                swal({
+                    title: 'Sucesso',
+                    html: "Exclusão realizada com sucesso.",
+                    type: 'success',
+                    confirmButtonText: 'Ok'
+                }).then(function () {
+                    //recarrega a pagina
+                    window.location.reload();
+                });
+            }
+        });
+    });
+}
+
+/**
+ * 1. vai para a url recebida
+ * @param {any} url
+ */
+function IrParaUrl(url) {
+    window.location.href = url;
+}
+
+/**
+ * 1. Faz um get na url
+   2. Se o retorno for sucesso, recarrega a página. Se for erro, exibe mensagem amigável
+ * @param {any} url
+ */
 function Get(url) {
-    $.get(url, function (data) {
-        if (data == "erro") {
+    $.getJSON(url, { id: null }, function (result) {
+        if (!result.success) {
             swal(
                 'Oops...',
                 'Ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador',
@@ -160,10 +211,14 @@ function Get(url) {
             window.location.reload();
         }
     })
+}
 
-    $.post(dadosPost.Recurso, { dadosJson: jsonBodyPost }, function () {
-        AtualizarVisualizacaoDiv(dadosPost.ViewParcial, dadosPost.DivASerAtualizada);
-    });
+function encode_utf8(s) {
+    return unescape(encodeURIComponent(s));
+}
+
+function decode_utf8(s) {
+    return decodeURIComponent(escape(s));
 }
 
 //mascaras

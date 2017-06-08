@@ -18,22 +18,10 @@
         <div class="text-right">
             <a href="/Parceiro/Adicionar" class="btn btn-success">adicionar parceiro</a>
         </div>
+
         <hr />
 
         <div class="col-md-12">
-            @*se houver alguma mensagem relacionada a exclusão de parceiros, lança um alert com a mensagem*@
-            @if (ViewBag.MensagemExcluirParceiro != null)
-            {
-                <script>
-                    swal(
-                        'Oops...',
-                        'não foi possível excluir. por favor, tente novamente ou entre em contato com o administrador',
-                        'error'
-                    );
-                </script>
-            }
-
-
             @if (Model != null)
             {
                 <div class="table-responsive">
@@ -66,9 +54,9 @@
                                         <td>R$ @parceiro.TaxaEntrega.ToString("F")</td>
                                         <td>@(parceiro.Ativo == true ? "Sim" : "Não")</td>
                                         <td>
-                                            <a href="@Session["urlBase"]/Parceiro/Editar/@parceiro.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                            <a href="@Session["urlBase"]/Parceiro/Desativar/@parceiro.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off" title="Desativar"></i></a>
-                                            <a href="@Session["urlBase"]/Parceiro/Excluir/@parceiro.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                            <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/Parceiro/Editar/@parceiro.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                            <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/Parceiro/Desativar/@parceiro.Id')" title="Desativar"><i class="glyphicon glyphicon-off"></i></button>
+                                            <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Parceiro/Excluir/@parceiro.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
                                         </td>
                                     </tr>
                                 }
@@ -86,9 +74,9 @@
                                         <td>R$ @parceiro.TaxaEntrega.ToString("F")</td>
                                         <td>@(parceiro.Ativo == true ? "Sim" : "Não")</td>
                                         <td>
-                                            <a href="@Session["urlBase"]/Parceiro/Editar/@parceiro.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                            <a href="@Session["urlBase"]/Parceiro/Desativar/@parceiro.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off" title="Desativar"></i></a>
-                                            <a href="@Session["urlBase"]/Parceiro/Excluir/@parceiro.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                            <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/Parceiro/Editar/@parceiro.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                            <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/Parceiro/Desativar/@parceiro.Id')" title="Desativar"><i class="glyphicon glyphicon-off"></i></button>
+                                            <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Parceiro/Excluir/@parceiro.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
                                         </td>
                                     </tr>
                                 }
