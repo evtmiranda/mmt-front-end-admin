@@ -341,26 +341,28 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
-                #region busca os brindes
-
-                List<Brinde> listaBrindes = new List<Brinde>();
+                DadosBrindeParceiro dadosBrindeParceiro = new DadosBrindeParceiro();
 
                 //busca todos os brindes do parceiro
                 retornoRequest = rest.Get(string.Format("/BrindeParceiro/ListarPorParceiro/{0}/{1}", id, usuarioLogado.IdLoja));
 
-                string jsonRetorno = retornoRequest.objeto.ToString();
-
-                listaBrindes = JsonConvert.DeserializeObject<List<Brinde>>(jsonRetorno);
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+                    ViewBag.MensagemDetalhesParceiro = "nenhum brinde cadastrado";
+                else if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                    ViewBag.MensagemDetalhesParceiro = "não foi possível exibir detalhes do parceiro. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                else
+                {
+                    string jsonRetorno = retornoRequest.objeto.ToString();
+                    dadosBrindeParceiro = JsonConvert.DeserializeObject<DadosBrindeParceiro>(jsonRetorno);
+                }
 
                 Session["IdParceiro"] = id;
 
-                #endregion
-
-                return View(listaBrindes);
+                return View(dadosBrindeParceiro);
             }
             catch (Exception)
             {
-                ViewBag.MensagemPedidos = "não foi possível exibir detalhes do parceiro. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                ViewBag.MensagemDetalhesParceiro = "não foi possível exibir detalhes do parceiro. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View("Index");
             }
         }
@@ -383,32 +385,31 @@ namespace marmitex_admin.Controllers
             #region busca os brindes
 
             List<Brinde> listaBrindes = new List<Brinde>();
+            DadosBrindeParceiro dadosBrindeParceiro = new DadosBrindeParceiro();
 
             Int32.TryParse(Session["IdParceiro"].ToString(), out int idParceiro);
 
-            //busca todos os produtos adicionais da loja
+            //busca todos os produtos brindes da loja
             retornoRequest = rest.Get(string.Format("/Brinde/ListarPorLoja/{0}", usuarioLogado.IdLoja));
 
             //Session["IdParceiro"] = null;
+
+            if(retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                return View(dadosBrindeParceiro);
 
             string json = retornoRequest.objeto.ToString();
 
             listaBrindes = JsonConvert.DeserializeObject<List<Brinde>>(json);
 
-            DadosBrindeParceiro dadosBrindeParceiro = new DadosBrindeParceiro
-            {
-                Brindes = listaBrindes,
-                IdParceiro = idParceiro
-            };
-
-            //ViewBag.ProdutosAdicionais = listaDadosProdutoAdicional;
+            dadosBrindeParceiro.Brindes = listaBrindes;
+            dadosBrindeParceiro.IdParceiro = idParceiro;
 
             #endregion
 
             return View(dadosBrindeParceiro);
         }
 
-        public ActionResult AdicionarBrindeParceiro(DadosBrindeParceiro dadosBrindeParceiro)
+        public ActionResult AdicionarBrindeParceiro(BrindeParceiro brindeParceiro)
         {
             #region validacao usuario logado
 
@@ -423,22 +424,25 @@ namespace marmitex_admin.Controllers
 
             #region cadastra o brinde para o parceiro
 
+            if (brindeParceiro.IdBrinde == 0)
+                return null;
+
             string urlPost = "/BrindeParceiro/Adicionar";
 
             //seta a loja
-            dadosBrindeParceiro.IdLoja = usuarioLogado.IdLoja;
+            brindeParceiro.IdLoja = usuarioLogado.IdLoja;
 
-            retornoRequest = rest.Post(urlPost, dadosBrindeParceiro);
+            retornoRequest = rest.Post(urlPost, brindeParceiro);
 
             //se o brinde for cadastrado, direciona para a tela de visualização de brindes do parceiro
             if (retornoRequest.HttpStatusCode == HttpStatusCode.Created)
             {
                 ViewBag.MensagemErroCadBrindeParceiro = null;
-                return RedirectToAction("Detalhes", "Parceiro", new { id = dadosBrindeParceiro.IdParceiro });
+                return RedirectToAction("Detalhes", "Parceiro", new { id = brindeParceiro.IdParceiro });
             }
 
             ViewBag.MensagemErroCadBrindeParceiro = "não foi possível cadastrar o brinde. por favor, tente novamente";
-            return View("Adicionar", dadosBrindeParceiro);
+            return View("Adicionar", brindeParceiro);
 
             #endregion
         }

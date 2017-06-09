@@ -1,25 +1,12 @@
-﻿@model  ClassesMarmitex.DadosBrindeParceiro
+﻿@model  ClassesMarmitex.BrindeParceiro
 
 <div class="profile-content">
     <h2>Adicionar brinde para o parceiro</h2>
     <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
     <div class="col-md-10">
-
         <form method="post" action="@Session["urlBase"]/Parceiro/AdicionarBrindeParceiro" enctype="multipart/form-data">
 
             @Html.Partial("_FormBrindeParceiro")
-
-            @*se houver alguma mensagem de erro no cadastro do produto adicional ao produto, lança um alert com a mensagem*@
-            @if (ViewBag.MensagemErroCadBrindeParceiro != null)
-            {
-                <script>
-                    swal(
-                        'Oops...',
-                        '@ViewBag.MensagemErroCadBrindeParceiro',
-                        'error'
-                    );
-                </script>
-            }
 
             <div class="col-md-12">
                 <div class="buttons-formcontrol">

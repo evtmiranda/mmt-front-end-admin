@@ -1,12 +1,15 @@
-﻿@model ClassesMarmitex.DadosBrindeParceiro
+﻿@model ClassesMarmitex.BrindeParceiro
 
 <div class="col-md-12">
     <div class="form-group">
         <label for="brinde">brinde *</label>
 
-        <input type="hidden" name="IdParceiro" value="@Model.IdParceiro" />
+        @if (Model != null)
+        {
+            <input type="hidden" name="IdParceiro" value="@Model.IdParceiro" />
+        }
 
-        <select class="form-control" name="IdBrinde">
+        <select class="form-control" name="IdBrinde" required>
             <option value="0" selected>escolher brinde...</option>
 
             @if (Model != null)
