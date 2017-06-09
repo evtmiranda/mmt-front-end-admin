@@ -363,7 +363,7 @@ namespace marmitex_admin.Controllers
             catch (Exception)
             {
                 ViewBag.MensagemDetalhesParceiro = "não foi possível exibir detalhes do parceiro. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-                return View("Index");
+                return View();
             }
         }
 
@@ -386,6 +386,7 @@ namespace marmitex_admin.Controllers
 
             List<Brinde> listaBrindes = new List<Brinde>();
             DadosBrindeParceiro dadosBrindeParceiro = new DadosBrindeParceiro();
+            BrindeParceiro brindeParceiro = new BrindeParceiro();
 
             Int32.TryParse(Session["IdParceiro"].ToString(), out int idParceiro);
 
@@ -394,8 +395,8 @@ namespace marmitex_admin.Controllers
 
             //Session["IdParceiro"] = null;
 
-            if(retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                return View(dadosBrindeParceiro);
+            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                return View(brindeParceiro);
 
             string json = retornoRequest.objeto.ToString();
 
@@ -409,7 +410,7 @@ namespace marmitex_admin.Controllers
             return View(dadosBrindeParceiro);
         }
 
-        public ActionResult AdicionarBrindeParceiro(BrindeParceiro brindeParceiro)
+        public ActionResult AdicionarBrindeParceiro(DadosBrindeParceiro dadosBrindeParceiro)
         {
             #region validacao usuario logado
 
@@ -424,12 +425,19 @@ namespace marmitex_admin.Controllers
 
             #region cadastra o brinde para o parceiro
 
-            if (brindeParceiro.IdBrinde == 0)
+            if (dadosBrindeParceiro.IdBrinde == 0)
                 return null;
+
+            BrindeParceiro brindeParceiro = new BrindeParceiro
+            {
+                IdBrinde = dadosBrindeParceiro.IdBrinde,
+                IdLoja = dadosBrindeParceiro.IdLoja,
+                IdParceiro = dadosBrindeParceiro.IdParceiro,
+                Ativo = dadosBrindeParceiro.Ativo
+            };
 
             string urlPost = "/BrindeParceiro/Adicionar";
 
-            //seta a loja
             brindeParceiro.IdLoja = usuarioLogado.IdLoja;
 
             retornoRequest = rest.Post(urlPost, brindeParceiro);
@@ -442,7 +450,7 @@ namespace marmitex_admin.Controllers
             }
 
             ViewBag.MensagemErroCadBrindeParceiro = "não foi possível cadastrar o brinde. por favor, tente novamente";
-            return View("Adicionar", brindeParceiro);
+            return View("AdicionarBrinde", brindeParceiro);
 
             #endregion
         }
@@ -468,11 +476,15 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            //busca o id do parceiro
+            Int32.TryParse(Session["IdParceiro"].ToString(), out int idParceiro);
+
             //busca os dados do brinde
             BrindeParceiro brindeParceiro = new BrindeParceiro
             {
                 Id = id,
-                IdLoja = usuarioLogado.IdLoja
+                IdLoja = usuarioLogado.IdLoja,
+                IdParceiro = idParceiro
             };
 
             //inativa o parceiro
@@ -497,11 +509,15 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            //busca o id do parceiro
+            Int32.TryParse(Session["IdParceiro"].ToString(), out int idParceiro);
+
             //busca os dados do brinde
             BrindeParceiro brindeParceiro = new BrindeParceiro
             {
                 Id = id,
-                IdLoja = usuarioLogado.IdLoja
+                IdLoja = usuarioLogado.IdLoja,
+                IdParceiro = idParceiro
             };
 
             //inativa o parceiro

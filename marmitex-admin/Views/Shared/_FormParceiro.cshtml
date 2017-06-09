@@ -58,33 +58,248 @@
         @if (Model != null)
         {
             <select class="form-control" id="uf" value="@Model.UF" name="UF" required>
-                <option>AC</option>
-                <option>AL</option>
-                <option>AP</option>
-                <option>AM</option>
-                <option>BA</option>
-                <option>CE</option>
-                <option>DF</option>
-                <option>ES</option>
-                <option>GO</option>
-                <option>MA</option>
-                <option>MT</option>
-                <option>MS</option>
-                <option>MG</option>
-                <option>PA</option>
-                <option>PB</option>
-                <option>PR</option>
-                <option>PE</option>
-                <option>PI</option>
-                <option>RJ</option>
-                <option>RN</option>
-                <option>RS</option>
-                <option>RO</option>
-                <option>RR</option>
-                <option>SC</option>
-                <option>SP</option>
-                <option>SE</option>
-                <option>TO</option>
+                @if (@Model.UF == "AC")
+                {
+                    <option selected>AC</option>
+                }
+                else
+                {
+                    <option>AC</option>
+                }
+                
+                @if (@Model.UF == "AL")
+                {
+                    <option selected>AL</option>
+                }
+                else
+                {
+                    <option>AL</option>
+                }
+
+                @if (@Model.UF == "AP")
+                {
+                    <option selected>AP</option>
+                }
+                else
+                {
+                    <option>AP</option>
+                }
+
+                @if (@Model.UF == "AM")
+                {
+                    <option selected>AM</option>
+                }
+                else
+                {
+                    <option>AM</option>
+                }
+
+                @if (@Model.UF == "BA")
+                {
+                    <option selected>BA</option>
+                }
+                else
+                {
+                    <option>BA</option>
+                }
+
+                @if (@Model.UF == "CE")
+                {
+                    <option selected>CE</option>
+                }
+                else
+                {
+                    <option>CE</option>
+                }
+
+                @if (@Model.UF == "DF")
+                {
+                    <option selected>DF</option>
+                }
+                else
+                {
+                    <option>DF</option>
+                }
+
+                @if (@Model.UF == "ES")
+                {
+                    <option selected>ES</option>
+                }
+                else
+                {
+                    <option>ES</option>
+                }
+
+                @if (@Model.UF == "GO")
+                {
+                    <option selected>GO</option>
+                }
+                else
+                {
+                    <option>GO</option>
+                }
+
+                @if (@Model.UF == "MA")
+                {
+                    <option selected>MA</option>
+                }
+                else
+                {
+                    <option>MA</option>
+                }
+
+                @if (@Model.UF == "MT")
+                {
+                    <option selected>MT</option>
+                }
+                else
+                {
+                    <option>MT</option>
+                }
+
+                @if (@Model.UF == "MS")
+                {
+                    <option selected>MS</option>
+                }
+                else
+                {
+                    <option>MS</option>
+                }
+
+                @if (@Model.UF == "MG")
+                {
+                    <option selected>MG</option>
+                }
+                else
+                {
+                    <option>MG</option>
+                }
+
+                @if (@Model.UF == "PA")
+                {
+                    <option selected>PA</option>
+                }
+                else
+                {
+                    <option>PA</option>
+                }
+
+                @if (@Model.UF == "PB")
+                {
+                    <option selected>PB</option>
+                }
+                else
+                {
+                    <option>PB</option>
+                }
+
+                @if (@Model.UF == "PR")
+                {
+                    <option selected>PR</option>
+                }
+                else
+                {
+                    <option>PR</option>
+                }
+
+                @if (@Model.UF == "PE")
+                {
+                    <option selected>PE</option>
+                }
+                else
+                {
+                    <option>PE</option>
+                }
+
+                @if (@Model.UF == "PI")
+                {
+                    <option selected>PI</option>
+                }
+                else
+                {
+                    <option>PI</option>
+                }
+
+                @if (@Model.UF == "RJ")
+                {
+                    <option selected>RJ</option>
+                }
+                else
+                {
+                    <option>RJ</option>
+                }
+
+                @if (@Model.UF == "RN")
+                {
+                    <option selected>RN</option>
+                }
+                else
+                {
+                    <option>RN</option>
+                }
+
+                @if (@Model.UF == "RS")
+                {
+                    <option selected>RS</option>
+                }
+                else
+                {
+                    <option>RS</option>
+                }
+
+                @if (@Model.UF == "RO")
+                {
+                    <option selected>RO</option>
+                }
+                else
+                {
+                    <option>RO</option>
+                }
+
+                @if (@Model.UF == "RR")
+                {
+                    <option selected>RR</option>
+                }
+                else
+                {
+                    <option>RR</option>
+                }
+
+                @if (@Model.UF == "SC")
+                {
+                    <option selected>SC</option>
+                }
+                else
+                {
+                    <option>SC</option>
+                }
+
+                @if (@Model.UF == "SP")
+                {
+                    <option selected>SP</option>
+                }
+                else
+                {
+                    <option>SP</option>
+                }
+
+                @if (@Model.UF == "SE")
+                {
+                    <option selected>SE</option>
+                }
+                else
+                {
+                    <option>SE</option>
+                }
+
+                @if (@Model.UF == "TO")
+                {
+                    <option selected>TO</option>
+                }
+                else
+                {
+                    <option>TO</option>
+                }
             </select>
         }
         else
@@ -207,15 +422,15 @@
 
 <div class="col-md-12">
     <div class="form-group">
-        <label for="taxaEntrega">taxa de entrega</label>
+        <label for="taxaEntrega">taxa de entrega R$</label>
 
         @if (Model != null)
         {
-            <input type="text" id="taxaEntrega" name="TaxaEntrega" value="@Model.TaxaEntrega" onkeyup="formataValor(this, event)" class="form-control" />
+            <input type="text" id="taxaEntrega" name="TaxaEntrega" value="@Model.TaxaEntrega.ToString("F")" onkeyup="formataValor(this, event)" class="form-control" />
         }
         else
         {
-            <input type="text" id="taxaEntrega" name="TaxaEntrega" class="form-control" />
+            <input type="text" id="taxaEntrega" name="TaxaEntrega" onkeyup="formataValor(this, event)" class="form-control" />
         }
 
 
