@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using marmitex_admin.Utils;
 
 namespace marmitex_admin.Controllers
 {
@@ -24,6 +25,7 @@ namespace marmitex_admin.Controllers
         public ActionResult Index()
         {
             List<Brinde> listaBrindes = new List<Brinde>();
+            ViewBag.MensagemBrindes = null;
 
             #region validacao usuario logado
 
@@ -94,11 +96,35 @@ namespace marmitex_admin.Controllers
 
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
 
+            #region validações form
+
+            if (file == null)
+            {
+                ViewBag.MensagemErroCadBrinde = "insira uma imagem para o brinde";
+                return View("Adicionar", brindeCadastro);
+            }
+
+            if (string.IsNullOrEmpty(brindeCadastro.Nome))
+            {
+                ViewBag.MensagemErroCadBrinde = "escolha um nome para o brinde";
+                return View("Adicionar", brindeCadastro);
+            }
+
+            #endregion
+
             try
             {
                 //recebe a imagem do brinde
                 if (file != null)
                 {
+                    //valida o tamanho da imagem
+                    //tamanho maximo permitido é 10 mb
+                    if (file.ContentLength > 10000000)
+                    {
+                        ViewBag.MensagemErroCadBrinde = "a imagem deve ter no máximo 10 megabytes";
+                        return View("Adicionar", brindeCadastro);
+                    }
+
                     string pic = System.IO.Path.GetFileName(file.FileName);
                     string caminhoPasta = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/Brindes/";
 
@@ -162,7 +188,7 @@ namespace marmitex_admin.Controllers
 
             if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
             {
-                ViewBag.MensagemEditarParceiro = "não foi possível carregar os dados do brinde. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                ViewBag.MensagemEditarBrinde = "não foi possível carregar os dados do brinde. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
 
@@ -186,6 +212,22 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            #region validações form
+
+            if (file == null)
+            {
+                ViewBag.MensagemEditarBrinde = "insira uma imagem para o brinde";
+                return View("Editar", brindeCadastro);
+            }
+
+            if (string.IsNullOrEmpty(brindeCadastro.Nome))
+            {
+                ViewBag.MensagemEditarBrinde = "escolha um nome para o brinde";
+                return View("Editar", brindeCadastro);
+            }
+
+            #endregion
+
             //variável para armazenar o retorno da requisição
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
 
@@ -194,6 +236,14 @@ namespace marmitex_admin.Controllers
                 //recebe a imagem do brinde
                 if (file != null)
                 {
+                    //valida o tamanho da imagem
+                    //tamanho maximo permitido é 10 mb
+                    if (file.ContentLength > 10000000)
+                    {
+                        ViewBag.MensagemEditarBrinde = "a imagem deve ter no máximo 10 megabytes";
+                        return View("Editar", brindeCadastro);
+                    }
+
                     string pic = System.IO.Path.GetFileName(file.FileName);
                     string caminhoPasta = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/Brindes/";
 
@@ -239,85 +289,59 @@ namespace marmitex_admin.Controllers
             }
         }
 
+        [MyErrorHandler]
         public ActionResult Excluir(int id)
         {
-            try
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            Brinde brinde = new Brinde
             {
-                #region validacao usuario logado
+                Id = id,
+                IdLoja = usuarioLogado.IdLoja,
+                Ativo = false
+            };
 
-                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-                if (Session["UsuarioLogado"] == null)
-                    return RedirectToAction("Index", "Login");
+            string urlPost = string.Format("/Brinde/Excluir");
 
-                //recebe o usuário logado
-                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+            retornoRequest = rest.Post(urlPost, brinde);
 
-                #endregion
-
-                Brinde brinde = new Brinde
-                {
-                    Id = id,
-                    IdLoja = usuarioLogado.IdLoja,
-                    Ativo = false
-                };
-
-                string urlPost = string.Format("/Brinde/Excluir");
-
-                retornoRequest = rest.Post(urlPost, brinde);
-
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                {
-                    ViewBag.MensagemExcluirBrinde = "não foi possível excluir o brinde. por favor, tente novamente";
-                    return View("Index");
-                }
-
-                return RedirectToAction("Index", "Brinde");
-            }
-            catch (Exception)
-            {
-                ViewBag.MensagemExcluirBrinde = "não foi possível excluir o brinde. por favor, tente novamente";
-                return View("Index");
-            }
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
+        [MyErrorHandler]
         public ActionResult Desativar(int id)
         {
-            try
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            Brinde brinde = new Brinde
             {
-                #region validacao usuario logado
+                Id = id,
+                IdLoja = usuarioLogado.IdLoja
+            };
 
-                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-                if (Session["UsuarioLogado"] == null)
-                    return RedirectToAction("Index", "Login");
+            string urlPost = string.Format("/Brinde/Desativar");
 
-                //recebe o usuário logado
-                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+            retornoRequest = rest.Post(urlPost, brinde);
 
-                #endregion
-
-                Brinde brinde = new Brinde
-                {
-                    Id = id,
-                    IdLoja = usuarioLogado.IdLoja
-                };
-
-                string urlPost = string.Format("/Brinde/Desativar");
-
-                retornoRequest = rest.Post(urlPost, brinde);
-
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                {
-                    ViewBag.MensagemDesativarBrinde = "não foi possível desativar o brinde. por favor, tente novamente";
-                    return View("Index");
-                }
-
-                return RedirectToAction("Index", "Brinde");
-            }
-            catch (Exception)
-            {
-                ViewBag.MensagemDesativarBrinde = "não foi possível desativar o brinde. por favor, tente novamente";
-                return View("Index");
-            }
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

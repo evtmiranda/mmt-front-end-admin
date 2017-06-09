@@ -21,20 +21,13 @@
         <hr />
 
         <div class="col-md-12">
-            @*se houver alguma mensagem relacionada a exclusão de brindes, lança um alert com a mensagem*@
-            @if (ViewBag.MensagemExcluirBrinde != null)
+            @if (@ViewBag.MensagemBrindes != null)
             {
-                <script>
-                    swal(
-                        'Oops...',
-                        'não foi possível excluir. por favor, tente novamente ou entre em contato com o administrador',
-                        'error'
-                    );
-                </script>
+                <div class="text-center">
+                    <p>@ViewBag.MensagemBrindes</p>
+                </div>
             }
-
-
-            @if (Model != null)
+            else if (Model != null)
             {
                 <div class="table-responsive">
                     <table class="table table-hover">
@@ -58,9 +51,9 @@
                                         <td><img src="@Session["CaminhoImagensBrindes"]/@brinde.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
                                         <td>@(brinde.Ativo == true ? "Sim" : "Não")</td>
                                         <td>
-                                            <a href="@Session["urlBase"]/Brinde/Editar/@brinde.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                            <a href="@Session["urlBase"]/Brinde/Desativar/@brinde.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off"></i></a>
-                                            <a href="@Session["urlBase"]/Brinde/Excluir/@brinde.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                            <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/Brinde/Editar/@brinde.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                            <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/Brinde/Desativar/@brinde.Id')" title="Desativar"><i class="glyphicon glyphicon-off"></i></button>
+                                            <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Brinde/Excluir/@brinde.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
                                         </td>
                                     </tr>
                                 }
@@ -72,9 +65,9 @@
                                         <td><img src="@Session["CaminhoImagensBrindes"]/@brinde.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
                                         <td>@(brinde.Ativo == true ? "Sim" : "Não")</td>
                                         <td>
-                                            <a href="@Session["urlBase"]/Brinde/Editar/@brinde.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                            <a href="@Session["urlBase"]/Brinde/Desativar/@brinde.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off"></i></a>
-                                            <a href="@Session["urlBase"]/Brinde/Excluir/@brinde.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                            <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/Brinde/Editar/@brinde.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                            <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/Brinde/Desativar/@brinde.Id')" title="Desativar"><i class="glyphicon glyphicon-off"></i></button>
+                                            <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Brinde/Excluir/@brinde.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
                                         </td>
                                     </tr>
                                 }
@@ -84,13 +77,6 @@
                 </div>
 
             }
-            else
-            {
-                <div class="text-center">
-                    <p>@ViewBag.MensagemBrindes</p>
-                </div>
-            }
-
         </div>
     </div>
 </div>

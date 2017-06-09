@@ -7,11 +7,11 @@
         @if (Model != null)
         {
             <input type="hidden" name="id" value="@Model.Id" />
-            <input type="text" id="nome" name="Nome" value="@Model.Nome" class="form-control" />
+            <input type="text" id="nome" name="Nome" value="@Model.Nome" class="form-control" required/>
         }
         else
         {
-            <input type="text" id="nome" name="Nome" class="form-control" />
+            <input type="text" id="nome" name="Nome" class="form-control" required/>
         }
 
 
@@ -36,15 +36,15 @@
 <div class="col-md-12">
     <div class="form-group">
 
-        <label for="file">imagem do brinde *</label>
+        <label for="file">imagem do brinde * <br /> <small>(tamanho máximo: 10 megabytes)</small> </label>
 
         @if (Model != null)
         {
-            <input type="file" name="file" id="file" value="@Model.Imagem" />
+            <input type="file" name="file" id="file" value="@Model.Imagem" required/>
         }
         else
         {
-            <input type="file" name="file" id="file" onclick="ValidarImagem()" />
+            <input type="file" name="file" id="file" onclick="ValidarImagem()" required/>
         }
 
     </div>
