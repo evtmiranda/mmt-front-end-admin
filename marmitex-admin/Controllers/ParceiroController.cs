@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace marmitex_admin.Controllers
 {
@@ -402,7 +403,7 @@ namespace marmitex_admin.Controllers
 
             listaBrindes = JsonConvert.DeserializeObject<List<Brinde>>(json);
 
-            dadosBrindeParceiro.Brindes = listaBrindes;
+            dadosBrindeParceiro.Brindes = listaBrindes.Where(p => p.Ativo).ToList();
             dadosBrindeParceiro.IdParceiro = idParceiro;
 
             #endregion
