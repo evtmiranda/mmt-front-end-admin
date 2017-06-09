@@ -7,11 +7,11 @@
         @if (Model != null)
         {
             <input type="hidden" name="id" value="@Model.Id" />
-            <input type="text" id="nomeCardapio" name="Nome" value="@Model.Nome" class="form-control" />
+            <input type="text" id="nomeCardapio" name="Nome" value="@Model.Nome" class="form-control" required/>
         }
         else
         {
-            <input type="text" id="nomeCardapio" name="Nome" class="form-control" />
+            <input type="text" id="nomeCardapio" name="Nome" class="form-control" required/>
         }
 
 
@@ -24,11 +24,11 @@
 
         @if (Model != null)
         {
-            <input type="number" min="0" id="ordemExibicao" name="OrdemExibicao" value="@Model.OrdemExibicao" class="form-control" />
+            <input type="number" min="0" id="ordemExibicao" name="OrdemExibicao" value="@Model.OrdemExibicao" class="form-control" required/>
         }
         else
         {
-            <input type="number" min="0" id="ordemExibicao" name="OrdemExibicao" class="form-control" />
+            <input type="number" min="0" id="ordemExibicao" name="OrdemExibicao" class="form-control" required/>
         }
 
 
@@ -43,6 +43,9 @@
 
     </div>
 </div>
+
+
+
 
 <div class="col-md-12">
     <div class="form-group">

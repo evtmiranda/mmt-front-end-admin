@@ -1,34 +1,48 @@
 ﻿@model List<ClassesMarmitex.MenuCardapio>
 
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
 <div class="profile-content-backfull">
-        <row>
-            <h1 class="text-left">Cardápio</h1>
+    <row>
+        <h1 class="text-left">Cardápio</h1>
 
-            <div class="text-right">
-                <a href="/Cardapio/Adicionar" class="btn btn-success">adicionar cardápio</a>
-            </div>
-            <hr />
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-globe"></i>
+                <a href="@Session["urlBase"]/Home">Inicio</a>
+            </li>
+            <li>
+                <i class="fa fa-handshake-o fa-lg"></i>
+                <a href="@Session["urlBase"]/Parceiro/">Parceiros</a>
+            </li>
+        </ul>
 
-            <div class="col-md-12">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>nome</th>
-                                <th>ordem de exibição</th>
-                                <th>ativo</th>
-                                <th>ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model != null)
-                            {
-                                foreach (var cardapio in Model)
+        <div class="text-right">
+            <a href="/Cardapio/Adicionar" class="btn btn-success">adicionar cardápio</a>
+        </div>
+        <hr />
+
+        <div class="col-md-12">
+            @if (Model != null)
+            {
+                if (ViewBag.MensagemCardapio != null)
+                {
+                    <div class="text-center">
+                        <p>@ViewBag.MensagemCardapio</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>nome</th>
+                                    <th>ordem de exibição</th>
+                                    <th>ativo</th>
+                                    <th>ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var cardapio in Model)
                                 {
                                     if (cardapio.Ativo)
                                     {
@@ -37,9 +51,9 @@
                                             <td>@cardapio.OrdemExibicao</td>
                                             <td>@(cardapio.Ativo == true ? "Sim" : "Não")</td>
                                             <td>
-                                                <a href="@Session["urlBase"]/Cardapio/Editar/@cardapio.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                                <a href="@Session["urlBase"]/Cardapio/Desativar/@cardapio.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off"></i></a>
-                                                <a href="@Session["urlBase"]/Cardapio/Excluir/@cardapio.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                                <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/Cardapio/Editar/@cardapio.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                                <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/Cardapio/Desativar/@cardapio.Id')" title="Desativar"><i class="glyphicon glyphicon-off"></i></button>
+                                                <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Cardapio/Excluir/@cardapio.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
                                             </td>
                                         </tr>
                                     }
@@ -50,18 +64,18 @@
                                             <td>@cardapio.OrdemExibicao</td>
                                             <td>@(cardapio.Ativo == true ? "Sim" : "Não")</td>
                                             <td>
-                                                <a href="@Session["urlBase"]/Cardapio/Editar/@cardapio.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                                <a href="@Session["urlBase"]/Cardapio/Desativar/@cardapio.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off"></i></a>
-                                                <a href="@Session["urlBase"]/Cardapio/Excluir/@cardapio.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                                <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/Cardapio/Editar/@cardapio.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                                <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/Cardapio/Desativar/@cardapio.Id')" title="Desativar"><i class="glyphicon glyphicon-off"></i></button>
+                                                <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Cardapio/Excluir/@cardapio.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
                                             </td>
                                         </tr>
                                     }
 
                                 }
-                            }
-                    </table>
-                </div>
-
-            </div>
-        </row>
+                        </table>
+                    </div>
+                }
+            }
+        </div>
+    </row>
 </div>

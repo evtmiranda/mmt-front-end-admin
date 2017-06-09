@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Net;
+using marmitex_admin.Utils;
 
 namespace marmitex_admin.Controllers
 {
@@ -100,7 +101,7 @@ namespace marmitex_admin.Controllers
             #endregion
 
             //limpa a sessão de mensagens
-            Session["MensagemAvisoCadastroCardapio"] = null;
+            //Session["MensagemAvisoCadastroCardapio"] = null;
 
             //validação dos campos
             if (!ModelState.IsValid)
@@ -123,10 +124,7 @@ namespace marmitex_admin.Controllers
 
                 //se o cadastro for adicionado com sucesso
                 if (retornoRequest.HttpStatusCode == HttpStatusCode.Created)
-                {
-                    ViewBag.MensagemCardapio = "cardápio adicionado com sucesso!";
                     return RedirectToAction("Index", "Cardapio");
-                }
                 else
                 {
                     ViewBag.MensagemCardapio = "não foi possível cadastrar o cardápio. por favor, tente novamente ou entre em contato com o administrador do sistema";
@@ -161,13 +159,6 @@ namespace marmitex_admin.Controllers
             //busca o cardapio pelo id
             retornoRequest = rest.Get(string.Format("/Cardapio/BuscarCardapio/{0}/{1}", id, usuarioLogado.IdLoja));
 
-            //se não encontrar um cardápio com este id
-            if (retornoRequest.HttpStatusCode == HttpStatusCode.NotFound)
-            {
-                ViewBag.MensagemEditarCardapio = "não foi possível carregar os dados do cardápio. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-                return View();
-            }
-
             //se ocorrer algum erro
             if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
             {
@@ -182,7 +173,6 @@ namespace marmitex_admin.Controllers
             return View(cardapio);
         }
 
-        [HttpPost]
         public ActionResult EditarCardapio(MenuCardapio cardapio)
         {
             #region validacao usuario logado
@@ -225,94 +215,64 @@ namespace marmitex_admin.Controllers
             }
         }
 
+        [MyErrorHandler]
         public ActionResult Excluir(int id)
         {
-            try
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            //busca os dados do cardápio
+            MenuCardapio cardapio = new MenuCardapio
             {
-                #region validacao usuario logado
+                Id = id,
+                IdLoja = usuarioLogado.IdLoja,
+                Ativo = false
+            };
 
-                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-                if (Session["UsuarioLogado"] == null)
-                    return RedirectToAction("Index", "Login");
+            //inativa o cardápio
+            string urlPost = string.Format("/MenuCardapio/Excluir");
 
-                //recebe o usuário logado
-                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+            retornoRequest = rest.Post(urlPost, cardapio);
 
-                #endregion
-
-                //busca os dados do cardápio
-                MenuCardapio cardapio = new MenuCardapio
-                {
-                    Id = id,
-                    IdLoja = usuarioLogado.IdLoja,
-                    Ativo = false
-                };
-
-                //inativa o cardápio
-                string urlPost = string.Format("/MenuCardapio/Excluir");
-
-                retornoRequest = rest.Post(urlPost, cardapio);
-
-                //se o cardápio não for atualizado
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                {
-                    ViewBag.MensagemExcluirCardapio = "não foi possível excluir o cardápio. por favor, tente novamente";
-                    return View("Index");
-                }
-
-                //se o cardápio for inativado, direciona para a tela de visualização de cardápio
-                return RedirectToAction("Index", "Cardapio");
-            }
-            catch (Exception)
-            {
-                ViewBag.MensagemExcluirCardapio = "não foi possível excluir o cardápio. por favor, tente novamente";
-                return View("Index");
-            }
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
+        [MyErrorHandler]
         public ActionResult Desativar(int id)
         {
-            try
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            //busca os dados do cardápio
+            MenuCardapio cardapio = new MenuCardapio
             {
-                #region validacao usuario logado
+                Id = id,
+                IdLoja = usuarioLogado.IdLoja,
+                Ativo = false
+            };
 
-                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-                if (Session["UsuarioLogado"] == null)
-                    return RedirectToAction("Index", "Login");
+            //inativa o cardápio
+            string urlPost = string.Format("/MenuCardapio/Desativar");
 
-                //recebe o usuário logado
-                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+            retornoRequest = rest.Post(urlPost, cardapio);
 
-                #endregion
-
-                //busca os dados do cardápio
-                MenuCardapio cardapio = new MenuCardapio
-                {
-                    Id = id,
-                    IdLoja = usuarioLogado.IdLoja,
-                    Ativo = false
-                };
-
-                //inativa o cardápio
-                string urlPost = string.Format("/MenuCardapio/Desativar");
-
-                retornoRequest = rest.Post(urlPost, cardapio);
-
-                //se o cardápio não for atualizado
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                {
-                    ViewBag.MensagemExcluirCardapio = "não foi possível desativar o cardápio. por favor, tente novamente";
-                    return View("Index");
-                }
-
-                //se o cardápio for inativado, direciona para a tela de visualização de cardápio
-                return RedirectToAction("Index", "Cardapio");
-            }
-            catch (Exception)
-            {
-                ViewBag.MensagemExcluirCardapio = "não foi possível desativar o cardápio. por favor, tente novamente";
-                return View("Index");
-            }
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
     }
