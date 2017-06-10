@@ -22,39 +22,48 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Index()
         {
-            #region validacao usuario logado
-
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
-
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-
-            #endregion
-
-            //busca todos os cardápios da loja
-            retornoRequest = rest.Get("/menucardapio/listar/" + usuarioLogado.IdLoja);
-
-            //se não encontrar cardápios para a loja
-            if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+            try
             {
-                ViewBag.MensagemCardapio = "não existem cardápios cadastrados";
-                return View("Index");
-            }
+                #region validacao usuario logado
 
-            //se ocorrer algum erro
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                //busca todos os cardápios da loja
+                retornoRequest = rest.Get("/menucardapio/listar/" + usuarioLogado.IdLoja);
+
+                //se não encontrar cardápios para a loja
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+                {
+                    ViewBag.MensagemCardapio = "não existem cardápios cadastrados";
+                    return View("Index");
+                }
+
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemCardapio = "não foi possível consultar os cardápios. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View("Index");
+                }
+
+                string jsonPedidos = retornoRequest.objeto.ToString();
+
+                listaCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
+
+                return View(listaCardapio);
+            }
+            catch (Exception)
             {
                 ViewBag.MensagemCardapio = "não foi possível consultar os cardápios. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View("Index");
             }
-
-            string jsonPedidos = retornoRequest.objeto.ToString();
-
-            listaCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
-
-            return View(listaCardapio);
+            
         }
 
         public ActionResult Adicionar()
@@ -73,11 +82,6 @@ namespace marmitex_admin.Controllers
             return View();
         }
 
-        /// <summary>
-        /// realiza o cadastro do cardapio
-        /// </summary>
-        /// <param name="cardapio">dados do cardápio que será cadastrado</param>
-        /// <returns></returns>
         public ActionResult AdicionarCardapio(MenuCardapio cardapio)
         {
             #region validacao usuario logado
@@ -129,35 +133,44 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Editar(int id)
         {
-            #region validacao usuario logado
+            try
+            {
+                #region validacao usuario logado
 
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
 
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
 
-            #endregion
+                #endregion
 
-            //busca os dados do parceiro
-            MenuCardapio cardapio = new MenuCardapio();
+                //busca os dados do parceiro
+                MenuCardapio cardapio = new MenuCardapio();
 
-            //busca o cardapio pelo id
-            retornoRequest = rest.Get(string.Format("/Cardapio/BuscarCardapio/{0}/{1}", id, usuarioLogado.IdLoja));
+                //busca o cardapio pelo id
+                retornoRequest = rest.Get(string.Format("/Cardapio/BuscarCardapio/{0}/{1}", id, usuarioLogado.IdLoja));
 
-            //se ocorrer algum erro
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemCarregamentoEditarCardapio = "não foi possível carregar os dados do cardápio. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
+                }
+
+                string json = retornoRequest.objeto.ToString();
+
+                cardapio = JsonConvert.DeserializeObject<MenuCardapio>(json);
+
+                return View(cardapio);
+            }
+            catch (Exception)
             {
                 ViewBag.MensagemCarregamentoEditarCardapio = "não foi possível carregar os dados do cardápio. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
 
-            string json = retornoRequest.objeto.ToString();
-
-            cardapio = JsonConvert.DeserializeObject<MenuCardapio>(json);
-
-            return View(cardapio);
         }
 
         public ActionResult EditarCardapio(MenuCardapio cardapio)
@@ -224,11 +237,8 @@ namespace marmitex_admin.Controllers
                 Ativo = false
             };
 
-            //inativa o cardápio
             string urlPost = string.Format("/MenuCardapio/Excluir");
-
             retornoRequest = rest.Post(urlPost, cardapio);
-
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
@@ -254,11 +264,8 @@ namespace marmitex_admin.Controllers
                 Ativo = false
             };
 
-            //inativa o cardápio
             string urlPost = string.Format("/MenuCardapio/Desativar");
-
             retornoRequest = rest.Post(urlPost, cardapio);
-
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
