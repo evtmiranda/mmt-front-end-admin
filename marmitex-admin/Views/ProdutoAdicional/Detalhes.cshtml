@@ -16,11 +16,22 @@
                     });
             </script>
         }
-        else
+
+        @if (Session["MensagemCarregamentoItem"] != null)
         {
-            if (Model != null)
+            <script>
+                swal({
+                    title: 'Oops',
+                    html: "@Session["MensagemCarregamentoItem"]",
+                    type: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            </script>
+        }
+
+        @if (Model != null)
             {
-                <h1 class="text-left">@Model.Nome</h1>
+            <h1 class="text-left">@Model.Nome</h1>
 
                 <ul class="breadcrumb">
                     <li>
@@ -58,9 +69,9 @@
                             <tbody>
 
                                 @foreach (var itemAdicional in Model.ItensAdicionais)
-                                {
-                                    if (itemAdicional.Ativo)
-                                    {
+                {
+                    if (itemAdicional.Ativo)
+                    {
                                         <tr>
                                             <td>@itemAdicional.Nome</td>
                                             <td>@itemAdicional.Descricao</td>
@@ -95,7 +106,6 @@
                         </table>
                     </div>
                 </div>
-            }
         }
     </row>
 </div>

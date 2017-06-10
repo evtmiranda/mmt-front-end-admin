@@ -16,7 +16,7 @@
                     });
             </script>
         }
-        else if (ViewBag.MensagemCarregamentoAdicionarProdutoAdicional != null)
+        else if (Session["MensagemCarregamentoAdicionarProdutoAdicional"] != null)
         {
             <script>
                 swal({
@@ -27,12 +27,12 @@
                 });
             </script>
         }
-        else if (ViewBag.MensagemCarregamentoEditarProdutoAdicionalProduto != null)
+        else if (Session["MensagemCarregamentoEditarProdutoAdicionalProduto"] != null)
         {
             <script>
                 swal({
                     title: 'Oops',
-                    html: "@ViewBag.MensagemCarregamentoEditarProdutoAdicionalProduto",
+                    html: "@Session["MensagemCarregamentoEditarProdutoAdicionalProduto"]",
                     type: 'error',
                     confirmButtonText: 'Ok'
                 });

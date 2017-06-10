@@ -291,6 +291,8 @@ namespace marmitex_admin.Controllers
                 ////filtra os produtos adicionais ativos
                 //listaDadosProdutoAdicional = listaDadosProdutoAdicional.Where(p => p.Ativo).ToList();
 
+                Session["IdProdutoAdicional"] = id;
+
                 //retorna para a view "Detalhes" com os produtos adicionais
                 return View(listaDadosProdutoAdicional.FirstOrDefault());
             }
@@ -356,6 +358,10 @@ namespace marmitex_admin.Controllers
 
         public ActionResult EditarItem(int id)
         {
+            //busca o id do prod adicional
+            Int32.TryParse(Session["IdProdutoAdicional"].ToString(), out int idProdutoAdicional);
+            Session["IdProdutoAdicional"] = null;
+
             try
             {
                 #region validacao usuario logado
@@ -369,6 +375,8 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                ViewBag.MensagemCarregamentoItem = null;
+
                 #region busca o item
 
                 DadosProdutoAdicionalItem item = new DadosProdutoAdicionalItem();
@@ -378,8 +386,8 @@ namespace marmitex_admin.Controllers
 
                 if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
                 {
-                    ViewBag.MensagemCarregamentoItem = "não foi possível carregar os dados do item. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-                    return View("Detalhes");
+                    Session["MensagemCarregamentoItem"] = "não foi possível carregar os dados do item. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return RedirectToAction("Detalhes", "ProdutoAdicional", new { id = idProdutoAdicional });
                 }
 
                 string jsonRetorno = retornoRequest.objeto.ToString();
@@ -392,8 +400,8 @@ namespace marmitex_admin.Controllers
             }
             catch (Exception)
             {
-                ViewBag.MensagemCarregamentoItem = "não foi possível carregar os dados do item. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-                return View("Detalhes");
+                Session["MensagemCarregamentoItem"] = "não foi possível carregar os dados do item. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                return RedirectToAction("Detalhes", "ProdutoAdicional", new { id = idProdutoAdicional });
             }
 
         }

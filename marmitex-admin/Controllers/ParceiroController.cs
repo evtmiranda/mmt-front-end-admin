@@ -368,6 +368,8 @@ namespace marmitex_admin.Controllers
                 string jsonRetorno = retornoRequest.objeto.ToString();
                 dadosBrindeParceiro = JsonConvert.DeserializeObject<DadosBrindeParceiro>(jsonRetorno);
 
+                Session["IdParceiro"] = id;
+
                 return View(dadosBrindeParceiro);
             }
             catch (Exception)
@@ -406,13 +408,13 @@ namespace marmitex_admin.Controllers
                 //se não encontrar produtos adicionais
                 if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
                 {
-                    ViewBag.MensagemCarregamentoAdicionarBrinde = "é necessário cadastrar um produto adicional antes de atrela-lo ao produto";
+                    Session["MensagemCarregamentoAdicionarBrinde"] = "é necessário cadastrar um produto adicional antes de atrela-lo ao produto";
                     return RedirectToAction("Detalhes", "Parceiro", new { id = id });
                 }
 
                 if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
                 {
-                    ViewBag.MensagemCarregamentoAdicionarBrinde = "não foi possível carregar os brindes. por favor, tente novamente ou entre em contato com o administrador do sistema.";
+                    Session["MensagemCarregamentoAdicionarBrinde"] = "não foi possível carregar os brindes. por favor, tente novamente ou entre em contato com o administrador do sistema.";
                     return RedirectToAction("Detalhes", "Parceiro", new { id = id });
                 }
 
@@ -429,7 +431,7 @@ namespace marmitex_admin.Controllers
             }
             catch (Exception)
             {
-                ViewBag.MensagemCarregamentoAdicionarBrinde = "não foi possível carregar os brindes. por favor, tente novamente ou entre em contato com o administrador do sistema.";
+                Session["MensagemCarregamentoAdicionarBrinde"] = "não foi possível carregar os brindes. por favor, tente novamente ou entre em contato com o administrador do sistema.";
                 return RedirectToAction("Detalhes", "Parceiro", new { id = id });
             }
 
@@ -467,11 +469,8 @@ namespace marmitex_admin.Controllers
 
                 //se o brinde for cadastrado, direciona para a tela de visualização de brindes do parceiro
                 if (retornoRequest.HttpStatusCode == HttpStatusCode.Created)
-                {
-                    ViewBag.MensagemErroCadBrindeParceiro = null;
                     return RedirectToAction("Detalhes", "Parceiro", new { id = brindeParceiro.IdParceiro });
-                }
-
+                
                 ViewBag.MensagemErroCadBrindeParceiro = "não foi possível cadastrar o brinde. por favor, tente novamente";
                 return View("AdicionarBrinde", brindeParceiro);
 
@@ -541,6 +540,7 @@ namespace marmitex_admin.Controllers
 
             //busca o id do parceiro
             Int32.TryParse(Session["IdParceiro"].ToString(), out int idParceiro);
+            Session["IdParceiro"] = null;
 
             //busca os dados do brinde
             BrindeParceiro brindeParceiro = new BrindeParceiro

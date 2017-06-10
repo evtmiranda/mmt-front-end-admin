@@ -28,92 +28,110 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Index()
         {
-            #region validacao usuario logado
-
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
-
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-
-            #endregion
-
-            #region limpa as viewbags de mensagem
-
-            ViewBag.MensagemCardapio = null;
-
-            #endregion
-
-            //busca todos os cardápios da loja
-            retornoRequest = rest.Get("/menucardapio/listar/" + usuarioLogado.IdLoja);
-
-            //se não encontrar cardápios para a loja
-            if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+            try
             {
-                ViewBag.MensagemCardapio = "não existem cardápios cadastrados";
-                return View();
-            }
+                #region validacao usuario logado
 
-            //se ocorrer algum erro
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemCardapio = null;
+
+                #endregion
+
+                //busca todos os cardápios da loja
+                retornoRequest = rest.Get("/menucardapio/listar/" + usuarioLogado.IdLoja);
+
+                //se não encontrar cardápios para a loja
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+                {
+                    ViewBag.MensagemCardapio = "não existem cardápios cadastrados";
+                    return View();
+                }
+
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemCardapio = "não foi possível consultar os cardápios. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
+                }
+
+                string jsonPedidos = retornoRequest.objeto.ToString();
+
+                listaCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
+
+                return View(listaCardapio);
+            }
+            catch (Exception)
             {
                 ViewBag.MensagemCardapio = "não foi possível consultar os cardápios. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
 
-            string jsonPedidos = retornoRequest.objeto.ToString();
-
-            listaCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
-
-            return View(listaCardapio);
         }
 
         public ActionResult Adicionar()
         {
-            #region validacao usuario logado
-
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
-
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-
-            #endregion
-
-            #region limpa as viewbags de mensagem
-
-            ViewBag.MensagemCarregamentoAdicionarProduto = null;
-
-            #endregion
-
-            List<MenuCardapio> listaMenuCardapio = new List<MenuCardapio>();
-
-            //busca todos os cardápios da loja
-            retornoRequest = rest.Get("/menucardapio/listar/" + usuarioLogado.IdLoja);
-
-            //se não encontrar cardápios para a loja
-            if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+            try
             {
-                ViewBag.MensagemCarregamentoAdicionarProduto = "é necessário cadastrar um cardápio antes do produto";
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemCarregamentoAdicionarProduto = null;
+
+                #endregion
+
+                List<MenuCardapio> listaMenuCardapio = new List<MenuCardapio>();
+
+                //busca todos os cardápios da loja
+                retornoRequest = rest.Get("/menucardapio/listar/" + usuarioLogado.IdLoja);
+
+                //se não encontrar cardápios para a loja
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+                {
+                    ViewBag.MensagemCarregamentoAdicionarProduto = "é necessário cadastrar um cardápio antes do produto";
+                    return View();
+                }
+
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemCarregamentoAdicionarProduto = "não foi possível consultar os cardápios. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
+                }
+
+                string jsonPedidos = retornoRequest.objeto.ToString();
+
+                listaMenuCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
+
+                ViewBag.MenuCardapio = listaMenuCardapio;
+
                 return View();
             }
-
-            //se ocorrer algum erro
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+            catch (Exception)
             {
                 ViewBag.MensagemCarregamentoAdicionarProduto = "não foi possível consultar os cardápios. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
-
-            string jsonPedidos = retornoRequest.objeto.ToString();
-
-            listaMenuCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
-
-            ViewBag.MenuCardapio = listaMenuCardapio;
-
-            return View();
+            
         }
 
         public ActionResult AdicionarProduto(Produto produto, HttpPostedFileBase file)
@@ -188,55 +206,64 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Editar(int id)
         {
-            #region validacao usuario logado
+            try
+            {
+                #region validacao usuario logado
 
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
 
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
 
-            #endregion
+                #endregion
 
-            #region busca os cardápios
+                #region busca os cardápios
 
-            List<MenuCardapio> listaMenuCardapio = new List<MenuCardapio>();
+                List<MenuCardapio> listaMenuCardapio = new List<MenuCardapio>();
 
-            //busca todos os cardápios da loja
-            retornoRequest = rest.Get("/menucardapio/listar/" + usuarioLogado.IdLoja);
+                //busca todos os cardápios da loja
+                retornoRequest = rest.Get("/menucardapio/listar/" + usuarioLogado.IdLoja);
 
-            //se ocorrer algum erro
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemCarregamentoEditarProduto = "não foi possível carregar os dados do produto. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
+                }
+
+                string jsonPedidos = retornoRequest.objeto.ToString();
+
+                listaMenuCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
+
+                //view bag com os cardápios
+                ViewBag.MenuCardapio = listaMenuCardapio;
+
+                #endregion
+
+                //busca os dados do produto
+                List<Produto> produtosCardapio = new List<Produto>();
+
+                foreach (var cardapio in listaMenuCardapio)
+                {
+                    foreach (var produtoCardapio in cardapio.Produtos)
+                    {
+                        produtosCardapio.Add(produtoCardapio);
+                    }
+                }
+
+                Produto produto = new Produto();
+                produto = produtosCardapio.Where(p => p.Id == id).FirstOrDefault();
+
+                return View(produto);
+            }
+            catch (Exception)
             {
                 ViewBag.MensagemCarregamentoEditarProduto = "não foi possível carregar os dados do produto. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
-
-            string jsonPedidos = retornoRequest.objeto.ToString();
-
-            listaMenuCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
-
-            //view bag com os cardápios
-            ViewBag.MenuCardapio = listaMenuCardapio;
-
-            #endregion
-
-            //busca os dados do produto
-            List<Produto> produtosCardapio = new List<Produto>();
-
-            foreach (var cardapio in listaMenuCardapio)
-            {
-                foreach (var produtoCardapio in cardapio.Produtos)
-                {
-                    produtosCardapio.Add(produtoCardapio);
-                }
-            }
-
-            Produto produto = new Produto();
-            produto = produtosCardapio.Where(p => p.Id == id).FirstOrDefault();
-
-            return View(produto);
+            
         }
 
         public ActionResult EditarProduto(Produto produto, HttpPostedFileBase file)
@@ -368,57 +395,66 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Detalhes(int id)
         {
-            #region validacao usuario logado
-
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
-
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-
-            #endregion
-
-            #region busca o produto
-
-            Produto produto = new Produto();
-            string jsonRetorno = null;
-
-            //busca todos os cardápios da loja
-            retornoRequest = rest.Get(string.Format("/Produto/{0}/{1}", id, usuarioLogado.IdLoja));
-
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                ViewBag.MensagemDetalhesProduto = "não foi possível exibir detalhes do produto. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-            else
+            try
             {
-                jsonRetorno = retornoRequest.objeto.ToString();
-                produto = JsonConvert.DeserializeObject<Produto>(jsonRetorno);
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region busca o produto
+
+                Produto produto = new Produto();
+                string jsonRetorno = null;
+
+                //busca todos os cardápios da loja
+                retornoRequest = rest.Get(string.Format("/Produto/{0}/{1}", id, usuarioLogado.IdLoja));
+
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                    ViewBag.MensagemDetalhesProduto = "não foi possível exibir detalhes do produto. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                else
+                {
+                    jsonRetorno = retornoRequest.objeto.ToString();
+                    produto = JsonConvert.DeserializeObject<Produto>(jsonRetorno);
+                }
+
+                #endregion
+
+                #region busca a relação de produtos adicionais do produto
+
+                List<DadosProdutoAdicionalProduto> listaDadosProdutoAdicionalProduto = new List<DadosProdutoAdicionalProduto>();
+
+                //busca os produtos adicionais deste produto
+                retornoRequest = rest.Get(string.Format("/Produto/BuscarProdutosAdicionaisDeUmProduto/{0}/{1}", id, usuarioLogado.IdLoja));
+
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                    ViewBag.MensagemDetalhesProduto = "não foi possível exibir detalhes do produto. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                else
+                {
+                    jsonRetorno = retornoRequest.objeto.ToString();
+                    listaDadosProdutoAdicionalProduto = JsonConvert.DeserializeObject<List<DadosProdutoAdicionalProduto>>(jsonRetorno);
+
+                    //se não existirem produtos adicionais para este produto, insere um produto na lista apenas para exibicao
+                    if (listaDadosProdutoAdicionalProduto.Count == 0)
+                        listaDadosProdutoAdicionalProduto.Add(new DadosProdutoAdicionalProduto { IdProduto = produto.Id, NomeProduto = produto.Nome });
+                }
+
+                #endregion
+
+                return View(listaDadosProdutoAdicionalProduto);
             }
-
-            #endregion
-
-            #region busca a relação de produtos adicionais do produto
-
-            List<DadosProdutoAdicionalProduto> listaDadosProdutoAdicionalProduto = new List<DadosProdutoAdicionalProduto>();
-
-            //busca os produtos adicionais deste produto
-            retornoRequest = rest.Get(string.Format("/Produto/BuscarProdutosAdicionaisDeUmProduto/{0}/{1}", id, usuarioLogado.IdLoja));
-
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                ViewBag.MensagemDetalhesProduto = "não foi possível exibir detalhes do produto. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-            else
+            catch (Exception)
             {
-                jsonRetorno = retornoRequest.objeto.ToString();
-                listaDadosProdutoAdicionalProduto = JsonConvert.DeserializeObject<List<DadosProdutoAdicionalProduto>>(jsonRetorno);
-
-                //se não existirem produtos adicionais para este produto, insere um produto na lista apenas para exibicao
-                if (listaDadosProdutoAdicionalProduto.Count == 0)
-                    listaDadosProdutoAdicionalProduto.Add(new DadosProdutoAdicionalProduto { IdProduto = produto.Id, NomeProduto = produto.Nome });
+                ViewBag.MensagemDetalhesProduto = "não foi possível exibir detalhes do produto. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                return View();
             }
-
-            #endregion
-
-            return View(listaDadosProdutoAdicionalProduto);
+            
         }
 
         #endregion
@@ -427,174 +463,210 @@ namespace marmitex_admin.Controllers
 
         public ActionResult AdicionarProdutoAdicional(int id)
         {
-            #region validacao usuario logado
-
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
-
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-
-            #endregion
-
-            #region busca os produtos adicionais
-
-            List<DadosProdutoAdicional> listaDadosProdutoAdicional = new List<DadosProdutoAdicional>();
-
-            //busca todos os produtos adicionais da loja
-            retornoRequest = rest.Get("/ProdutoAdicional/listar/" + usuarioLogado.IdLoja);
-
-            //se não encontrar produtos adicionais
-            if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+            try
             {
-                ViewBag.MensagemCarregamentoAdicionarProdutoAdicional = "é necessário cadastrar um produto adicional antes de atrela-lo ao produto";
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region busca os produtos adicionais
+
+                List<DadosProdutoAdicional> listaDadosProdutoAdicional = new List<DadosProdutoAdicional>();
+
+                //busca todos os produtos adicionais da loja
+                retornoRequest = rest.Get("/ProdutoAdicional/listar/" + usuarioLogado.IdLoja);
+
+                //se não encontrar produtos adicionais
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+                {
+                    Session["MensagemCarregamentoAdicionarProdutoAdicional"] = "é necessário cadastrar um produto adicional antes de atrela-lo ao produto";
+                    return RedirectToAction("Detalhes", "Produto", new { id = id });
+                }
+
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    Session["MensagemCarregamentoAdicionarProdutoAdicional"] = "não foi possível consultar os produtos adicionais. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return RedirectToAction("Detalhes", "Produto", new { id = id });
+                }
+
+                string json = retornoRequest.objeto.ToString();
+
+                listaDadosProdutoAdicional = JsonConvert.DeserializeObject<List<DadosProdutoAdicional>>(json);
+
+                ViewBag.ProdutosAdicionais = listaDadosProdutoAdicional;
+
+                #endregion
+
+                DadosProdutoAdicionalProduto dadosProdutoAdicionalProduto = new DadosProdutoAdicionalProduto()
+                {
+                    IdProduto = id,
+                    IdLoja = usuarioLogado.IdLoja
+                };
+
+                //if (Session["ProdutoAdicionalProdutoCadastro"] != null)
+                //    dadosProdutoAdicionalProduto = Session["ProdutoAdicionalProdutoCadastro"] as DadosProdutoAdicionalProduto;
+
+                //Session["ProdutoAdicionalProdutoCadastro"] = null;
+
+                return View(dadosProdutoAdicionalProduto);
+            }
+            catch (Exception)
+            {
+                Session["MensagemCarregamentoAdicionarProdutoAdicional"] = "é necessário cadastrar um produto adicional antes de atrela-lo ao produto";
                 return RedirectToAction("Detalhes", "Produto", new { id = id });
             }
 
-            //se ocorrer algum erro
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-            {
-                ViewBag.MensagemCarregamentoAdicionarProdutoAdicional = "não foi possível consultar os produtos adicionais. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-                return RedirectToAction("Detalhes", "Produto", new { id = id });
-            }
-
-            string json = retornoRequest.objeto.ToString();
-
-            listaDadosProdutoAdicional = JsonConvert.DeserializeObject<List<DadosProdutoAdicional>>(json);
-
-            ViewBag.ProdutosAdicionais = listaDadosProdutoAdicional;
-
-            #endregion
-
-            DadosProdutoAdicionalProduto dadosProdutoAdicionalProduto = new DadosProdutoAdicionalProduto()
-            {
-                IdProduto = id,
-                IdLoja = usuarioLogado.IdLoja
-            };
-
-            //if (Session["ProdutoAdicionalProdutoCadastro"] != null)
-            //    dadosProdutoAdicionalProduto = Session["ProdutoAdicionalProdutoCadastro"] as DadosProdutoAdicionalProduto;
-
-            //Session["ProdutoAdicionalProdutoCadastro"] = null;
-
-            return View(dadosProdutoAdicionalProduto);
         }
 
         public ActionResult AdicionarProdutoAdicionalProduto(DadosProdutoAdicionalProduto produtoAdicionalProduto)
         {
-            #region validacao usuario logado
+            try
+            {
+                #region validacao usuario logado
 
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
 
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
 
-            #endregion
+                #endregion
 
-            string urlPost = "/Produto/AdicionarProdutoAdicional";
-            produtoAdicionalProduto.IdLoja = usuarioLogado.IdLoja;
-            retornoRequest = rest.Post(urlPost, produtoAdicionalProduto);
+                string urlPost = "/Produto/AdicionarProdutoAdicional";
+                produtoAdicionalProduto.IdLoja = usuarioLogado.IdLoja;
+                retornoRequest = rest.Post(urlPost, produtoAdicionalProduto);
 
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.Created)
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.Created)
+                {
+                    ViewBag.MensagemCadProdutoAdicionalProduto = "não foi possível cadastrar o produto adicional para o produto. por favor, tente novamente";
+                    return View("AdicionarProdutoAdicional", produtoAdicionalProduto);
+                }
+
+                return RedirectToAction("Detalhes", "Produto", new { id = produtoAdicionalProduto.IdProduto });
+            }
+            catch (Exception)
             {
                 ViewBag.MensagemCadProdutoAdicionalProduto = "não foi possível cadastrar o produto adicional para o produto. por favor, tente novamente";
                 return View("AdicionarProdutoAdicional", produtoAdicionalProduto);
             }
 
-            return RedirectToAction("Detalhes", "Produto", new { id = produtoAdicionalProduto.IdProduto });
         }
 
         public ActionResult EditarProdutoAdicional(int id)
         {
-            #region validacao usuario logado
-
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
-
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-
-            #endregion
-
-            #region busca os produtos adicionais
-
-            List<DadosProdutoAdicional> listaDadosProdutoAdicional = new List<DadosProdutoAdicional>();
-
-            //busca todos os cardápios da loja
-            retornoRequest = rest.Get("/ProdutoAdicional/listar/" + usuarioLogado.IdLoja);
-
-            //se ocorrer algum erro
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+            try
             {
-                ViewBag.MensagemCarregamentoEditarProdutoAdicionalProduto = "não foi possível carregar os dados dos produtos adicionais. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region busca os produtos adicionais
+
+                List<DadosProdutoAdicional> listaDadosProdutoAdicional = new List<DadosProdutoAdicional>();
+
+                //busca todos os cardápios da loja
+                retornoRequest = rest.Get("/ProdutoAdicional/listar/" + usuarioLogado.IdLoja);
+
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    Session["MensagemCarregamentoEditarProdutoAdicionalProduto"] = "não foi possível carregar os dados dos produtos adicionais. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return RedirectToAction("Detalhes", "Produto", new { id = id });
+                }
+
+                string json = retornoRequest.objeto.ToString();
+
+                listaDadosProdutoAdicional = JsonConvert.DeserializeObject<List<DadosProdutoAdicional>>(json);
+
+                listaDadosProdutoAdicional = listaDadosProdutoAdicional.FindAll(p => p.Ativo);
+
+                ViewBag.ProdutosAdicionais = listaDadosProdutoAdicional;
+
+                #endregion
+
+                #region busca o produto adicional do produto
+
+                DadosProdutoAdicionalProduto dadosProdutoAdicionalProduto = new DadosProdutoAdicionalProduto();
+
+                //busca os dados do produto adicional
+                retornoRequest = rest.Get(string.Format("/Produto/BuscarProdutoAdicional/{0}/{1}", id, usuarioLogado.IdLoja));
+
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    Session["MensagemCarregamentoEditarProdutoAdicionalProduto"] = "não foi possível carregar os dados do produto adicional. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return RedirectToAction("Detalhes", "Produto", new { id = id });
+                }
+
+                string jsonResult = retornoRequest.objeto.ToString();
+
+                dadosProdutoAdicionalProduto = JsonConvert.DeserializeObject<DadosProdutoAdicionalProduto>(jsonResult);
+
+                #endregion
+
+                return View(dadosProdutoAdicionalProduto);
+            }
+            catch (Exception)
+            {
+                Session["MensagemCarregamentoEditarProdutoAdicionalProduto"] = "não foi possível carregar os dados do produto adicional. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return RedirectToAction("Detalhes", "Produto", new { id = id });
             }
-
-            string json = retornoRequest.objeto.ToString();
-
-            listaDadosProdutoAdicional = JsonConvert.DeserializeObject<List<DadosProdutoAdicional>>(json);
-
-            listaDadosProdutoAdicional = listaDadosProdutoAdicional.FindAll(p => p.Ativo);
-
-            ViewBag.ProdutosAdicionais = listaDadosProdutoAdicional;
-
-            #endregion
-
-            #region busca o produto adicional do produto
-
-            DadosProdutoAdicionalProduto dadosProdutoAdicionalProduto = new DadosProdutoAdicionalProduto();
-
-            //busca os dados do produto adicional
-            retornoRequest = rest.Get(string.Format("/Produto/BuscarProdutoAdicional/{0}/{1}", id, usuarioLogado.IdLoja));
-
-            //se ocorrer algum erro
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-            {
-                ViewBag.MensagemCarregamentoEditarProdutoAdicionalProduto = "não foi possível carregar os dados do produto adicional. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-                return RedirectToAction("Detalhes", "Produto", new { id = id });
-            }
-
-            string jsonResult = retornoRequest.objeto.ToString();
-
-            dadosProdutoAdicionalProduto = JsonConvert.DeserializeObject<DadosProdutoAdicionalProduto>(jsonResult);
-
-            #endregion
-
-            return View(dadosProdutoAdicionalProduto);
+            
         }
 
         public ActionResult EditarProdutoAdicionalProduto(DadosProdutoAdicionalProduto produtoAdicionalProduto)
         {
-            #region validacao usuario logado
+            try
+            {
+                #region validacao usuario logado
 
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
 
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
 
-            #endregion
+                #endregion
 
-            //variável para armazenar o retorno da requisição
-            DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
+                //variável para armazenar o retorno da requisição
+                DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
 
-            string urlPost = string.Format("/Produto/ProdutoAdicional/Atualizar");
-            produtoAdicionalProduto.IdLoja = usuarioLogado.IdLoja;
-            retornoRequest = rest.Post(urlPost, produtoAdicionalProduto);
+                string urlPost = string.Format("/Produto/ProdutoAdicional/Atualizar");
+                produtoAdicionalProduto.IdLoja = usuarioLogado.IdLoja;
+                retornoRequest = rest.Post(urlPost, produtoAdicionalProduto);
 
-            //se o produto não for atualizado
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                //se o produto não for atualizado
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemEditarProdutoAdicionalProduto = "não foi possível atualizar o produto. por favor, tente novamente";
+                    return View("EditarProdutoAdicional", produtoAdicionalProduto);
+                }
+
+                return RedirectToAction("Detalhes", "Produto", new { id = produtoAdicionalProduto.IdProduto });
+            }
+            catch (Exception)
             {
                 ViewBag.MensagemEditarProdutoAdicionalProduto = "não foi possível atualizar o produto. por favor, tente novamente";
                 return View("EditarProdutoAdicional", produtoAdicionalProduto);
             }
 
-            return RedirectToAction("Detalhes", "Produto", new { id = produtoAdicionalProduto.IdProduto });
         }
 
         [MyErrorHandler]

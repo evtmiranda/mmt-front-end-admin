@@ -16,12 +16,12 @@
                     });
             </script>
         }
-        else if (ViewBag.MensagemCarregamentoAdicionarBrinde != null)
+        else if (Session["MensagemCarregamentoAdicionarBrinde"] != null)
         {
             <script>
                 swal({
                     title: 'Oops',
-                    html: "@ViewBag.MensagemCarregamentoAdicionarBrinde",
+                    html: "@Session["MensagemCarregamentoAdicionarBrinde"]",
                     type: 'error',
                     confirmButtonText: 'Ok'
                 });
