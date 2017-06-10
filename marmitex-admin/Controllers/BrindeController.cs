@@ -24,9 +24,6 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Index()
         {
-            List<Brinde> listaBrindes = new List<Brinde>();
-            ViewBag.MensagemBrindes = null;
-
             #region validacao usuario logado
 
             //se a sessão de usuário não estiver preenchida, direciona para a tela de login
@@ -38,6 +35,13 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemBrindes = null;
+
+            #endregion
+
+            List<Brinde> listaBrindes = new List<Brinde>();
             retornoRequest = rest.Get("/Brinde/ListarPorLoja/" + usuarioLogado.IdLoja);
 
             if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
@@ -62,8 +66,6 @@ namespace marmitex_admin.Controllers
 
             return View(listaBrindes);
         }
-
-        #region brindes
 
         public ActionResult Adicionar()
         {
@@ -101,12 +103,6 @@ namespace marmitex_admin.Controllers
             if (file == null)
             {
                 ViewBag.MensagemErroCadBrinde = "insira uma imagem para o brinde";
-                return View("Adicionar", brindeCadastro);
-            }
-
-            if (string.IsNullOrEmpty(brindeCadastro.Nome))
-            {
-                ViewBag.MensagemErroCadBrinde = "escolha um nome para o brinde";
                 return View("Adicionar", brindeCadastro);
             }
 
@@ -217,12 +213,6 @@ namespace marmitex_admin.Controllers
             if (file == null)
             {
                 ViewBag.MensagemEditarBrinde = "insira uma imagem para o brinde";
-                return View("Editar", brindeCadastro);
-            }
-
-            if (string.IsNullOrEmpty(brindeCadastro.Nome))
-            {
-                ViewBag.MensagemEditarBrinde = "escolha um nome para o brinde";
                 return View("Editar", brindeCadastro);
             }
 
@@ -344,6 +334,5 @@ namespace marmitex_admin.Controllers
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
-        #endregion
     }
 }

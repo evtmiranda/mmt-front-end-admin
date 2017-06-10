@@ -59,3 +59,18 @@
         </div>
     </div>
 </div>
+
+
+<div class="col-md-12">
+    <div class="form-group">
+        @if (ViewBag.MensagemErroCadBrinde != null)
+            {
+            <p class="vermelho-marmitex">@ViewBag.MensagemErroCadBrinde</p>
+        }
+
+        @if (ViewBag.MensagemEditarBrinde != null)
+        {
+            <p class="vermelho-marmitex">@ViewBag.MensagemEditarBrinde</p>
+        }
+    </div>
+</div>

@@ -9,18 +9,6 @@
 
             @Html.Partial("_FormBrinde")
 
-            @*se houver alguma mensagem de erro no cadastro do brinde, lança um alert com a mensagem*@
-            @if (ViewBag.MensagemErroCadBrinde != null)
-            {
-                <script>
-                    swal(
-                        'Oops...',
-                        '@ViewBag.MensagemErroCadBrinde',
-                        'error'
-                    );
-                </script>
-            }
-
             <div class="col-md-12">
                 <div class="buttons-formcontrol">
                     <input type="submit" class="btn btn-success" value="adicionar brinde" />
