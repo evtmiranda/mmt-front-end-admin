@@ -4,31 +4,58 @@
     <h2>Editar tempo mínimo de antecedência do pedido</h2>
     <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
     <div class="col-md-10">
-        <form method="post" action="@Session["urlBase"]/HorarioEntrega/EditarTempoAntecedenciaHorario">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label for="nome">tempo de antecedência em minutos *</label>
 
-                    @if (Model != null)
-                    {
-                        <input type="hidden" name="id" value="@Model.Id" />
-                        <input type="number" id="minutosAntecedencia" name="MinutosAntecedencia" value="@Model.MinutosAntecedencia" class="form-control" min="1" max="120"/>
-                    }
-                    else
-                    {
-                        <input type="number" id="minutosAntecedencia" name="MinutosAntecedencia" class="form-control" />
-                    }
+        @if (ViewBag.MensagemCarregamentoEditarHorarioEntrega != null)
+        {
+            <script>
+                swal({
+                    title: 'Oops',
+                    html: "@ViewBag.MensagemCarregamentoEditarHorarioEntrega",
+                    type: 'error',
+                    confirmButtonText: 'Ok'
+                }).then(function () {
+                    window.location = "@Session["urlBase"]/HorarioEntrega/";
+                    });
+            </script>
+        }
+        else
+        {
+            <form method="post" action="@Session["urlBase"]/HorarioEntrega/EditarTempoAntecedenciaHorario">
 
-                </div>
-            </div>
+                @if (ViewBag.MensagemEditarHorarioEntrega)
+                {
+                    <div class="text-center">
+                        <p>@ViewBag.MensagemEditarHorarioEntrega</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-12">
+                        <div class="form-group">
 
-            <div class="col-md-12">
-                <div class="buttons-formcontrol">
-                    <input type="submit" class="btn btn-success" value="salvar" />
-                </div>
-            </div>
-        </form>
+                            <label for="nome">tempo de antecedência em minutos *</label>
+
+                            @if (Model != null)
+                            {
+                                <input type="hidden" name="id" value="@Model.Id" />
+                                <input type="number" id="minutosAntecedencia" name="MinutosAntecedencia" value="@Model.MinutosAntecedencia" class="form-control" min="1" max="120" />
+                            }
+                            else
+                            {
+                                <input type="number" id="minutosAntecedencia" name="MinutosAntecedencia" class="form-control" />
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="buttons-formcontrol">
+                            <input type="submit" class="btn btn-success" value="salvar" />
+                        </div>
+                    </div>
+                }
+
+            </form>
+        }
     </div>
 </div>
-
-

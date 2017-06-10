@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Web.Mvc;
+using marmitex_admin.Utils;
 
 namespace marmitex_admin.Controllers
 {
@@ -18,44 +19,51 @@ namespace marmitex_admin.Controllers
             this.rest = rest;
         }
 
-        // GET: HorarioEntrega
         public ActionResult Index()
         {
-            #region validacao usuario logado
-
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
-
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-
-            #endregion
-
-            DadosHorarioEntrega dadosHorarioEntrega = new DadosHorarioEntrega();
-
-            //busca os horários de entrega
-            retornoRequest = rest.Get("/HorarioEntrega/Listar/" + usuarioLogado.IdLoja);
-
-            //se não encontrar
-            if (retornoRequest.HttpStatusCode == HttpStatusCode.NotFound)
+            try
             {
-                ViewBag.MensagemHorarioEntrega = "nenhum horário de entrega encontrado";
-                return View("Index");
-            }
+                #region validacao usuario logado
 
-            //se ocorrer algum erro
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                DadosHorarioEntrega dadosHorarioEntrega = new DadosHorarioEntrega();
+
+                //busca os horários de entrega
+                retornoRequest = rest.Get("/HorarioEntrega/Listar/" + usuarioLogado.IdLoja);
+
+                //se não encontrar
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.NotFound)
+                {
+                    ViewBag.MensagemHorarioEntrega = "nenhum horário de entrega encontrado";
+                    return View();
+                }
+
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemHorarioEntrega = "não foi possível consultar os horários de entrega. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
+                }
+
+                string jsonRetorno = retornoRequest.objeto.ToString();
+
+                dadosHorarioEntrega = JsonConvert.DeserializeObject<DadosHorarioEntrega>(jsonRetorno);
+
+                return View(dadosHorarioEntrega);
+            }
+            catch (Exception)
             {
                 ViewBag.MensagemHorarioEntrega = "não foi possível consultar os horários de entrega. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-                return View("Index");
+                return View();
             }
-
-            string jsonRetorno = retornoRequest.objeto.ToString();
-
-            dadosHorarioEntrega = JsonConvert.DeserializeObject<DadosHorarioEntrega>(jsonRetorno);
-
-            return View(dadosHorarioEntrega);
         }
 
         public ActionResult Adicionar()
@@ -100,7 +108,7 @@ namespace marmitex_admin.Controllers
                 //se não for cadastrado
                 if (retornoRequest.HttpStatusCode != HttpStatusCode.Created)
                 {
-                    ViewBag.MensagemHorarioEntrega = "não foi possível cadastrar. por favor, tente novamente";
+                    ViewBag.MensagemCadHorarioEntrega = "não foi possível cadastrar o horário de entrega. por favor, tente novamente";
                     return View("Adicionar", horarioEntrega);
                 }
 
@@ -108,50 +116,58 @@ namespace marmitex_admin.Controllers
             }
             catch (Exception)
             {
-                ViewBag.MensagemHorarioEntrega = "não foi possível cadastrar. por favor, tente novamente";
+                ViewBag.MensagemCadHorarioEntrega = "não foi possível cadastrar o horário de entrega. por favor, tente novamente";
                 return View("Adicionar", horarioEntrega);
             }
         }
 
         public ActionResult Editar(int id)
         {
-            #region validacao usuario logado
-
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
-
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-
-            #endregion
-
-            HorarioEntrega horarioEntrega = new HorarioEntrega();
-
-            retornoRequest = rest.Get(string.Format("/HorarioEntrega/{0}/{1}", id, usuarioLogado.IdLoja));
-
-            //se não encontrar com este id
-            if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+            try
             {
-                ViewBag.MensagemEditarHorarioEntrega = "não foi possível carregar os dados. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                HorarioEntrega horarioEntrega = new HorarioEntrega();
+
+                retornoRequest = rest.Get(string.Format("/HorarioEntrega/{0}/{1}", id, usuarioLogado.IdLoja));
+
+                //se não encontrar com este id
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+                {
+                    ViewBag.MensagemCarregamentoEditarHorarioEntrega = "não foi possível carregar os dados. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
+                }
+
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemCarregamentoEditarHorarioEntrega = "não foi possível carregar os dados. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
+                }
+
+                string jsonRetorno = retornoRequest.objeto.ToString();
+
+                horarioEntrega = JsonConvert.DeserializeObject<HorarioEntrega>(jsonRetorno);
+
+                return View(horarioEntrega);
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemCarregamentoEditarHorarioEntrega = "não foi possível carregar os dados. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
 
-            //se ocorrer algum erro
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-            {
-                ViewBag.MensagemEditarHorarioEntrega = "não foi possível carregar os dados. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-                return View();
-            }
-
-            string jsonRetorno = retornoRequest.objeto.ToString();
-
-            horarioEntrega = JsonConvert.DeserializeObject<HorarioEntrega>(jsonRetorno);
-
-            return View(horarioEntrega);
         }
 
-        [HttpPost]
         public ActionResult EditarHorario(HorarioEntrega horarioEntrega)
         {
             #region validacao usuario logado
@@ -193,7 +209,37 @@ namespace marmitex_admin.Controllers
             }
         }
 
+        [MyErrorHandler]
         public ActionResult Excluir(int id)
+        {
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            HorarioEntrega horarioEntrega = new HorarioEntrega
+            {
+                Id = id,
+                IdLoja = usuarioLogado.IdLoja,
+                Ativo = false
+            };
+
+            //recurso do post
+            string urlPost = string.Format("/HorarioEntrega/Excluir");
+
+            //faz o post
+            retornoRequest = rest.Post(urlPost, horarioEntrega);
+
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EditarTempoAntecedencia(int id)
         {
             try
             {
@@ -208,72 +254,36 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
-                HorarioEntrega horarioEntrega = new HorarioEntrega
+                TempoAntecedenciaEntrega tempoAntecedenciaEntrega = new TempoAntecedenciaEntrega();
+
+                retornoRequest = rest.Get(string.Format("/HorarioEntrega/TempoAntecedencia/{0}/{1}", id, usuarioLogado.IdLoja));
+
+                //se não encontrar com este id
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
                 {
-                    Id = id,
-                    IdLoja = usuarioLogado.IdLoja,
-                    Ativo = false
-                };
-
-                //recurso do post
-                string urlPost = string.Format("/HorarioEntrega/Excluir");
-
-                //faz o post
-                retornoRequest = rest.Post(urlPost, horarioEntrega);
-
-                //se não for atualizado
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                {
-                    ViewBag.MensagemExcluirHorarioEntrega = "não foi possível excluir. por favor, tente novamente";
-                    return View("Index");
+                    ViewBag.MensagemCarregamentoEditarHorarioEntrega = "não foi possível carregar os dados do tempo de antecedência. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
                 }
 
-                //se for inativado, direciona para a tela de visualização
-                return RedirectToAction("Index", "HorarioEntrega");
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemCarregamentoEditarHorarioEntrega = "não foi possível carregar os dados do tempo de antecedência. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
+                }
+
+                string jsonRetorno = retornoRequest.objeto.ToString();
+
+                tempoAntecedenciaEntrega = JsonConvert.DeserializeObject<TempoAntecedenciaEntrega>(jsonRetorno);
+
+                return View(tempoAntecedenciaEntrega);
             }
             catch (Exception)
             {
-                ViewBag.MensagemExcluirHorarioEntrega = "não foi possível excluir. por favor, tente novamente";
-                return View("Index");
-            }
-        }
-
-        public ActionResult EditarTempoAntecedencia(int id)
-        {
-            #region validacao usuario logado
-
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
-
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-
-            #endregion
-
-            TempoAntecedenciaEntrega tempoAntecedenciaEntrega = new TempoAntecedenciaEntrega();
-
-            retornoRequest = rest.Get(string.Format("/HorarioEntrega/TempoAntecedencia/{0}/{1}", id, usuarioLogado.IdLoja));
-
-            //se não encontrar com este id
-            if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
-            {
-                ViewBag.MensagemEditarHorarioEntrega = "não foi possível carregar os dados. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                ViewBag.MensagemCarregamentoEditarHorarioEntrega = "não foi possível carregar os dados do tempo de antecedência. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
 
-            //se ocorrer algum erro
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-            {
-                ViewBag.MensagemEditarHorarioEntrega = "não foi possível carregar os dados. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-                return View();
-            }
-
-            string jsonRetorno = retornoRequest.objeto.ToString();
-
-            tempoAntecedenciaEntrega = JsonConvert.DeserializeObject<TempoAntecedenciaEntrega>(jsonRetorno);
-
-            return View(tempoAntecedenciaEntrega);
         }
 
         public ActionResult EditarTempoAntecedenciaHorario(TempoAntecedenciaEntrega tempoAntecedenciaEntrega)
@@ -316,96 +326,68 @@ namespace marmitex_admin.Controllers
                 ViewBag.MensagemEditarHorarioEntrega = "não foi possível atualizar. por favor, tente novamente";
                 return View("EditarTempoAntecedencia", tempoAntecedenciaEntrega);
             }
+
         }
 
+        [MyErrorHandler]
         public ActionResult AtivarDiaFuncionamento(int id)
         {
-            try
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            DiasDeFuncionamento diaFuncionamento = new DiasDeFuncionamento
             {
-                #region validacao usuario logado
+                Id = id,
+                IdLoja = usuarioLogado.IdLoja,
+                Ativo = true
+            };
 
-                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-                if (Session["UsuarioLogado"] == null)
-                    return RedirectToAction("Index", "Login");
+            //recurso do post
+            string urlPost = string.Format("/HorarioEntrega/DiaFuncionamento/Ativar");
 
-                //recebe o usuário logado
-                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+            //faz o post
+            retornoRequest = rest.Post(urlPost, diaFuncionamento);
 
-                #endregion
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
 
-                DiasDeFuncionamento diaFuncionamento = new DiasDeFuncionamento
-                {
-                    Id = id,
-                    IdLoja = usuarioLogado.IdLoja,
-                    Ativo = true
-                };
-
-                //recurso do post
-                string urlPost = string.Format("/HorarioEntrega/DiaFuncionamento/Ativar");
-
-                //faz o post
-                retornoRequest = rest.Post(urlPost, diaFuncionamento);
-
-                //se não for atualizado
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                {
-                    ViewBag.MensagemExcluirHorarioEntrega = "não foi possível ativar. por favor, tente novamente";
-                    return View("Index");
-                }
-
-                //se for atualizado, direciona para a tela de visualização
-                return RedirectToAction("Index", "HorarioEntrega");
-            }
-            catch (Exception)
-            {
-                ViewBag.MensagemExcluirHorarioEntrega = "não foi possível ativar. por favor, tente novamente";
-                return View("Index");
-            }
         }
 
+        [MyErrorHandler]
         public ActionResult ExcluirDiaFuncionamento(int id)
         {
-            try
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            DiasDeFuncionamento diaFuncionamento = new DiasDeFuncionamento
             {
-                #region validacao usuario logado
+                Id = id,
+                IdLoja = usuarioLogado.IdLoja,
+                Ativo = false
+            };
 
-                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-                if (Session["UsuarioLogado"] == null)
-                    return RedirectToAction("Index", "Login");
+            //recurso do post
+            string urlPost = string.Format("/HorarioEntrega/DiaFuncionamento/Excluir");
 
-                //recebe o usuário logado
-                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+            //faz o post
+            retornoRequest = rest.Post(urlPost, diaFuncionamento);
 
-                #endregion
-
-                DiasDeFuncionamento diaFuncionamento = new DiasDeFuncionamento
-                {
-                    Id = id,
-                    IdLoja = usuarioLogado.IdLoja,
-                    Ativo = false
-                };
-
-                //recurso do post
-                string urlPost = string.Format("/HorarioEntrega/DiaFuncionamento/Excluir");
-
-                //faz o post
-                retornoRequest = rest.Post(urlPost, diaFuncionamento);
-
-                //se não for atualizado
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                {
-                    ViewBag.MensagemExcluirHorarioEntrega = "não foi possível excluir. por favor, tente novamente";
-                    return View("Index");
-                }
-
-                //se for inativado, direciona para a tela de visualização
-                return RedirectToAction("Index", "HorarioEntrega");
-            }
-            catch (Exception)
-            {
-                ViewBag.MensagemExcluirHorarioEntrega = "não foi possível excluir. por favor, tente novamente";
-                return View("Index");
-            }
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
     }

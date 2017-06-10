@@ -29,7 +29,7 @@
                     <div class="col-md-2">
                         <h4><br />ações</h4>
                         <div class="text-center bubble-item">
-                            <a href="@Session["urlBase"]/HorarioEntrega/EditarTempoAntecedencia/@Model.TempoAntecedenciaEntrega.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
+                            <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/HorarioEntrega/EditarTempoAntecedencia/@Model.TempoAntecedenciaEntrega.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
                         </div>
                     </div>
                 </div>
@@ -73,8 +73,8 @@
                             @if (i == 1)
                             { <h4>ações</h4> }
                             <div class="text-center bubble-item">
-                                <a href="@Session["urlBase"]/HorarioEntrega/Editar/@horarioEntrega.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                <a href="@Session["urlBase"]/HorarioEntrega/Excluir/@horarioEntrega.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/HorarioEntrega/Editar/@horarioEntrega.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/HorarioEntrega/Excluir/@horarioEntrega.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
                             </div>
                         </div>
                     </div>
@@ -120,8 +120,8 @@
                             @if (iDiaSemana == 1)
                             { <h4>ações</h4> }
                             <div class="text-center bubble-item">
-                                <a href="@Session["urlBase"]/HorarioEntrega/AtivarDiaFuncionamento/@diasFuncionamento.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-check"></i></a>
-                                <a href="@Session["urlBase"]/HorarioEntrega/ExcluirDiaFuncionamento/@diasFuncionamento.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/HorarioEntrega/AtivarDiaFuncionamento/@diasFuncionamento.Id')" title="Ativar"><i class="glyphicon glyphicon-check"></i></button>
+                                <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/HorarioEntrega/ExcluirDiaFuncionamento/@diasFuncionamento.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
                             </div>
                         </div>
                     </div>
@@ -129,8 +129,6 @@
 
                 <br />
             }
-
-
         }
     </div>
 </div>

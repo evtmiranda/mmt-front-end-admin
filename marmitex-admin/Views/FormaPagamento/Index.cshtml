@@ -66,8 +66,8 @@
                                         }
                                         else
                                         {
-                                            <a href="@Session["urlBase"]/FormaPagamento/Editar/@formaPagamento.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                            <a href="@Session["urlBase"]/FormaPagamento/Excluir/@formaPagamento.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                            <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/FormaPagamento/Editar/@formaPagamento.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                            <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/FormaPagamento/Excluir/@formaPagamento.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
                                         }
 
                                     </div>
