@@ -4,12 +4,12 @@
     <h2>Editar parceiro</h2>
     <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
     <div class="col-md-10">
-        @if (ViewBag.MensagemEditarParceiro != null)
+        @if (ViewBag.MensagemCarregamentoEditarParceiro != null)
         {
             <script>
                 swal({
                     title: 'Oops',
-                    html: "@ViewBag.MensagemEditarParceiro",
+                    html: "@ViewBag.MensagemCarregamentoEditarParceiro",
                     type: 'error',
                     confirmButtonText: 'Ok'
                 }).then(function () {

@@ -188,7 +188,7 @@ namespace marmitex_admin.Controllers
 
             if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
             {
-                ViewBag.MensagemEditarBrinde = "não foi possível carregar os dados do brinde. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                ViewBag.MensagemCarregamentoEditarBrinde = "não foi possível carregar os dados do brinde. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
 

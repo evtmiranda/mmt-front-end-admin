@@ -167,7 +167,7 @@ namespace marmitex_admin.Controllers
             //se ocorrer algum erro
             if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
             {
-                ViewBag.MensagemEditarParceiro = "não foi possível carregar os dados do parceiro. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                ViewBag.MensagemCarregamentoEditarParceiro = "não foi possível carregar os dados do parceiro. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
 
                 return View();
             }

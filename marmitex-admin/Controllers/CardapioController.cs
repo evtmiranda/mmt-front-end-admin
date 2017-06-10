@@ -20,7 +20,6 @@ namespace marmitex_admin.Controllers
             this.listaCardapio = new List<MenuCardapio>();
         }
 
-        // GET: Produtos
         public ActionResult Index()
         {
             try
@@ -100,9 +99,6 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
-            //limpa a sessão de mensagens
-            //Session["MensagemAvisoCadastroCardapio"] = null;
-
             //validação dos campos
             if (!ModelState.IsValid)
                 return View("Index", cardapio);
@@ -162,7 +158,7 @@ namespace marmitex_admin.Controllers
             //se ocorrer algum erro
             if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
             {
-                ViewBag.MensagemEditarCardapio = "não foi possível carregar os dados do cardápio. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                ViewBag.MensagemCarregamentoEditarCardapio = "não foi possível carregar os dados do cardápio. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
 

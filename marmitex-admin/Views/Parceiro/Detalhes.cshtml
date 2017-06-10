@@ -72,7 +72,7 @@
                                             <td><img src="@Session["CaminhoImagensBrindes"]/@brinde.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
                                             <td>@(brinde.Ativo == true ? "Sim" : "Não")</td>
                                             <td>
-                                                <button onclick="Get('@Session["urlBase"]/Parceiro/DesativarBrindeParceiro/@brinde.Id')" style="color: #E67E22" class="btn-link"><i class="glyphicon glyphicon-off"></i></button>
+                                                <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/Parceiro/DesativarBrindeParceiro/@brinde.Id')"> <i class="glyphicon glyphicon-off"></i></button>
                                                 <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Parceiro/ExcluirBrindeParceiro/@brinde.Id')"><i class="glyphicon glyphicon-remove"></i></button>
                                             </td>
                                         </tr>
@@ -85,7 +85,7 @@
                                             <td><img src="@Session["CaminhoImagensBrindes"]/@brinde.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
                                             <td>@(brinde.Ativo == true ? "Sim" : "Não")</td>
                                             <td>
-                                                <button onclick="Get('@Session["urlBase"]/Parceiro/DesativarBrindeParceiro/@brinde.Id')" style="color: #E67E22" class="btn-link"><i class="glyphicon glyphicon-off"></i></button>
+                                                <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/Parceiro/DesativarBrindeParceiro/@brinde.Id')"> <i class="glyphicon glyphicon-off"></i></button>
                                                 <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Parceiro/ExcluirBrindeParceiro/@brinde.Id')"><i class="glyphicon glyphicon-remove"></i></button>
                                             </td>
                                         </tr>

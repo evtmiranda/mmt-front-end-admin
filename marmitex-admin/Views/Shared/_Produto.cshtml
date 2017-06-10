@@ -19,73 +19,82 @@
 <hr />
 
 <div class="col-md-12">
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>nome</th>
-                    <th>descrição</th>
-                    <th>cardápio</th>
-                    <th>R$ preço</th>
-                    <th>imagem</th>
-                    <th>ativo</th>
-                    <th>ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null)
-                {
-                    foreach (var cardapio in Model)
-                    {
-                        if (cardapio.Produtos != null)
+    @if (Model != null)
+    {
+        if (ViewBag.MensagemCardapio != null)
+        {
+            <div class="text-center">
+                <p>@ViewBag.MensagemCardapio</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>nome</th>
+                            <th>descrição</th>
+                            <th>cardápio</th>
+                            <th>R$ preço</th>
+                            <th>imagem</th>
+                            <th>ativo</th>
+                            <th>ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cardapio in Model)
                         {
-                            foreach (var produto in cardapio.Produtos)
+                            if (cardapio.Produtos != null)
                             {
-                                if (produto.Ativo)
+                                foreach (var produto in cardapio.Produtos)
                                 {
-                                    <tr>
-                                        <td>
-                                            <a href="@Session["urlBase"]/Produto/Detalhes/@produto.Id" title="ver detalhes">
-                                                @produto.Nome
-                                            </a>
-                                        </td>
-                                        <td>@produto.Descricao</td>
-                                        <td>@cardapio.Nome</td>
-                                        <td>@produto.Valor</td>
-                                        <td><img src="@Session["CaminhoImagem"]/@produto.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
-                                        <td>@(produto.Ativo == true ? "Sim" : "Não")</td>
-                                        <td>
-                                            <a href="@Session["urlBase"]/Produto/Editar/@produto.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit" title="Editar"></i></a>
-                                            <a href="@Session["urlBase"]/Produto/Desativar/@produto.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off" title="Desativar"></i></a>
-                                            <a href="@Session["urlBase"]/Produto/Excluir/@produto.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove" title="Excluir"></i></a>
-                                        </td>
-                                    </tr>
-                                }
-                                else
-                                {
-                                    <tr class="danger">
-                                        <td>
-                                            <a href="@Session["urlBase"]/Produto/Detalhes/@produto.Id" title="ver detalhes">
-                                                @produto.Nome
-                                            </a>
-                                        </td>
-                                        <td>@produto.Descricao</td>
-                                        <td>@cardapio.Nome</td>
-                                        <td>@produto.Valor</td>
-                                        <td><img src="@Session["CaminhoImagem"]/@produto.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
-                                        <td>@(produto.Ativo == true ? "Sim" : "Não")</td>
-                                        <td>
-                                            <a href="@Session["urlBase"]/Produto/Editar/@produto.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit" title="Editar"></i></a>
-                                            <a href="@Session["urlBase"]/Produto/Desativar/@produto.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off" title="Desativar"></i></a>
-                                            <a href="@Session["urlBase"]/Produto/Excluir/@produto.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove" title="Excluir"></i></a>
-                                        </td>
-                                    </tr>
+                                    if (produto.Ativo)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a href="@Session["urlBase"]/Produto/Detalhes/@produto.Id" title="ver detalhes">
+                                                    @produto.Nome
+                                                </a>
+                                            </td>
+                                            <td>@produto.Descricao</td>
+                                            <td>@cardapio.Nome</td>
+                                            <td>@produto.Valor</td>
+                                            <td><img src="@Session["CaminhoImagem"]/@produto.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
+                                            <td>@(produto.Ativo == true ? "Sim" : "Não")</td>
+                                            <td>
+                                                <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/Produto/Editar/@produto.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                                <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/Cardapio/Desativar/@produto.Id')" title="Desativar"><i class="glyphicon glyphicon-off"></i></button>
+                                                <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Cardapio/Excluir/@produto.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr class="danger">
+                                            <td>
+                                                <a href="@Session["urlBase"]/Produto/Detalhes/@produto.Id" title="ver detalhes">
+                                                    @produto.Nome
+                                                </a>
+                                            </td>
+                                            <td>@produto.Descricao</td>
+                                            <td>@cardapio.Nome</td>
+                                            <td>@produto.Valor</td>
+                                            <td><img src="@Session["CaminhoImagem"]/@produto.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
+                                            <td>@(produto.Ativo == true ? "Sim" : "Não")</td>
+                                            <td>
+                                                <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/Produto/Editar/@produto.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                                <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/Cardapio/Desativar/@produto.Id')" title="Desativar"><i class="glyphicon glyphicon-off"></i></button>
+                                                <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Cardapio/Excluir/@produto.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
+                                            </td>
+                                        </tr>
+                                    }
                                 }
                             }
                         }
-                    }
-                }
-            </tbody>
-        </table>
-    </div>
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
 </div>

@@ -4,28 +4,32 @@
     <h2>Editar produto</h2>
     <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
     <div class="col-md-10">
-        <form method="post" action="@Session["urlBase"]/Produto/EditarProduto" enctype="multipart/form-data">
+        @if (ViewBag.MensagemCarregamentoEditarProduto != null)
+        {
+            <script>
+                swal({
+                    title: 'Oops',
+                    html: "@ViewBag.MensagemCarregamentoEditarProduto",
+                    type: 'error',
+                    confirmButtonText: 'Ok'
+                }).then(function () {
+                    window.location = "@Session["urlBase"]/Produto/";
+                    });
+            </script>
+        }
+        else
+        {
+            <form method="post" action="@Session["urlBase"]/Produto/EditarProduto" enctype="multipart/form-data">
 
-            @Html.Partial("_FormProduto")
+                @Html.Partial("_FormProduto")
 
-            @*se houver alguma mensagem de erro na edição do produto, lança um alert com a mensagem*@
-            @if (Session["MensagemErroEditarProduto"] != null)
-            {
-                <script>
-                    swal(
-                        'Oops...',
-                        '@Session["MensagemErroEditarProduto"]',
-                        'error'
-                    );
-                </script>
-            }
-
-            <div class="col-md-12">
-                <div class="buttons-formcontrol">
-                    <input type="submit" class="btn btn-success" value="salvar" />
+                <div class="col-md-12">
+                    <div class="buttons-formcontrol">
+                        <input type="submit" class="btn btn-success" value="salvar" />
+                    </div>
                 </div>
-            </div>
 
-        </form>
+            </form>
+        }
     </div>
 </div>

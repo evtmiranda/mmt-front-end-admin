@@ -4,15 +4,32 @@
     <h2>Adicionar cardápio</h2>
     <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
     <div class="col-md-10">
-        <form method="post" action="@Session["urlBase"]/Cardapio/EditarCardapio">
+        @if (ViewBag.MensagemCarregamentoEditarCardapio != null)
+        {
+            <script>
+                swal({
+                    title: 'Oops',
+                    html: "@ViewBag.MensagemCarregamentoEditarCardapio",
+                    type: 'error',
+                    confirmButtonText: 'Ok'
+                }).then(function () {
+                    window.location = "@Session["urlBase"]/Cardapio/";
+                    });
+            </script>
+        }
+        else
+        {
+            <form method="post" action="@Session["urlBase"]/Cardapio/EditarCardapio">
 
-            @Html.Partial("_FormCardapio")
+                @Html.Partial("_FormCardapio")
 
-            <div class="col-md-12">
-                <div class="buttons-formcontrol">
-                    <button class="btn btn-success">salvar</button>
+                <div class="col-md-12">
+                    <div class="buttons-formcontrol">
+                        <button class="btn btn-success">salvar</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        }
+
     </div>
 </div>

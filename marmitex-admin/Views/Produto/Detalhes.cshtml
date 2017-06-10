@@ -2,68 +2,130 @@
 
 <div class="profile-content-backfull">
     <row>
-        <h1 class="text-left">@Model[0].NomeProduto</h1>
+        @if (ViewBag.MensagemDetalhesProduto != null)
+        {
+            <script>
+                swal({
+                    title: 'Oops',
+                    html: "@ViewBag.MensagemDetalhesProduto",
+                    type: 'error',
+                    confirmButtonText: 'Ok'
+                }).then(function () {
+                    //volta para a tela de produtos
+                    window.location = "@Session["urlBase"]/Produto/";
+                    });
+            </script>
+        }
+        else if (ViewBag.MensagemCarregamentoAdicionarProdutoAdicional != null)
+        {
+            <script>
+                swal({
+                    title: 'Oops',
+                    html: "@ViewBag.MensagemCarregamentoAdicionarProdutoAdicional",
+                    type: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            </script>
+        }
+        else if (ViewBag.MensagemCarregamentoEditarProdutoAdicionalProduto != null)
+        {
+            <script>
+                swal({
+                    title: 'Oops',
+                    html: "@ViewBag.MensagemCarregamentoEditarProdutoAdicionalProduto",
+                    type: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            </script>
+        }
+        else
+        {
+            if (Model != null)
+            {
+                <h1 class="text-left">@Model[0].NomeProduto</h1>
 
-        <ul class="breadcrumb">
-            <li>
-                <i class="fa fa-globe"></i>
-                <a href="@Session["urlBase"]/Home">Inicio</a>
-            </li>
-            <li>
-                <i class="fa fa-shopping-cart"></i>
-                <a href="@Session["urlBase"]/Produto/">Produtos</a>
-            </li>
-            <li>
-                <i class="fa fa-bars"></i>
-                <a href="@Session["urlBase"]/Produto/Detalhes/@Model.">Detalhes</a>
-            </li>
-        </ul>
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="fa fa-globe"></i>
+                        <a href="@Session["urlBase"]/Home">Inicio</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-shopping-cart"></i>
+                        <a href="@Session["urlBase"]/Produto/">Produtos</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-bars"></i>
+                        <a href="@Session["urlBase"]/Produto/Detalhes/@Model.">Detalhes</a>
+                    </li>
+                </ul>
 
-        <div class="text-right">
-            <a href="@Session["urlBase"]/Produto/AdicionarProdutoAdicional/@Model[0].IdProduto" class="btn btn-success">adicionar produto adicional</a>
-        </div>
-        <hr />
+                <div class="text-right">
+                    <a href="@Session["urlBase"]/Produto/AdicionarProdutoAdicional/@Model[0].IdProduto" class="btn btn-success">adicionar produto adicional</a>
+                </div>
+                <hr />
 
-        <div class="col-md-12">
-            <h2>Produtos Adicionais</h2>
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>nome</th>
-                            <th>descrição</th>
-                            <th>qtd mínima</th>
-                            <th>qtd máxima</th>
-                            <th>ordem de exibição</th>
-                            <th>ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @*<th scope="row">@Model.Produto.Nome</th>
-                            <td><a href="@Session["urlBase"]/Produto/Detalhes/@produto.Id">@produto.Nome</a></td>*@
-                        @foreach (var produtoAdicional in Model)
-                        {
-                            if (!(produtoAdicional.OrdemExibicao == 0 && produtoAdicional.QtdMin == 0 && produtoAdicional.QtdMax == 0))
-                            {
+                <div class="col-md-12">
+                    <h2>Produtos Adicionais</h2>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
                                 <tr>
-                                    <td>@produtoAdicional.NomeProdutoAdicional</td>
-                                    <td>@produtoAdicional.DescricaoProdutoAdicional</td>
-                                    <td>@produtoAdicional.QtdMin</td>
-                                    <td>@produtoAdicional.QtdMax</td>
-                                    <td>@produtoAdicional.OrdemExibicao</td>
-
-                                    <td>
-                                        <a href="@Session["urlBase"]/Produto/EditarProdutoAdicional/@produtoAdicional.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                        <a href="@Session["urlBase"]/Produto/ExcluirProdutoAdicional/@produtoAdicional.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
-                                    </td>
+                                    <th>nome</th>
+                                    <th>descrição</th>
+                                    <th>qtd mínima</th>
+                                    <th>qtd máxima</th>
+                                    <th>ordem de exibição</th>
+                                    <th>ativo</th>
+                                    <th>ações</th>
                                 </tr>
-                            }
-                        }
+                            </thead>
+                            <tbody>
 
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                                @foreach (var produtoAdicional in Model)
+                                {
+                                    if (!(produtoAdicional.OrdemExibicao == 0 && produtoAdicional.QtdMin == 0 && produtoAdicional.QtdMax == 0))
+                                    {
+                                        if (produtoAdicional.Ativo)
+                                        {
+                                            <tr>
+                                                <td>@produtoAdicional.NomeProdutoAdicional</td>
+                                                <td>@produtoAdicional.DescricaoProdutoAdicional</td>
+                                                <td>@produtoAdicional.QtdMin</td>
+                                                <td>@produtoAdicional.QtdMax</td>
+                                                <td>@produtoAdicional.OrdemExibicao</td>
+                                                <td>@(produtoAdicional.Ativo == true ? "Sim" : "Não")</td>
+                                                <td>
+                                                    <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/Produto/EditarProdutoAdicional/@produtoAdicional.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                                    <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/Produto/DesativarProdutoAdicional/@produtoAdicional.Id')" title="Desativar"><i class="glyphicon glyphicon-off"></i></button>
+                                                    <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Produto/ExcluirProdutoAdicional/@produtoAdicional.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr class="danger">
+                                                <td>@produtoAdicional.NomeProdutoAdicional</td>
+                                                <td>@produtoAdicional.DescricaoProdutoAdicional</td>
+                                                <td>@produtoAdicional.QtdMin</td>
+                                                <td>@produtoAdicional.QtdMax</td>
+                                                <td>@produtoAdicional.OrdemExibicao</td>
+                                                <td>@(produtoAdicional.Ativo == true ? "Sim" : "Não")</td>
+                                                <td>
+                                                    <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/Produto/EditarProdutoAdicional/@produtoAdicional.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                                    <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/Produto/DesativarProdutoAdicional/@produtoAdicional.Id')" title="Desativar"><i class="glyphicon glyphicon-off"></i></button>
+                                                    <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Produto/ExcluirProdutoAdicional/@produtoAdicional.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+        }
     </row>
 </div>

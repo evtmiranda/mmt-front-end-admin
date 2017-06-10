@@ -8,18 +8,6 @@
 
             @Html.Partial("_FormProdutoAdicionalProduto")
 
-            @*se houver alguma mensagem de erro na edição do produto adicional, lança um alert com a mensagem*@
-            @if (Session["MensagemErroEditarProdutoAdicional"] != null)
-            {
-                <script>
-                    swal(
-                        'Oops...',
-                        '@Session["MensagemErroEditarProdutoAdicional"]',
-                        'error'
-                    );
-                </script>
-            }
-
             <div class="col-md-12">
                 <div class="buttons-formcontrol">
                     <input type="submit" class="btn btn-success" value="salvar" />
