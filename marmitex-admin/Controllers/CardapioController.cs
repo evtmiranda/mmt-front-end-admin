@@ -22,47 +22,39 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Index()
         {
-            try
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            //busca todos os cardápios da loja
+            retornoRequest = rest.Get("/menucardapio/listar/" + usuarioLogado.IdLoja);
+
+            //se não encontrar cardápios para a loja
+            if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
             {
-                #region validacao usuario logado
-
-                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-                if (Session["UsuarioLogado"] == null)
-                    return RedirectToAction("Index", "Login");
-
-                //recebe o usuário logado
-                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-
-                #endregion
-
-                //busca todos os cardápios da loja
-                retornoRequest = rest.Get("/menucardapio/listar/" + usuarioLogado.IdLoja);
-
-                //se não encontrar cardápios para a loja
-                if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
-                {
-                    ViewBag.MensagemCardapio = "não existem cardápios cadastrados";
-                    return View("Index");
-                }
-
-                //se ocorrer algum erro
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                {
-                    ViewBag.MensagemCardapio = "não foi possível consultar os cardápios. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-                    return View("Index");
-                }
-
-                string jsonPedidos = retornoRequest.objeto.ToString();
-
-                listaCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
-
-                return View(listaCardapio);
+                ViewBag.MensagemCardapio = "não existem cardápios cadastrados";
+                return View("Index");
             }
-            catch (Exception)
+
+            //se ocorrer algum erro
+            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
             {
                 ViewBag.MensagemCardapio = "não foi possível consultar os cardápios. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View("Index");
             }
+
+            string jsonPedidos = retornoRequest.objeto.ToString();
+
+            listaCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
+
+            return View(listaCardapio);
         }
 
         public ActionResult Adicionar()
@@ -134,7 +126,6 @@ namespace marmitex_admin.Controllers
                 return View("Adicionar", cardapio);
             }
         }
-
 
         public ActionResult Editar(int id)
         {

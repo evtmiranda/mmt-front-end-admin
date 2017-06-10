@@ -24,47 +24,55 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Index()
         {
-            #region validacao usuario logado
-
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
-
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-
-            #endregion
-
-            #region limpa as viewbags de mensagem
-
-            ViewBag.MensagemBrindes = null;
-
-            #endregion
-
-            List<Brinde> listaBrindes = new List<Brinde>();
-            retornoRequest = rest.Get("/Brinde/ListarPorLoja/" + usuarioLogado.IdLoja);
-
-            if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+            try
             {
-                ViewBag.MensagemBrindes = "nenhum brinde encontrado";
-                return View("Index");
-            }
+                #region validacao usuario logado
 
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemBrindes = null;
+
+                #endregion
+
+                List<Brinde> listaBrindes = new List<Brinde>();
+                retornoRequest = rest.Get("/Brinde/ListarPorLoja/" + usuarioLogado.IdLoja);
+
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+                {
+                    ViewBag.MensagemBrindes = "nenhum brinde encontrado";
+                    return View("Index");
+                }
+
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemBrindes = "não foi possível consultar os brindes. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View("Index");
+                }
+
+                string jsonBrindes = retornoRequest.objeto.ToString();
+
+                listaBrindes = JsonConvert.DeserializeObject<List<Brinde>>(jsonBrindes);
+
+                //monta a sessão com o caminho das imagens dos brindes
+                string caminhoImagem = "http://" + usuarioLogado.UrlLoja + ":45237/Images/" + usuarioLogado.UrlLoja + "/Brindes/";
+                Session["CaminhoImagensBrindes"] = caminhoImagem;
+
+                return View(listaBrindes);
+            }
+            catch (Exception)
             {
                 ViewBag.MensagemBrindes = "não foi possível consultar os brindes. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View("Index");
             }
-
-            string jsonBrindes = retornoRequest.objeto.ToString();
-
-            listaBrindes = JsonConvert.DeserializeObject<List<Brinde>>(jsonBrindes);
-
-            //monta a sessão com o caminho das imagens dos brindes
-            string caminhoImagem = "http://" + usuarioLogado.UrlLoja + ":45237/Images/" + usuarioLogado.UrlLoja + "/Brindes/";
-            Session["CaminhoImagensBrindes"] = caminhoImagem;
-
-            return View(listaBrindes);
         }
 
         public ActionResult Adicionar()
@@ -167,32 +175,40 @@ namespace marmitex_admin.Controllers
 
         public ActionResult Editar(int id)
         {
-            #region validacao usuario logado
+            try
+            {
+                #region validacao usuario logado
 
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
 
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
 
-            #endregion
+                #endregion
 
-            Brinde brinde = new Brinde();
+                Brinde brinde = new Brinde();
 
-            retornoRequest = rest.Get(string.Format("/Brinde/{0}/{1}", id, usuarioLogado.IdLoja));
+                retornoRequest = rest.Get(string.Format("/Brinde/{0}/{1}", id, usuarioLogado.IdLoja));
 
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemCarregamentoEditarBrinde = "não foi possível carregar os dados do brinde. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
+                }
+
+                string jsonBrinde = retornoRequest.objeto.ToString();
+
+                brinde = JsonConvert.DeserializeObject<Brinde>(jsonBrinde);
+
+                return View(brinde);
+            }
+            catch (Exception)
             {
                 ViewBag.MensagemCarregamentoEditarBrinde = "não foi possível carregar os dados do brinde. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
-
-            string jsonBrinde = retornoRequest.objeto.ToString();
-
-            brinde = JsonConvert.DeserializeObject<Brinde>(jsonBrinde);
-
-            return View(brinde);
         }
 
         public ActionResult EditarBrinde(Brinde brindeCadastro, HttpPostedFileBase file)
