@@ -60,3 +60,19 @@
         </div>
     </div>
 </div>
+
+
+
+<div class="col-md-12">
+    <div class="form-group">
+        @if (ViewBag.MensagemErroCadProdAdicionalItem != null)
+        {
+            <p class="vermelho-marmitex">@ViewBag.MensagemErroCadProdAdicionalItem</p>
+        }
+
+        @if (ViewBag.MensagemEditarProdutoAdicionalItem != null)
+        {
+            <p class="vermelho-marmitex">@ViewBag.MensagemEditarProdutoAdicionalItem</p>
+        }
+    </div>
+</div>

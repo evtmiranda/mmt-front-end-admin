@@ -37,7 +37,7 @@ namespace marmitex_admin.Controllers
                 #endregion
 
                 List<Parceiro> listaParceiros = new List<Parceiro>();
-                
+
                 //busca todos os parceiros da loja
                 retornoRequest = rest.Get("/Parceiro/BuscarParceiroPorLoja/" + usuarioLogado.IdLoja);
 
@@ -66,7 +66,7 @@ namespace marmitex_admin.Controllers
                 ViewBag.MensagemParceiros = "não foi possível consultar os parceiros. por favor, tente novamente ou entre em contato com o administrador do sistema.";
                 return View();
             }
-            
+
         }
 
         public ActionResult Adicionar()
@@ -207,7 +207,7 @@ namespace marmitex_admin.Controllers
                 ViewBag.MensagemCarregamentoEditarParceiro = "não foi possível carregar os dados do parceiro. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
-            
+
         }
 
         public ActionResult EditarParceiro(ParceiroCadastro parceiroCadastro)
@@ -355,16 +355,18 @@ namespace marmitex_admin.Controllers
                 //busca todos os brindes do parceiro
                 retornoRequest = rest.Get(string.Format("/BrindeParceiro/ListarPorParceiro/{0}/{1}", id, usuarioLogado.IdLoja));
 
-                if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent) {
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+                {
                     //ViewBag.MensagemDetalhesParceiro = "nenhum brinde cadastrado";
                 }
                 else if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                    ViewBag.MensagemDetalhesParceiro = "não foi possível exibir detalhes do parceiro. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-                else
                 {
-                    string jsonRetorno = retornoRequest.objeto.ToString();
-                    dadosBrindeParceiro = JsonConvert.DeserializeObject<DadosBrindeParceiro>(jsonRetorno);
+                    ViewBag.MensagemDetalhesParceiro = "não foi possível exibir detalhes do parceiro. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
                 }
+
+                string jsonRetorno = retornoRequest.objeto.ToString();
+                dadosBrindeParceiro = JsonConvert.DeserializeObject<DadosBrindeParceiro>(jsonRetorno);
 
                 return View(dadosBrindeParceiro);
             }
@@ -430,7 +432,7 @@ namespace marmitex_admin.Controllers
                 ViewBag.MensagemCarregamentoAdicionarBrinde = "não foi possível carregar os brindes. por favor, tente novamente ou entre em contato com o administrador do sistema.";
                 return RedirectToAction("Detalhes", "Parceiro", new { id = id });
             }
-            
+
         }
 
         public ActionResult AdicionarBrindeParceiro(DadosBrindeParceiro dadosBrindeParceiro)
@@ -480,7 +482,7 @@ namespace marmitex_admin.Controllers
                 ViewBag.MensagemErroCadBrindeParceiro = "não foi possível cadastrar o brinde. por favor, tente novamente";
                 return View("AdicionarBrinde", brindeParceiro);
             }
-            
+
         }
 
         /// <summary>

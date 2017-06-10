@@ -42,3 +42,23 @@
         </div>
     </div>
 </div>
+
+
+
+<div class="col-md-12">
+    <div class="form-group">
+        @if (ViewBag.MensagemErroCadProdAdicional != null)
+        {
+            <p class="vermelho-marmitex">@ViewBag.MensagemErroCadProdAdicional</p>
+        }
+
+        @if (ViewBag.MensagemEditarProdutoAdicional != null)
+        {
+            <p class="vermelho-marmitex">@ViewBag.MensagemEditarProdutoAdicional</p>
+        }
+    </div>
+</div>
+
+
+
+
