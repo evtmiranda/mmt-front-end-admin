@@ -445,6 +445,13 @@ namespace marmitex_admin.Controllers
             //busca todos os produtos adicionais da loja
             retornoRequest = rest.Get("/ProdutoAdicional/listar/" + usuarioLogado.IdLoja);
 
+            //se não encontrar produtos adicionais
+            if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+            {
+                ViewBag.MensagemCarregamentoAdicionarProdutoAdicional = "é necessário cadastrar um produto adicional antes de atrela-lo ao produto";
+                return RedirectToAction("Detalhes", "Produto", new { id = id });
+            }
+
             //se ocorrer algum erro
             if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
             {
