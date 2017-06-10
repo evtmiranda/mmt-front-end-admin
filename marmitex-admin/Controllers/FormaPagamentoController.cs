@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
+using marmitex_admin.Utils;
 
 namespace marmitex_admin.Controllers
 {
@@ -22,41 +23,50 @@ namespace marmitex_admin.Controllers
         // GET: FormasPagamento
         public ActionResult Index()
         {
-            #region validacao usuario logado
-
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
-
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-
-            #endregion
-
-            List<FormaDePagamento> listaFormasPagamento = new List<FormaDePagamento>();
-
-            //busca as formas de pagamento da loja
-            retornoRequest = rest.Get("/FormaPagamento/Listar/" + usuarioLogado.IdLoja);
-
-            //se não encontrar pedidos para este cliente
-            if (retornoRequest.HttpStatusCode == HttpStatusCode.NotFound)
+            try
             {
-                ViewBag.MensagemFormaPagamento = "nenhuma forma de pagamento encontrada";
-                return View("Index");
-            }
+                #region validacao usuario logado
 
-            //se ocorrer algum erro
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                List<FormaDePagamento> listaFormasPagamento = new List<FormaDePagamento>();
+
+                //busca as formas de pagamento da loja
+                retornoRequest = rest.Get("/FormaPagamento/Listar/" + usuarioLogado.IdLoja);
+
+                //se não encontrar pedidos para este cliente
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.NotFound)
+                {
+                    ViewBag.MensagemFormaPagamento = "nenhuma forma de pagamento encontrada";
+                    return View();
+                }
+
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemFormaPagamento = "não foi possível consultar as formas de pagamento. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
+                }
+
+                string jsonRetorno = retornoRequest.objeto.ToString();
+
+                listaFormasPagamento = JsonConvert.DeserializeObject<List<FormaDePagamento>>(jsonRetorno);
+
+                return View(listaFormasPagamento);
+            }
+            catch (Exception)
             {
                 ViewBag.MensagemFormaPagamento = "não foi possível consultar as formas de pagamento. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-                return View("Index");
+                return View();
             }
 
-            string jsonRetorno = retornoRequest.objeto.ToString();
-
-            listaFormasPagamento = JsonConvert.DeserializeObject<List<FormaDePagamento>>(jsonRetorno);
-
-            return View(listaFormasPagamento);
         }
 
         public ActionResult Adicionar()
@@ -101,7 +111,7 @@ namespace marmitex_admin.Controllers
                 //se não for cadastrado
                 if (retornoRequest.HttpStatusCode != HttpStatusCode.Created)
                 {
-                    ViewBag.MensagemFormaPagamento = "não foi possível cadastrar. por favor, tente novamente";
+                    ViewBag.MensagemCadFormaPagamento = "não foi possível cadastrar a forma de pagamento. por favor, tente novamente";
                     return View("Adicionar", pagamento);
                 }
 
@@ -109,50 +119,58 @@ namespace marmitex_admin.Controllers
             }
             catch (Exception)
             {
-                ViewBag.MensagemFormaPagamento = "não foi possível cadastrar. por favor, tente novamente";
+                ViewBag.MensagemCadFormaPagamento = "não foi possível cadastrar a forma de pagamento. por favor, tente novamente";
                 return View("Adicionar", pagamento);
             }
         }
 
         public ActionResult Editar(int id)
         {
-            #region validacao usuario logado
-
-            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-            if (Session["UsuarioLogado"] == null)
-                return RedirectToAction("Index", "Login");
-
-            //recebe o usuário logado
-            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
-
-            #endregion
-
-            FormaDePagamento pagamento = new FormaDePagamento();
-
-            retornoRequest = rest.Get(string.Format("/FormaPagamento/{0}/{1}", id, usuarioLogado.IdLoja));
-
-            //se não encontrar com este id
-            if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+            try
             {
-                ViewBag.MensagemEditarParceiro = "não foi possível carregar os dados. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                FormaDePagamento pagamento = new FormaDePagamento();
+
+                retornoRequest = rest.Get(string.Format("/FormaPagamento/{0}/{1}", id, usuarioLogado.IdLoja));
+
+                //se não encontrar com este id
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+                {
+                    ViewBag.MensagemCarregamentoEditarFormaPagamento = "não foi possível carregar os dados da forma de pagamento. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
+                }
+
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemCarregamentoEditarFormaPagamento = "não foi possível carregar os dados da forma de pagamento. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
+                }
+
+                string jsonRetorno = retornoRequest.objeto.ToString();
+
+                pagamento = JsonConvert.DeserializeObject<FormaDePagamento>(jsonRetorno);
+
+                return View(pagamento);
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemCarregamentoEditarFormaPagamento = "não foi possível carregar os dados da forma de pagamento. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
 
-            //se ocorrer algum erro
-            if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-            {
-                ViewBag.MensagemEditarParceiro = "não foi possível carregar os dados. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
-                return View();
-            }
-
-            string jsonRetorno = retornoRequest.objeto.ToString();
-
-            pagamento = JsonConvert.DeserializeObject<FormaDePagamento>(jsonRetorno);
-
-            return View(pagamento);
         }
 
-        [HttpPost]
         public ActionResult EditarPagamento(FormaDePagamento pagamento)
         {
             #region validacao usuario logado
@@ -180,7 +198,7 @@ namespace marmitex_admin.Controllers
                 //se não for atualizado
                 if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
                 {
-                    ViewBag.MensagemEditarFormaPagamento = "não foi possível atualizar. por favor, tente novamente";
+                    ViewBag.MensagemEditarFormaPagamento = "não foi possível atualizar a forma de pagamento. por favor, tente novamente";
                     return View("Editar", pagamento);
                 }
 
@@ -189,54 +207,39 @@ namespace marmitex_admin.Controllers
             }
             catch (Exception)
             {
-                ViewBag.MensagemEditarFormaPagamento = "não foi possível atualizar. por favor, tente novamente";
+                ViewBag.MensagemEditarFormaPagamento = "não foi possível atualizar a forma de pagamento. por favor, tente novamente";
                 return View("Editar", pagamento);
             }
         }
 
+        [MyErrorHandler]
         public ActionResult Excluir(int id)
         {
-            try
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            //busca os dados do parceiro
+            FormaDePagamento pagamento = new FormaDePagamento
             {
-                #region validacao usuario logado
+                Id = id,
+                IdLoja = usuarioLogado.IdLoja,
+                Ativo = false
+            };
 
-                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
-                if (Session["UsuarioLogado"] == null)
-                    return RedirectToAction("Index", "Login");
+            //inativa a forma de pagamento
+            string urlPost = string.Format("/FormaPagamento/Excluir");
 
-                //recebe o usuário logado
-                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+            retornoRequest = rest.Post(urlPost, pagamento);
 
-                #endregion
-
-                //busca os dados do parceiro
-                FormaDePagamento pagamento = new FormaDePagamento
-                {
-                    Id = id,
-                    IdLoja = usuarioLogado.IdLoja,
-                    Ativo = false
-                };
-
-                //inativa a forma de pagamento
-                string urlPost = string.Format("/FormaPagamento/Excluir");
-
-                retornoRequest = rest.Post(urlPost, pagamento);
-
-                //se a forma de pagamento não for atualizada
-                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
-                {
-                    ViewBag.MensagemExcluirFormaPagamento = "não foi possível excluir a forma de pagamento. por favor, tente novamente";
-                    return View("Index");
-                }
-
-                //se a forma de pagamento for inativada, direciona para a tela de visualização de formas de pagamento
-                return RedirectToAction("Index", "FormaPagamento");
-            }
-            catch (Exception)
-            {
-                ViewBag.MensagemExcluirFormaPagamento = "não foi possível excluir a forma de pagamento. por favor, tente novamente";
-                return View("Index");
-            }
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
     }
 }
