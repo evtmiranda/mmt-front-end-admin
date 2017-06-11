@@ -116,6 +116,12 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemErroCadBrinde = null;
+
+            #endregion
+
             try
             {
                 //recebe a imagem do brinde
@@ -188,6 +194,12 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemCarregamentoEditarBrinde = null;
+                
+                #endregion
+
                 Brinde brinde = new Brinde();
 
                 retornoRequest = rest.Get(string.Format("/Brinde/{0}/{1}", id, usuarioLogado.IdLoja));
@@ -231,6 +243,12 @@ namespace marmitex_admin.Controllers
                 ViewBag.MensagemEditarBrinde = "insira uma imagem para o brinde";
                 return View("Editar", brindeCadastro);
             }
+
+            #endregion
+
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemEditarBrinde = null;
 
             #endregion
 

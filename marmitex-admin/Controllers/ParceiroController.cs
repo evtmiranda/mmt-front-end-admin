@@ -36,6 +36,12 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemParceiros = null;
+
+                #endregion
+
                 List<Parceiro> listaParceiros = new List<Parceiro>();
 
                 //busca todos os parceiros da loja
@@ -95,6 +101,12 @@ namespace marmitex_admin.Controllers
 
             //recebe o usuário logado
             usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemParceiro = null;
 
             #endregion
 
@@ -166,6 +178,12 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemCarregamentoEditarParceiro = null;
+
+                #endregion
+
                 //busca os dados do parceiro
                 Parceiro parceiro = new Parceiro();
 
@@ -223,6 +241,11 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemEditarParceiro = null;
+
+            #endregion
 
             //variável para armazenar o retorno da requisição
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
@@ -350,6 +373,12 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemDetalhesParceiro = null;
+
+                #endregion
+
                 DadosBrindeParceiro dadosBrindeParceiro = new DadosBrindeParceiro();
 
                 //busca todos os brindes do parceiro
@@ -393,6 +422,12 @@ namespace marmitex_admin.Controllers
 
                 //recebe o usuário logado
                 usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region limpa as viewbags de mensagem
+
+                Session["MensagemCarregamentoAdicionarBrinde"] = null;
 
                 #endregion
 
@@ -451,6 +486,12 @@ namespace marmitex_admin.Controllers
 
                 //recebe o usuário logado
                 usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemErroCadBrindeParceiro = null;
 
                 #endregion
 

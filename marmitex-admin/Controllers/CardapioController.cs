@@ -35,6 +35,12 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemCardapio = null;
+
+                #endregion
+
                 //busca todos os cardápios da loja
                 retornoRequest = rest.Get("/menucardapio/listar/" + usuarioLogado.IdLoja);
 
@@ -95,6 +101,12 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemCardapio = null;
+
+            #endregion
+
             //validação dos campos
             if (!ModelState.IsValid)
                 return View("Index", cardapio);
@@ -146,6 +158,12 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemCarregamentoEditarCardapio = null;
+
+                #endregion
+
                 //busca os dados do parceiro
                 MenuCardapio cardapio = new MenuCardapio();
 
@@ -183,6 +201,12 @@ namespace marmitex_admin.Controllers
 
             //recebe o usuário logado
             usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemEditarCardapio = null;
 
             #endregion
 

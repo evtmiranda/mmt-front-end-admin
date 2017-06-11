@@ -34,6 +34,12 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemHorarioEntrega = null;
+
+                #endregion
+
                 DadosHorarioEntrega dadosHorarioEntrega = new DadosHorarioEntrega();
 
                 //busca os horários de entrega
@@ -95,6 +101,12 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemCadHorarioEntrega = null;
+
+            #endregion
+
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
 
             try
@@ -133,6 +145,12 @@ namespace marmitex_admin.Controllers
 
                 //recebe o usuário logado
                 usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemCarregamentoEditarHorarioEntrega = null;
 
                 #endregion
 
@@ -178,6 +196,12 @@ namespace marmitex_admin.Controllers
 
             //recebe o usuário logado
             usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemEditarHorarioEntrega = null;
 
             #endregion
 
@@ -256,6 +280,12 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemCarregamentoEditarHorarioEntrega = null;
+
+                #endregion
+
                 TempoAntecedenciaEntrega tempoAntecedenciaEntrega = new TempoAntecedenciaEntrega();
 
                 retornoRequest = rest.Get(string.Format("/HorarioEntrega/TempoAntecedencia/{0}/{1}", id, usuarioLogado.IdLoja));
@@ -298,6 +328,12 @@ namespace marmitex_admin.Controllers
 
             //recebe o usuário logado
             usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemEditarHorarioEntrega = null;
 
             #endregion
 
@@ -350,6 +386,12 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemCarregamentoEditarHorarioEntrega = null;
+
+                #endregion
+
                 TempoAntecedenciaCancelamentoEntrega tempoAntecedenciaCancelamentoEntrega = new TempoAntecedenciaCancelamentoEntrega();
 
                 retornoRequest = rest.Get(string.Format("/HorarioEntrega/TempoAntecedenciaCancelamento/{0}/{1}", id, usuarioLogado.IdLoja));
@@ -392,6 +434,12 @@ namespace marmitex_admin.Controllers
 
             //recebe o usuário logado
             usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemEditarHorarioEntrega = null;
 
             #endregion
 

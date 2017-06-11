@@ -41,6 +41,12 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemPedidos = null;
+
+                #endregion
+
                 //busca todos os pedidos da loja com data de entrega == hoje
                 retornoRequest = rest.Get(string.Format("/Pedido/BuscarPedidos/{0}/{1}", usuarioLogado.IdLoja, "true"));
 
@@ -111,8 +117,6 @@ namespace marmitex_admin.Controllers
                 return "erro";
             }
         }
-
-
 
     }
 }

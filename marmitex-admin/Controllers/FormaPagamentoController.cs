@@ -36,6 +36,12 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemFormaPagamento = null;
+
+                #endregion
+
                 List<FormaDePagamento> listaFormasPagamento = new List<FormaDePagamento>();
 
                 //busca as formas de pagamento da loja
@@ -98,6 +104,12 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemCadFormaPagamento = null;
+
+            #endregion
+
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
 
             try
@@ -136,6 +148,12 @@ namespace marmitex_admin.Controllers
 
                 //recebe o usuário logado
                 usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemCarregamentoEditarFormaPagamento = null;
 
                 #endregion
 
@@ -181,6 +199,12 @@ namespace marmitex_admin.Controllers
 
             //recebe o usuário logado
             usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemEditarFormaPagamento = null;
 
             #endregion
 

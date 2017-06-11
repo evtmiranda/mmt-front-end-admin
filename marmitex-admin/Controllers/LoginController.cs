@@ -36,6 +36,12 @@
             //limpa a sessão de mensagem
             //Session["MensagemAutenticacao"] = null;
 
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemAutenticacao = null;
+
+            #endregion
+
             //captura a loja em questão
             Session["dominioLoja"] = BuscarUrlLoja();
 
