@@ -2,6 +2,7 @@
 
 <div class="col-md-12">
     <div class="form-group">
+        <p class="vermelho-marmitex">@Html.ValidationMessage("Nome")</p>
         <label for="nome">nome produto adicional *</label>
 
         @if (Model != null)
@@ -18,6 +19,7 @@
 </div>
 <div class="col-md-12">
     <div class="form-group">
+        <p class="vermelho-marmitex">@Html.ValidationMessage("Descricao")</p>
         <label for="descricao">descrição</label>
 
         @if (Model != null)

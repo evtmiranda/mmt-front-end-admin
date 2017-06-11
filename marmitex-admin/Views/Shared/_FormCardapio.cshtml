@@ -2,6 +2,7 @@
 
 <div class="col-md-12">
     <div class="form-group">
+        <p class="vermelho-marmitex">@Html.ValidationMessage("Nome")</p>
         <label for="nomeCardapio">nome cardápio *</label>
 
         @if (Model != null)
@@ -20,6 +21,7 @@
 
 <div class="col-md-12">
     <div class="form-group">
+        <p class="vermelho-marmitex">@Html.ValidationMessage("OrdemExibicao")</p>
         <label for="ordemExibicao">ordem de exibição *</label>
 
         @if (Model != null)

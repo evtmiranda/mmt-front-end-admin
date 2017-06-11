@@ -31,6 +31,7 @@
 </div>
 <div class="col-md-12">
     <div class="form-group">
+        <p class="vermelho-marmitex">@Html.ValidationMessage("QtdMin")</p>
         <label for="valor">quantidade mínima *</label>
 
         @if (Model != null)
@@ -49,6 +50,7 @@
 </div>
 <div class="col-md-12">
     <div class="form-group">
+        <p class="vermelho-marmitex">@Html.ValidationMessage("QtdMax")</p>
         <label for="valor">quantidade máxima *</label>
 
         @if(Model != null)
@@ -65,6 +67,7 @@
 </div>
 <div class="col-md-12">
     <div class="form-group">
+        <p class="vermelho-marmitex">@Html.ValidationMessage("OrdemExibicao")</p>
         <label for="valor">ordem de exibição *</label>
 
         @if (Model != null)

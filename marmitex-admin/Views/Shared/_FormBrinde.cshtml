@@ -2,11 +2,13 @@
 
 <div class="col-md-12">
     <div class="form-group">
+        <p class="vermelho-marmitex">@Html.ValidationMessage("Nome")</p>
         <label for="nome">nome brinde *</label>
 
         @if (Model != null)
         {
             <input type="hidden" name="id" value="@Model.Id" />
+
             <input type="text" id="nome" name="Nome" value="@Model.Nome" class="form-control" required/>
         }
         else
@@ -19,6 +21,7 @@
 </div>
 <div class="col-md-12">
     <div class="form-group">
+        <p class="vermelho-marmitex">@Html.ValidationMessage("Descricao")</p>
         <label for="descricao">descrição</label>
 
         @if (Model != null)
