@@ -239,6 +239,8 @@ namespace marmitex_admin.Controllers
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
+        #region tempo antecedencia
+
         public ActionResult EditarTempoAntecedencia(int id)
         {
             try
@@ -329,8 +331,106 @@ namespace marmitex_admin.Controllers
 
         }
 
+        #endregion
+
+        #region tempo antecedencia cancelamento
+
+        public ActionResult EditarTempoAntecedenciaCancelamento(int id)
+        {
+            try
+            {
+                #region validacao usuario logado
+
+                //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+                if (Session["UsuarioLogado"] == null)
+                    return RedirectToAction("Index", "Login");
+
+                //recebe o usuário logado
+                usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                TempoAntecedenciaCancelamentoEntrega tempoAntecedenciaCancelamentoEntrega = new TempoAntecedenciaCancelamentoEntrega();
+
+                retornoRequest = rest.Get(string.Format("/HorarioEntrega/TempoAntecedenciaCancelamento/{0}/{1}", id, usuarioLogado.IdLoja));
+
+                //se não encontrar com este id
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
+                {
+                    ViewBag.MensagemCarregamentoEditarHorarioEntrega = "não foi possível carregar os dados do tempo de antecedência de cancelamento. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
+                }
+
+                //se ocorrer algum erro
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemCarregamentoEditarHorarioEntrega = "não foi possível carregar os dados do tempo de antecedência de cancelamento. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    return View();
+                }
+
+                string jsonRetorno = retornoRequest.objeto.ToString();
+
+                tempoAntecedenciaCancelamentoEntrega = JsonConvert.DeserializeObject<TempoAntecedenciaCancelamentoEntrega>(jsonRetorno);
+
+                return View(tempoAntecedenciaCancelamentoEntrega);
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemCarregamentoEditarHorarioEntrega = "não foi possível carregar os dados do tempo de antecedência de cancelamento. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                return View();
+            }
+
+        }
+
+        public ActionResult EditarTempoAntecedenciaCancelamentoHorario(TempoAntecedenciaEntrega tempoAntecedenciaEntrega)
+        {
+            #region validacao usuario logado
+
+            //se a sessão de usuário não estiver preenchida, direciona para a tela de login
+            if (Session["UsuarioLogado"] == null)
+                return RedirectToAction("Index", "Login");
+
+            //recebe o usuário logado
+            usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            //variável para armazenar o retorno da requisição
+            DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
+
+            try
+            {
+                tempoAntecedenciaEntrega.IdLoja = usuarioLogado.IdLoja;
+                //tempoAntecedenciaEntrega.Ativo = true;
+
+                string urlPost = string.Format("/HorarioEntrega/TempoAntecedenciaCancelamento/Atualizar");
+
+                retornoRequest = rest.Post(urlPost, tempoAntecedenciaEntrega);
+
+                //se não for atualizado
+                if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    ViewBag.MensagemEditarHorarioEntrega = "não foi possível atualizar. por favor, tente novamente";
+                    return View("EditarTempoAntecedencia", tempoAntecedenciaEntrega);
+                }
+
+                //se for atualizado, direciona para a tela de visualização
+                return RedirectToAction("Index", "HorarioEntrega");
+            }
+            catch (Exception)
+            {
+                ViewBag.MensagemEditarHorarioEntrega = "não foi possível atualizar. por favor, tente novamente";
+                return View("EditarTempoAntecedencia", tempoAntecedenciaEntrega);
+            }
+
+        }
+
+        #endregion
+
+        #region dias de funcionamento
+
         [MyErrorHandler]
-        public ActionResult AtivarDiaFuncionamento(int id)
+        public ActionResult DesativarDiaFuncionamento(int id)
         {
             #region validacao usuario logado
 
@@ -351,7 +451,7 @@ namespace marmitex_admin.Controllers
             };
 
             //recurso do post
-            string urlPost = string.Format("/HorarioEntrega/DiaFuncionamento/Ativar");
+            string urlPost = string.Format("/HorarioEntrega/DiaFuncionamento/Desativar");
 
             //faz o post
             retornoRequest = rest.Post(urlPost, diaFuncionamento);
@@ -389,6 +489,8 @@ namespace marmitex_admin.Controllers
 
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
+
+        #endregion
 
     }
 }

@@ -1,7 +1,7 @@
-﻿@model ClassesMarmitex.TempoAntecedenciaEntrega
+﻿@model ClassesMarmitex.TempoAntecedenciaCancelamentoEntrega
 
 <div class="profile-content-backfull">
-    <h2>Editar tempo mínimo de antecedência do pedido</h2>
+    <h2>Editar tempo mínimo de cancelamento</h2>
     <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
     <div class="col-md-10">
 
@@ -20,7 +20,7 @@
         }
         else
         {
-            <form method="post" action="@Session["urlBase"]/HorarioEntrega/EditarTempoAntecedenciaHorario">
+            <form method="post" action="@Session["urlBase"]/HorarioEntrega/EditarTempoAntecedenciaCancelamentoHorario">
 
                 @if (ViewBag.MensagemEditarHorarioEntrega != null)
                 {
@@ -59,3 +59,4 @@
         }
     </div>
 </div>
+
