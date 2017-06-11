@@ -107,9 +107,13 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            #region validação dos campos
+
             //validação dos campos
             if (!ModelState.IsValid)
-                return View("Index", cardapio);
+                return View("Adicionar", cardapio);
+
+            #endregion
 
             //variável para armazenar o retorno da api
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
@@ -207,6 +211,14 @@ namespace marmitex_admin.Controllers
             #region limpa as viewbags de mensagem
 
             ViewBag.MensagemEditarCardapio = null;
+
+            #endregion
+
+            #region validação dos campos
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+                return View("Editar", cardapio);
 
             #endregion
 

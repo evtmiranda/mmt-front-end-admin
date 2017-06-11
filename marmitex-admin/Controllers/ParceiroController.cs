@@ -110,6 +110,14 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            #region validação dos campos
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+                return View("Adicionar", parceiroCadastro);
+
+            #endregion
+
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
 
             try
@@ -244,6 +252,14 @@ namespace marmitex_admin.Controllers
             #region limpa as viewbags de mensagem
 
             ViewBag.MensagemEditarParceiro = null;
+
+            #endregion
+
+            #region validação dos campos
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+                return View("Editar", parceiroCadastro);
 
             #endregion
 
@@ -492,6 +508,14 @@ namespace marmitex_admin.Controllers
                 #region limpa as viewbags de mensagem
 
                 ViewBag.MensagemErroCadBrindeParceiro = null;
+
+                #endregion
+
+                #region validação dos campos
+
+                //validação dos campos
+                if (!ModelState.IsValid)
+                    return View("AdicionarBrinde", dadosBrindeParceiro);
 
                 #endregion
 

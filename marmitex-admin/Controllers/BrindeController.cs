@@ -122,6 +122,14 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            #region validação dos campos
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+                return View("Adicionar", brindeCadastro);
+
+            #endregion
+
             try
             {
                 //recebe a imagem do brinde
@@ -243,6 +251,14 @@ namespace marmitex_admin.Controllers
                 ViewBag.MensagemEditarBrinde = "insira uma imagem para o brinde";
                 return View("Editar", brindeCadastro);
             }
+
+            #endregion
+
+            #region validação dos campos
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+                return View("Editar", brindeCadastro);
 
             #endregion
 

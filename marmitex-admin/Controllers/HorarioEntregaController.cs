@@ -107,6 +107,14 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            #region validação dos campos
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+                return View("Adicionar", horarioEntrega);
+
+            #endregion
+
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
 
             try
@@ -202,6 +210,14 @@ namespace marmitex_admin.Controllers
             #region limpa as viewbags de mensagem
 
             ViewBag.MensagemEditarHorarioEntrega = null;
+
+            #endregion
+
+            #region validação dos campos
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+                return View("Editar", horarioEntrega);
 
             #endregion
 
@@ -337,6 +353,14 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            #region validação dos campos
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+                return View("EditarTempoAntecedencia", tempoAntecedenciaEntrega);
+
+            #endregion
+
             //variável para armazenar o retorno da requisição
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
 
@@ -440,6 +464,14 @@ namespace marmitex_admin.Controllers
             #region limpa as viewbags de mensagem
 
             ViewBag.MensagemEditarHorarioEntrega = null;
+
+            #endregion
+
+            #region validação dos campos
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+                return View("EditarTempoAntecedenciaCancelamento", tempoAntecedenciaEntrega);
 
             #endregion
 

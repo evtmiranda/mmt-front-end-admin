@@ -153,6 +153,15 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            #region validação dos campos
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+                return View("Adicionar", produto);
+
+            #endregion
+
+
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
 
             try
@@ -219,6 +228,12 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemCarregamentoEditarProduto = null;
+
+                #endregion
+
                 #region busca os cardápios
 
                 List<MenuCardapio> listaMenuCardapio = new List<MenuCardapio>();
@@ -276,6 +291,20 @@ namespace marmitex_admin.Controllers
 
             //recebe o usuário logado
             usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+            #endregion
+
+            #region limpa as viewbags de mensagem
+
+            ViewBag.MensagemEditarProduto = null;
+
+            #endregion
+
+            #region validação dos campos
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+                return View("Editar", produto);
 
             #endregion
 
@@ -408,6 +437,12 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemDetalhesProduto = null;
+
+                #endregion
+
                 #region busca o produto
 
                 Produto produto = new Produto();
@@ -476,6 +511,12 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                Session["MensagemCarregamentoAdicionarProdutoAdicional"] = null;
+
+                #endregion
+
                 #region busca os produtos adicionais
 
                 List<DadosProdutoAdicional> listaDadosProdutoAdicional = new List<DadosProdutoAdicional>();
@@ -541,6 +582,20 @@ namespace marmitex_admin.Controllers
 
                 #endregion
 
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemCadProdutoAdicionalProduto = null;
+
+                #endregion
+
+                #region validação dos campos
+
+                //validação dos campos
+                if (!ModelState.IsValid)
+                    return View("AdicionarProdutoAdicional", produtoAdicionalProduto);
+
+                #endregion
+
                 string urlPost = "/Produto/AdicionarProdutoAdicional";
                 produtoAdicionalProduto.IdLoja = usuarioLogado.IdLoja;
                 retornoRequest = rest.Post(urlPost, produtoAdicionalProduto);
@@ -573,6 +628,12 @@ namespace marmitex_admin.Controllers
 
                 //recebe o usuário logado
                 usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region limpa as viewbags de mensagem
+
+                Session["MensagemCarregamentoEditarProdutoAdicionalProduto"] = null;
 
                 #endregion
 
@@ -642,6 +703,12 @@ namespace marmitex_admin.Controllers
 
                 //recebe o usuário logado
                 usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
+
+                #endregion
+
+                #region limpa as viewbags de mensagem
+
+                ViewBag.MensagemEditarProdutoAdicionalProduto = null;
 
                 #endregion
 

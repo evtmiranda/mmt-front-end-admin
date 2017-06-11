@@ -110,6 +110,14 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            #region validação dos campos
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+                return View("Adicionar", pagamento);
+
+            #endregion
+
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
 
             try
@@ -205,6 +213,14 @@ namespace marmitex_admin.Controllers
             #region limpa as viewbags de mensagem
 
             ViewBag.MensagemEditarFormaPagamento = null;
+
+            #endregion
+
+            #region validação dos campos
+
+            //validação dos campos
+            if (!ModelState.IsValid)
+                return View("Editar", pagamento);
 
             #endregion
 
