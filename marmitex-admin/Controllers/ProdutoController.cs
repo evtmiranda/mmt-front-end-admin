@@ -15,7 +15,7 @@ namespace marmitex_admin.Controllers
     public class ProdutoController : BaseController
     {
         private RequisicoesREST rest;
-        private DadosRequisicaoRest retornoRequest;
+        private DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
         private List<MenuCardapio> listaCardapio;
 
         //O Ninject é o responsável por cuidar da criação de todos esses objetos
@@ -123,6 +123,21 @@ namespace marmitex_admin.Controllers
                 listaMenuCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
 
                 ViewBag.MenuCardapio = listaMenuCardapio;
+                Session["MenuCardapio"] = listaMenuCardapio;
+
+                List<DiasSemana> listaDiasSemana = new List<DiasSemana>
+                {
+                    new DiasSemana { Id = 0, DiaSemana = "Domingo" },
+                    new DiasSemana { Id = 1, DiaSemana = "Segunda-feira" },
+                    new DiasSemana { Id = 2, DiaSemana = "Terça-feira" },
+                    new DiasSemana { Id = 3, DiaSemana = "Quarta-feira" },
+                    new DiasSemana { Id = 4, DiaSemana = "Quinta-feira" },
+                    new DiasSemana { Id = 5, DiaSemana = "Sexta-feira" },
+                    new DiasSemana { Id = 6, DiaSemana = "Sábado" }
+                };
+
+                ViewBag.ListaDiasSemana = listaDiasSemana;
+                Session["ListaDiasSemana"] = listaDiasSemana;
 
                 return View();
             }
@@ -131,7 +146,7 @@ namespace marmitex_admin.Controllers
                 ViewBag.MensagemCarregamentoAdicionarProduto = "não foi possível consultar os cardápios. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
-            
+
         }
 
         public ActionResult AdicionarProduto(Produto produto, HttpPostedFileBase file)
@@ -157,8 +172,13 @@ namespace marmitex_admin.Controllers
 
             //validação dos campos
             if (!ModelState.IsValid)
-                return View("Adicionar", produto);
+            {
+                ViewBag.ListaDiasSemana = (List<DiasSemana>)Session["ListaDiasSemana"];
+                ViewBag.MenuCardapio = (List<MenuCardapio>)Session["MenuCardapio"];
 
+                return View("Adicionar", produto);
+            }
+                
             #endregion
 
 
@@ -271,6 +291,20 @@ namespace marmitex_admin.Controllers
                 Produto produto = new Produto();
                 produto = produtosCardapio.Where(p => p.Id == id).FirstOrDefault();
 
+                List<DiasSemana> listaDiasSemana = new List<DiasSemana>
+                {
+                    new DiasSemana { Id = 0, DiaSemana = "Domingo" },
+                    new DiasSemana { Id = 1, DiaSemana = "Segunda-feira" },
+                    new DiasSemana { Id = 2, DiaSemana = "Terça-feira" },
+                    new DiasSemana { Id = 3, DiaSemana = "Quarta-feira" },
+                    new DiasSemana { Id = 4, DiaSemana = "Quinta-feira" },
+                    new DiasSemana { Id = 5, DiaSemana = "Sexta-feira" },
+                    new DiasSemana { Id = 6, DiaSemana = "Sábado" }
+                };
+
+                ViewBag.ListaDiasSemana = listaDiasSemana;
+                Session["ListaDiasSemana"] = listaDiasSemana;
+
                 return View(produto);
             }
             catch (Exception)
@@ -278,7 +312,7 @@ namespace marmitex_admin.Controllers
                 ViewBag.MensagemCarregamentoEditarProduto = "não foi possível carregar os dados do produto. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
-            
+
         }
 
         public ActionResult EditarProduto(Produto produto, HttpPostedFileBase file)
@@ -489,7 +523,7 @@ namespace marmitex_admin.Controllers
                 ViewBag.MensagemDetalhesProduto = "não foi possível exibir detalhes do produto. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
-            
+
         }
 
         #endregion
@@ -688,7 +722,7 @@ namespace marmitex_admin.Controllers
                 Session["MensagemCarregamentoEditarProdutoAdicionalProduto"] = "não foi possível carregar os dados do produto adicional. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return RedirectToAction("Detalhes", "Produto", new { id = id });
             }
-            
+
         }
 
         public ActionResult EditarProdutoAdicionalProduto(DadosProdutoAdicionalProduto produtoAdicionalProduto)

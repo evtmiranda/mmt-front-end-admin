@@ -8,11 +8,11 @@
         @if (Model != null)
             {
             <input type="hidden" name="id" value="@Model.Id" />
-                <input type="text" id="nome" name="Nome" value="@Model.Nome" class="form-control" />
+            <input type="text" id="nome" name="Nome" value="@Model.Nome" class="form-control" required/>
         }
         else
         {
-            <input type="text" id="nome" name="Nome" class="form-control" />
+            <input type="text" id="nome" name="Nome" class="form-control" required/>
         }
 
 
@@ -21,15 +21,15 @@
 <div class="col-md-12">
     <div class="form-group">
         <p class="vermelho-marmitex">@Html.ValidationMessage("Descricao")</p>
-        <label for="descricao">descrição</label>
+        <label for="descricao">descrição *</label>
 
         @if (Model != null)
             {
-            <input type="text" id="descricao" name="Descricao" value="@Model.Descricao" class="form-control" />
+            <input type="text" id="descricao" name="Descricao" value="@Model.Descricao" class="form-control" required/>
         }
         else
         {
-            <input type="text" id="descricao" name="Descricao" class="form-control" />
+            <input type="text" id="descricao" name="Descricao" class="form-control" required/>
         }
 
 
@@ -39,7 +39,7 @@
     <div class="form-group">
         <label for="cardapioProduto">cardápio *</label>
 
-        <select class="form-control" name="IdMenuCardapio">
+        <select class="form-control" name="IdMenuCardapio" required>
             <option value="0" selected>escolher cardápio...</option>
 
             @foreach (ClassesMarmitex.MenuCardapio cardapio in ViewBag.MenuCardapio)
@@ -64,6 +64,14 @@
 
     </div>
 </div>
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="cardapioProduto">dias de venda *</label>
+        @Html.ListBoxFor(p => p.ProdutoDiasVenda, new SelectList(ViewBag.ListaDiasSemana, "Id", "DiaSemana"), htmlAttributes: new { @class = "form-control" })
+    </div>
+</div>
+
 <div class="col-md-12">
     <div class="form-group">
         <p class="vermelho-marmitex">@Html.ValidationMessage("Valor")</p>
@@ -71,11 +79,11 @@
 
         @if (Model != null)
             {
-            <input type="text" id="valor" name="Valor" value="@Model.Valor" class="form-control" onkeyup="formataValor(this, event)" />
+            <input type="text" id="valor" name="Valor" value="@Model.Valor" class="form-control" onkeyup="formataValor(this, event)" required/>
         }
         else
         {
-            <input type="text" id="valor" name="Valor" class="form-control" onkeyup="formataValor(this, event)" />
+            <input type="text" id="valor" name="Valor" class="form-control" onkeyup="formataValor(this, event)" required/>
         }
 
 
@@ -88,11 +96,11 @@
 
         @if (Model != null)
             {
-            <input type="file" name="file" id="file" value="@Model.Imagem" />
+            <input type="file" name="file" id="file" value="@Model.Imagem" required/>
         }
         else
         {
-            <input type="file" name="file" id="file" onclick="ValidarImagem()" />
+            <input type="file" name="file" id="file" onclick="ValidarImagem()" required/>
         }
 
     </div>
