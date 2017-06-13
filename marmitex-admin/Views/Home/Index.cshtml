@@ -1,56 +1,63 @@
-﻿@{
-    ViewBag.Title = "Dashboard";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model ClassesMarmitex.Dashboard
 
 <div class="profile-content">
     <h1 class="text-center text-uppercase">Dashboard</h1>
-    <div class="col-md-6">
-        <div class="box-dashboard">
-            <div class="box-dashboard-item">
-                <h3>33</h3>
-                <p>pedidos</p>
+
+    @if (ViewBag.MensagemDashboard != null)
+    {
+        <div class="text-center">
+            <p>@ViewBag.MensagemDashboard</p>
+        </div>
+    }
+    else
+    {
+        <div class="col-md-6">
+            <div class="box-dashboard">
+                <div class="box-dashboard-item">
+                    <h3 title="quantidade de pedidos realizados hoje">@Model.Pedidos</h3>
+                    <p title="quantidade de pedidos realizados hoje">pedidos</p>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="box-dashboard">
-            <div class="box-dashboard-item">
-                <h3>R$ 1.500,00</h3>
-                <p>vendas</p>
+        <div class="col-md-6">
+            <div class="box-dashboard">
+                <div class="box-dashboard-item">
+                    <h3 title="valor total das vendas de hoje">R$ @Model.Vendas.ToString("F")</h3>
+                    <p title="valor total das vendas de hoje">vendas</p>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="box-dashboard">
-            <div class="box-dashboard-item">
-                <h3>45</h3>
-                <p>visitas</p>
+        <div class="col-md-6">
+            <div class="box-dashboard">
+                <div class="box-dashboard-item">
+                    <h3 title="quantidade de visitas ao site hoje">@Model.Visitas</h3>
+                    <p title="quantidade de visitas ao site hoje">visitas</p>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="box-dashboard">
-            <div class="box-dashboard-item">
-                <h3>5</h3>
-                <p>parceiros</p>
+        <div class="col-md-6">
+            <div class="box-dashboard">
+                <div class="box-dashboard-item">
+                    <h3 title="quantidade de parceiros diferentes que visitaram o site hoje">@Model.Parceiros</h3>
+                    <p title="quantidade de parceiros diferentes que visitaram o site hoje">parceiros</p>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="box-dashboard">
-            <div class="box-dashboard-item">
-                <h3>5</h3>
-                <p>pedidos atrasados</p>
+        <div class="col-md-6">
+            <div class="box-dashboard">
+                <div class="box-dashboard-item">
+                    <h3 title="quantidade de pedidos atrasados hoje">@Model.PedidosAtrasados</h3>
+                    <p title="quantidade de pedidos atrasados hoje">pedidos atrasados</p>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="box-dashboard">
-            <div class="box-dashboard-item">
-                <h3>28</h3>
-                <p>pedidos entregues</p>
+        <div class="col-md-6">
+            <div class="box-dashboard">
+                <div class="box-dashboard-item">
+                    <h3 title="quantidade de pedidos entregues hoje">@Model.PedidosEntregues</h3>
+                    <p title="quantidade de pedidos entregues hoje">pedidos entregues</p>
+                </div>
             </div>
         </div>
-    </div>
+    }
 </div>
