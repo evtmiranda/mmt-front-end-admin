@@ -51,7 +51,7 @@
                                 {
                                     if (produto.Ativo)
                                     {
-                                        <tr>
+                                        <tr class="table-mmt">
                                             <td>
                                                 <a href="@Session["urlBase"]/Produto/Detalhes/@produto.Id" title="ver detalhes">
                                                     @produto.Nome
@@ -59,8 +59,8 @@
                                             </td>
                                             <td>@produto.Descricao</td>
                                             <td>@cardapio.Nome</td>
-                                            <td>@produto.Valor</td>
-                                            <td><img src="@Session["CaminhoImagem"]/@produto.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
+                                            <td>@produto.Valor.ToString("F")</td>
+                                            <td><img src="@Session["CaminhoImagensProdutos"]/@produto.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
                                             <td>@(produto.Ativo == true ? "Sim" : "Não")</td>
                                             <td>
                                                 <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/Produto/Editar/@produto.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
@@ -80,7 +80,7 @@
                                             <td>@produto.Descricao</td>
                                             <td>@cardapio.Nome</td>
                                             <td>@produto.Valor</td>
-                                            <td><img src="@Session["CaminhoImagem"]/@produto.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
+                                            <td><img src="@Session["CaminhoImagensProdutos"]/@produto.Imagem" class="img-responsive" style="height: 70px;" alt="produto"></td>
                                             <td>@(produto.Ativo == true ? "Sim" : "Não")</td>
                                             <td>
                                                 <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/Produto/Editar/@produto.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>

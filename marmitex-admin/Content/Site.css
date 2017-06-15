@@ -107,6 +107,16 @@ a, p {
     margin-top: 10px;
 }
 
+tr.table-mmt td {
+    max-width: 8em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+tr.table-mmt td img{
+    max-width: 8em;
+}
 
 /*#endregion board pedido*/
 /*#region botões */

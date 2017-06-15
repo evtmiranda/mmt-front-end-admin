@@ -9,7 +9,9 @@
                     title: 'Oops',
                     html: "@ViewBag.MensagemDetalhesProdutoAdicional",
                     type: 'error',
-                    confirmButtonText: 'Ok'
+                    confirmButtonText: 'Ok',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar
                 }).then(function () {
                     //volta para a tela de parceiros
                     window.location = "@Session["urlBase"]/Parceiro/";
@@ -24,7 +26,9 @@
                     title: 'Oops',
                     html: "@Session["MensagemCarregamentoItem"]",
                     type: 'error',
-                    confirmButtonText: 'Ok'
+                    confirmButtonText: 'Ok',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar
                 });
             </script>
         }
@@ -75,7 +79,7 @@
                                         <tr>
                                             <td>@itemAdicional.Nome</td>
                                             <td>@itemAdicional.Descricao</td>
-                                            <td>@itemAdicional.Valor</td>
+                                            <td>@itemAdicional.Valor.ToString("F")</td>
                                             <td>@(itemAdicional.Ativo == true ? "Sim" : "Não")</td>
 
                                             <td>

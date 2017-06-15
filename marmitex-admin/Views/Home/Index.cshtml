@@ -1,6 +1,6 @@
 ﻿@model ClassesMarmitex.Dashboard
 
-<div class="profile-content">
+<div class="profile-content-backfull">
     <h1 class="text-center text-uppercase">Dashboard</h1>
 
     @if (ViewBag.MensagemDashboard != null)
@@ -11,7 +11,7 @@
     }
     else
     {
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="box-dashboard">
                 <div class="box-dashboard-item">
                     <h3 title="quantidade de pedidos realizados hoje">@Model.Pedidos</h3>
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="box-dashboard">
                 <div class="box-dashboard-item">
                     <h3 title="valor total das vendas de hoje">R$ @Model.Vendas.ToString("F")</h3>
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="box-dashboard">
                 <div class="box-dashboard-item">
                     <h3 title="quantidade de visitas ao site hoje">@Model.Visitas</h3>
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="box-dashboard">
                 <div class="box-dashboard-item">
                     <h3 title="quantidade de parceiros diferentes que visitaram o site hoje">@Model.Parceiros</h3>
@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="box-dashboard">
                 <div class="box-dashboard-item">
                     <h3 title="quantidade de pedidos atrasados hoje">@Model.PedidosAtrasados</h3>
@@ -51,11 +51,27 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
+            <div class="box-dashboard">
+                <div class="box-dashboard-item">
+                    <h3 title="quantidade de pedidos que estão na fila para entrega hoje">@Model.PedidosFila</h3>
+                    <p title="quantidade de pedidos que estão na fila para entrega hoje">pedidos na fila</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
             <div class="box-dashboard">
                 <div class="box-dashboard-item">
                     <h3 title="quantidade de pedidos entregues hoje">@Model.PedidosEntregues</h3>
                     <p title="quantidade de pedidos entregues hoje">pedidos entregues</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="box-dashboard">
+                <div class="box-dashboard-item">
+                    <h3 title="quantidade de pedidos cancelados hoje">@Model.PediosCancelados</h3>
+                    <p title="quantidade de pedidos cancelados hoje">pedidos cancelados</p>
                 </div>
             </div>
         </div>

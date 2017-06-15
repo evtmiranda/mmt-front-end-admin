@@ -100,7 +100,7 @@ namespace marmitex_admin.Controllers
             try
             {
                 //monta a url de chamada na api
-                string urlPost = string.Format("/Pedido/AtualizarStatusPedido/{0}", usuarioLogado.IdLoja);
+                string urlPost = string.Format("/Pedido/AtualizarStatusPedido/{0}/", usuarioLogado.IdLoja);
 
                 //realiza o post passando o usuário no body
                 retornoRequest = rest.Post(urlPost, dadosAtualizarPedido);

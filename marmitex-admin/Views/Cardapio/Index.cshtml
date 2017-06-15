@@ -46,7 +46,7 @@
                                 {
                                     if (cardapio.Ativo)
                                     {
-                                        <tr>
+                                        <tr class="table-mmt">
                                             <td>@cardapio.Nome</td>
                                             <td>@cardapio.OrdemExibicao</td>
                                             <td>@(cardapio.Ativo == true ? "Sim" : "Não")</td>
@@ -59,7 +59,7 @@
                                     }
                                     else
                                     {
-                                        <tr class="danger">
+                                        <tr class="danger table-mmt">
                                             <td>@cardapio.Nome</td>
                                             <td>@cardapio.OrdemExibicao</td>
                                             <td>@(cardapio.Ativo == true ? "Sim" : "Não")</td>

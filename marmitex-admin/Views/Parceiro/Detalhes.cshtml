@@ -9,7 +9,9 @@
                     title: 'Oops',
                     html: "@ViewBag.MensagemDetalhesParceiro",
                     type: 'error',
-                    confirmButtonText: 'Ok'
+                    confirmButtonText: 'Ok',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar
                 }).then(function () {
                     //volta para a tela de parceiros
                     window.location = "@Session["urlBase"]/Parceiro/";
@@ -23,7 +25,9 @@
                     title: 'Oops',
                     html: "@Session["MensagemCarregamentoAdicionarBrinde"]",
                     type: 'error',
-                    confirmButtonText: 'Ok'
+                    confirmButtonText: 'Ok',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar
                 });
             </script>
         }

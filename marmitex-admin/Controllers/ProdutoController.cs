@@ -68,6 +68,10 @@ namespace marmitex_admin.Controllers
 
                 listaCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
 
+                //monta a sessão com o caminho das imagens dos brindes
+                string caminhoImagem = "http://" + usuarioLogado.UrlLoja + ":45237/Images/" + usuarioLogado.UrlLoja + "/Produtos/";
+                Session["CaminhoImagensProdutos"] = caminhoImagem;
+
                 return View(listaCardapio);
             }
             catch (Exception)

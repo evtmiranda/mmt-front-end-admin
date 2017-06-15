@@ -1,6 +1,6 @@
 ﻿@model  ClassesMarmitex.Produto
 
-<div class="profile-content">
+<div class="profile-content-backfull">
     <h2>Adicionar produto</h2>
     <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
 
@@ -12,7 +12,9 @@
                     title: 'Oops',
                     html: "@ViewBag.MensagemCarregamentoAdicionarProduto",
                     type: 'error',
-                    confirmButtonText: 'Ok'
+                    confirmButtonText: 'Ok',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar
                 }).then(function () {
                     //volta para a tela de produtos
                     window.location = "@Session["urlBase"]/Produto/";

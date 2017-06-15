@@ -9,7 +9,9 @@
                     title: 'Oops',
                     html: "@ViewBag.MensagemDetalhesProduto",
                     type: 'error',
-                    confirmButtonText: 'Ok'
+                    confirmButtonText: 'Ok',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar
                 }).then(function () {
                     //volta para a tela de produtos
                     window.location = "@Session["urlBase"]/Produto/";
@@ -23,7 +25,9 @@
                     title: 'Oops',
                     html: "@ViewBag.MensagemCarregamentoAdicionarProdutoAdicional",
                     type: 'error',
-                    confirmButtonText: 'Ok'
+                    confirmButtonText: 'Ok',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar
                 });
             </script>
         }
@@ -34,7 +38,9 @@
                     title: 'Oops',
                     html: "@Session["MensagemCarregamentoEditarProdutoAdicionalProduto"]",
                     type: 'error',
-                    confirmButtonText: 'Ok'
+                    confirmButtonText: 'Ok',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar
                 });
             </script>
         }

@@ -1,4 +1,7 @@
-﻿/**
+﻿var corConfirmacao = '#bc2026';
+var corCancelar = '#f8ac2b';
+
+/**
  * evento da página de pedido, para marcar que uma determinada div ou objeto pode receber qualquer drop
  * @param {any} ev ev
  */
@@ -38,11 +41,13 @@ function dropEntregue(ev) {
     $.post(urlPost, { dadosJson: dadosPedidoJson },
         function (data) {
             if (data == "erro") {
-                swal(
-                    'Oops...',
-                    'não foi possível atualizar o pedido para entregue. por favor, tente novamente ou entre em contato com o administrador',
-                    'error'
-                )
+                swal({
+                    title: 'Oops',
+                    html: 'não foi possível atualizar o pedido para entregue. por favor, tente novamente ou entre em contato com o administrador',
+                    type: 'error',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar,
+                })
             }
             else {
                 //ev.target.appendChild(document.getElementById(nomeDiv));
@@ -77,11 +82,13 @@ function dropFila(ev) {
     $.post(urlPost, { dadosJson: dadosPedidoJson },
         function (data) {
             if (data == "erro") {
-                swal(
-                    'Oops...',
-                    'não foi possível voltar o pedido para fila. por favor, tente novamente ou entre em contato com o administrador',
-                    'error'
-                )
+                swal({
+                    title: 'Oops',
+                    html: 'não foi possível voltar o pedido para fila. por favor, tente novamente ou entre em contato com o administrador',
+                    type: 'error',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar,
+                })
             }
             else {
                 //ev.target.appendChild(document.getElementById(nomeDiv));
@@ -112,36 +119,64 @@ function dropCancelado(ev) {
     dadosPedido.IdStatusPedido = 2;
 
     var urlPost = "/Pedido/AtualizarStatusPedido";
-    var dadosPedidoJson = JSON.stringify(dadosPedido, null, 0);
+    
 
     swal({
         title: 'Confirma o cancelamento do pedido?',
         text: "Ao cancelar, o cliente será notificado.",
         type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#f9',
-        cancelButtonColor: '#f9',
+        confirmButtonColor: corConfirmacao,
+        cancelButtonColor: corCancelar,
         cancelButtonText: 'Voltar',
         confirmButtonText: 'Sim, cancelar!'
     }).then(function () {
-        $.post(urlPost, { dadosJson: dadosPedidoJson },
-            function (data) {
-                if (data == "erro") {
-                    swal(
-                        'Oops...',
-                        'não foi possível cancelar o pedido. por favor, tente novamente ou entre em contato com o administrador',
-                        'error'
-                    )
-                }
-                else {
-                    //ev.target.appendChild(document.getElementById(nomeDiv));
-                    //recarrega o html da página
-                    window.location.reload();
-                }
+        swal({
+            title: 'Escreva o motivo do cancelamento',
+            input: 'text',
+            showCancelButton: true,
+            confirmButtonColor: corConfirmacao,
+            cancelButtonColor: corCancelar,
+            cancelButtonText: 'Voltar',
+            confirmButtonText: 'Confirmar'
+        }).then(function (motivoCancelamento) {
+            if (motivoCancelamento == null || motivoCancelamento == "") {
+                swal({
+                    title: 'Aviso',
+                    html: 'escreva o motivo do cancelamento',
+                    type: 'warning',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar
+                })
+                return;
             }
-        );
 
+            dadosPedido.MotivoCancelamento = motivoCancelamento;
+
+            var dadosPedidoJson = JSON.stringify(dadosPedido, null, 0);
+
+            $.post(urlPost, { dadosJson: dadosPedidoJson },
+                function (data) {
+                    if (data == "erro") {
+                        swal({
+                            title: 'Oops...',
+                            html: 'não foi possível cancelar o pedido. por favor, tente novamente ou entre em contato com o administrador',
+                            type: 'error',
+                            confirmButtonColor: corConfirmacao,
+                            cancelButtonColor: corCancelar
+                        })
+                    }
+                    else {
+                        //ev.target.appendChild(document.getElementById(nomeDiv));
+                        //recarrega o html da página
+                        window.location.reload();
+                    }
+                }
+            );
+
+        });
     });
+
 
 
 }
@@ -158,22 +193,28 @@ function Excluir(url) {
         html: "Ao excluir, não será possível desfazer a ação",
         type: 'warning',
         showCancelButton: true,
+        confirmButtonColor: corConfirmacao,
+        cancelButtonColor: corCancelar,
         cancelButtonText: 'Voltar',
         confirmButtonText: 'Sim, excluir!'
     }).then(function () {
         $.getJSON(url, { id: null }, function (result) {
             if (!result.success) {
-                swal(
-                    'Oops',
-                    'não foi possível excluir. por favor, tente novamente ou entre em contato com o administrador',
-                    'error'
-                )
+                swal({
+                    title: 'Oops...',
+                    html: 'não foi possível excluir. por favor, tente novamente ou entre em contato com o administrador',
+                    type: 'error',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar
+                })
             }
             else {
                 swal({
                     title: 'Sucesso',
                     html: "Exclusão realizada com sucesso.",
                     type: 'success',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar,
                     confirmButtonText: 'Ok'
                 }).then(function () {
                     //recarrega a pagina
@@ -193,6 +234,16 @@ function IrParaUrl(url) {
 }
 
 /**
+ * Redireciona o cliente para um determinado destino
+ * @param {any} urlBase
+ * @param {any} destino
+ */
+function Redirecionar(urlBase, destino) {
+    window.location.href = urlBase + destino;
+}
+
+
+/**
  * 1. Faz um get na url
    2. Se o retorno for sucesso, recarrega a página. Se for erro, exibe mensagem amigável
  * @param {any} url
@@ -200,11 +251,13 @@ function IrParaUrl(url) {
 function Get(url) {
     $.getJSON(url, { id: null }, function (result) {
         if (!result.success) {
-            swal(
-                'Oops...',
-                'Ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador',
-                'error'
-            )
+            swal({
+                title: 'Oops...',
+                html: 'Ocorreu um erro. por favor, tente novamente ou entre em contato com o administrador',
+                type: 'error',
+                confirmButtonColor: corConfirmacao,
+                cancelButtonColor: corCancelar
+            })
         }
         else {
             //recarrega o html da página

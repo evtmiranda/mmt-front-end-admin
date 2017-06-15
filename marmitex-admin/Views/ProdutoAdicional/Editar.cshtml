@@ -12,7 +12,9 @@
                     title: 'Oops',
                     html: "@ViewBag.MensagemCarregamentoEditarProdutoAdicional",
                     type: 'error',
-                    confirmButtonText: 'Ok'
+                    confirmButtonText: 'Ok',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar
                 }).then(function () {
                     window.location = "@Session["urlBase"]/ProdutoAdicional/";
                     });
