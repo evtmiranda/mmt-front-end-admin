@@ -25,6 +25,9 @@ namespace marmitex_admin.Controllers
             //captura o host atual
             string host = Request.Url.Host.Replace('"', ' ').Trim();
 
+            //retira o nome admin
+            host = host.Replace("admin.tasaindo.com.br", ".tasaindo.com.br").Trim();
+
             host = host.Split('.')[0];
 
             return host;

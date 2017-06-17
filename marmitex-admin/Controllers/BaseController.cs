@@ -23,7 +23,14 @@ namespace marmitex_admin.Controllers
         public string BuscarUrlLoja()
         {
             //captura o host atual
-            return Request.Url.Host.Replace('"', ' ').Trim();
+            string host = Request.Url.Host.Replace('"', ' ').Trim();
+
+            //retira o nome admin
+            host = host.Replace("admin.tasaindo.com.br", ".tasaindo.com.br").Trim();
+
+            host = host.Split('.')[0];
+
+            return host;
         }
     }
 }
