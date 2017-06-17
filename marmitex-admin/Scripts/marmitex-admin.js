@@ -29,33 +29,45 @@ function dropEntregue(ev) {
 
     //faz um post no endpoint de pedidos para setar como entregue
     var trataIdPedido = nomeDiv.split('/');
-    var tamVet = trataIdPedido.length-1;
+    var tamVet = trataIdPedido.length - 1;
 
     var dadosPedido = new Object();
     dadosPedido.IdPedido = trataIdPedido[tamVet];
     dadosPedido.IdStatusPedido = 1;
 
     var urlPost = "/Pedido/AtualizarStatusPedido";
-    var dadosPedidoJson = JSON.stringify(dadosPedido, null, 0);
 
-    $.post(urlPost, { dadosJson: dadosPedidoJson },
-        function (data) {
-            if (data == "erro") {
-                swal({
-                    title: 'Oops',
-                    html: 'não foi possível atualizar o pedido para entregue. por favor, tente novamente ou entre em contato com o administrador',
-                    type: 'error',
-                    confirmButtonColor: corConfirmacao,
-                    cancelButtonColor: corCancelar,
-                })
+    swal({
+        title: 'Confirma a entrega do pedido?',
+        text: "Ao confirmar, o cliente será notificado.",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: corConfirmacao,
+        cancelButtonColor: corCancelar,
+        cancelButtonText: 'Voltar',
+        confirmButtonText: 'Sim, confirmo!'
+    }).then(function () {
+        var dadosPedidoJson = JSON.stringify(dadosPedido, null, 0);
+
+        $.post(urlPost, { dadosJson: dadosPedidoJson },
+            function (data) {
+                if (data == "erro") {
+                    swal({
+                        title: 'Oops',
+                        html: 'não foi possível atualizar o pedido para entregue. por favor, tente novamente ou entre em contato com o administrador',
+                        type: 'error',
+                        confirmButtonColor: corConfirmacao,
+                        cancelButtonColor: corCancelar,
+                    })
+                }
+                else {
+                    //ev.target.appendChild(document.getElementById(nomeDiv));
+                    //recarrega o html da página
+                    window.location.reload();
+                }
             }
-            else {
-                //ev.target.appendChild(document.getElementById(nomeDiv));
-                //recarrega o html da página
-                window.location.reload();
-            }
-        }
-    );
+        );
+    });
 }
 
 /**
@@ -77,26 +89,40 @@ function dropFila(ev) {
     dadosPedido.IdStatusPedido = 0;
 
     var urlPost = "/Pedido/AtualizarStatusPedido";
-    var dadosPedidoJson = JSON.stringify(dadosPedido, null, 0);
 
-    $.post(urlPost, { dadosJson: dadosPedidoJson },
-        function (data) {
-            if (data == "erro") {
-                swal({
-                    title: 'Oops',
-                    html: 'não foi possível voltar o pedido para fila. por favor, tente novamente ou entre em contato com o administrador',
-                    type: 'error',
-                    confirmButtonColor: corConfirmacao,
-                    cancelButtonColor: corCancelar,
-                })
+    swal({
+        title: 'Deseja voltar o pedido para fila?',
+        text: "Ao confirmar, o cliente será notificado.",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: corConfirmacao,
+        cancelButtonColor: corCancelar,
+        cancelButtonText: 'Voltar',
+        confirmButtonText: 'Sim, confirmo!'
+    }).then(function () {
+        var dadosPedidoJson = JSON.stringify(dadosPedido, null, 0);
+
+        $.post(urlPost, { dadosJson: dadosPedidoJson },
+            function (data) {
+                if (data == "erro") {
+                    swal({
+                        title: 'Oops',
+                        html: 'não foi possível voltar o pedido para fila. por favor, tente novamente ou entre em contato com o administrador',
+                        type: 'error',
+                        confirmButtonColor: corConfirmacao,
+                        cancelButtonColor: corCancelar,
+                    })
+                }
+                else {
+                    //ev.target.appendChild(document.getElementById(nomeDiv));
+                    //recarrega o html da página
+                    window.location.reload();
+                }
             }
-            else {
-                //ev.target.appendChild(document.getElementById(nomeDiv));
-                //recarrega o html da página
-                window.location.reload();
-            }
-        }
-    );
+        );
+    });
+
+
 }
 
 /**

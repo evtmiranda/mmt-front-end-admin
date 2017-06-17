@@ -234,6 +234,10 @@
     <Content Include="Views\Parceiro\AdicionarBrinde.cshtml" />
     <Content Include="Views\Shared\_FormBrindeParceiro.cshtml" />
     <Content Include="Views\HorarioEntrega\EditarTempoAntecedenciaCancelamento.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Usuario\Adicionar.cshtml" />
+    <Content Include="Views\Shared\_FormUsuario.cshtml" />
+    <Content Include="Views\Usuario\Editar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -83,7 +83,7 @@ a, p {
     .board-pedido h3 {
         padding-left: 10%;
         padding-top: 20px;
-        font-family: 'Bangers', cursive !important;
+        /*font-family: 'Bangers', cursive !important;*/
     }
 
 .board-pedido-item {

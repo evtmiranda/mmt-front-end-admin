@@ -1,0 +1,88 @@
+﻿@model IList<ClassesMarmitex.UsuarioLoja>
+
+<div class="col-md-12">
+    <div class="profile-content-backfull">
+        <h1 class="text-left">Usuários</h1>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-globe"></i>
+                <a href="@Session["urlBase"]/Home">Inicio</a>
+            </li>
+            <li>
+                <i class="fa fa-handshake-o fa-lg"></i>
+                <a href="@Session["urlBase"]/Usuario/">Usuarios</a>
+            </li>
+        </ul>
+
+        <div class="text-right">
+            <a href="/Usuario/Adicionar" class="btn btn-success">adicionar usuário</a>
+        </div>
+
+        <hr />
+
+        <div class="col-md-12">
+            @if (Model != null)
+            {
+                if (ViewBag.MensagemUsuario != null)
+                {
+                    <div class="text-center">
+                        <p>@ViewBag.MensagemUsuario</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>nome</th>
+                                    <th>apelido</th>
+                                    <th>e-mail</th>
+                                    <th>permissão</th>
+                                    <th>ativo</th>
+                                    <th>ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var usuario in Model)
+                                {
+                                    if (usuario.Ativo)
+                                    {
+                                        <tr class="table-mmt">
+                                            <td>@usuario.Nome</td>
+                                            <td>@usuario.Apelido</td>
+                                            <td>@usuario.Email</td>
+                                            <td>@(usuario.NivelPermissao == 1 ? "Administrador" : "Loja")</td>
+                                            <td>@(usuario.Ativo == true ? "Sim" : "Não")</td>
+                                            <td>
+                                                <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/Usuario/Editar/@usuario.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                                <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/Usuario/Desativar/@usuario.Id')" title="Desativar"><i class="glyphicon glyphicon-off"></i></button>
+                                                <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Usuario/Excluir/@usuario.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr class="danger">
+                                            <td>@usuario.Nome</td>
+                                            <td>@usuario.Apelido</td>
+                                            <td>@usuario.Email</td>
+                                            <td>@(usuario.NivelPermissao == 1 ? "Administrador" : "Loja")</td>
+                                            <td>@(usuario.Ativo == true ? "Sim" : "Não")</td>
+                                            <td>
+                                                <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/Usuario/Editar/@usuario.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                                <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/Usuario/Desativar/@usuario.Id')" title="Desativar"><i class="glyphicon glyphicon-off"></i></button>
+                                                <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/Usuario/Excluir/@usuario.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                }
+                        </table>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

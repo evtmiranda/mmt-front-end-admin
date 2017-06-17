@@ -1,0 +1,38 @@
+﻿@model ClassesMarmitex.UsuarioLoja
+
+<div class="profile-content-backfull">
+    <h2>Editar usuário</h2>
+    <p style="font:italic;" class="vermelho-marmitex">os campos com * são de preenchimento obrigatório</p>
+    <div class="col-md-10">
+        @if (ViewBag.MensagemCarregamentoEditarUsuario != null)
+        {
+            <script>
+                swal({
+                    title: 'Oops',
+                    html: "@ViewBag.MensagemCarregamentoEditarUsuario",
+                    type: 'error',
+                    confirmButtonText: 'Ok',
+                    confirmButtonColor: corConfirmacao,
+                    cancelButtonColor: corCancelar
+                }).then(function () {
+                    window.location = "@Session["urlBase"]/Usuario/";
+                    });
+            </script>
+        }
+        else
+        {
+            <form method="post" action="@Session["urlBase"]/Usuario/EditarUsuario">
+
+                @Html.Partial("_FormUsuario")
+
+
+                <div class="col-md-12">
+                    <div class="buttons-formcontrol">
+                        <input type="submit" class="btn btn-success" value="salvar" />
+                    </div>
+                </div>
+
+            </form>
+        }
+    </div>
+</div>

@@ -1,0 +1,110 @@
+﻿@model ClassesMarmitex.UsuarioLoja
+
+<div class="col-md-12">
+    <div class="form-group">
+        <p class="vermelho-marmitex">@Html.ValidationMessage("Nome")</p>
+
+        <label for="nome">nome usuário *</label>
+
+        @if (Model != null)
+        {
+            <input type="hidden" name="id" value="@Model.Id" />
+            <input type="text" id="nome" name="Nome" value="@Model.Nome" class="form-control" required />
+        }
+        else
+        {
+            <input type="text" id="nome" name="Nome" class="form-control" required />
+        }
+
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group">
+        <p class="vermelho-marmitex">@Html.ValidationMessage("Email")</p>
+        <label for="email">e-mail *</label>
+
+        @if (Model != null)
+        {
+            <input type="email" class="form-control" required title="o preenchimento do e-mail é obrigatório" id="email" name="Email" value="@Model.Email" placeholder="digite o seu e-mail">
+        }
+        else
+        {
+            <input type="email" class="form-control" required title="o preenchimento do e-mail é obrigatório" id="email" name="Email" placeholder="digite o seu e-mail">
+        }
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group">
+        <p class="vermelho-marmitex">@Html.ValidationMessage("NivelPermissao")</p>
+        <label for="NivelPermissao">Permissão *</label>
+
+        @if (Model != null)
+        {
+            <select class="form-control" id="NivelPermissao" value="@Model.NivelPermissao" name="NivelPermissao" required>
+                @if (@Model.NivelPermissao == 1)
+                {
+                    <option selected value="1">Administrador</option>
+                }
+                else
+                {
+                    <option value="1">Administrador</option>
+                }
+
+                @if (@Model.NivelPermissao == 2)
+                {
+                    <option selected value="2">Loja (somente dashboard e pedidos)</option>
+                }
+                else
+                {
+                    <option value="2">Loja (somente dashboard e pedidos)</option>
+                }
+            </select>
+        }
+        else
+        {
+            <select class="form-control" id="NivelPermissao" name="NivelPermissao" required>
+                <option>Administrador</option>
+                <option>Loja</option>
+            </select>
+        }
+
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="form-group">
+        <p class="vermelho-marmitex">@Html.ValidationMessage("Senha")</p>
+        <label for="pwd">senha *</label>
+
+        @if (Model != null)
+        {
+            <input type="password" class="form-control" required title="o preenchimento da senha é obrigatório" value="@Model.Senha" id="pwd" name="Senha" placeholder="digite uma senha">
+        }
+        else
+        {
+            <input type="password" class="form-control" required title="o preenchimento da senha é obrigatório" id="pwd" name="Senha" placeholder="digite uma senha">
+        }
+
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="form-group">
+        <label for="ativo">usuario ativo? </label>
+        @Html.CheckBox("Ativo", true)
+    </div>
+</div>
+
+
+<div class="col-md-12">
+    <div class="form-group">
+        @if (ViewBag.MensagemCadUsuario != null)
+        {
+            <p class="vermelho-marmitex">@ViewBag.MensagemCadUsuario</p>
+        }
+
+        @if (ViewBag.MensagemEditarUsuario != null)
+        {
+            <p class="vermelho-marmitex">@ViewBag.MensagemEditarUsuario</p>
+        }
+    </div>
+</div>
