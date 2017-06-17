@@ -76,7 +76,7 @@
                     try
                     {
                         //busca os dados do usuário
-                        retornoDadosUsuario = rest.Post(string.Format("usuario/buscarPorEmail/{0}", TipoUsuario.Loja), usuario);
+                        retornoDadosUsuario = rest.Post(string.Format("usuario/buscarPorEmail/{0}/{1}", TipoUsuario.Loja, dominioLoja), usuario);
 
                         //verifica se os dados do usuário foram encontrados
                         if (retornoDadosUsuario.HttpStatusCode != HttpStatusCode.OK)

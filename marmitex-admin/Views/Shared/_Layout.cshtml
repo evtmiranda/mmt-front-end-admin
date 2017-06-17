@@ -25,8 +25,6 @@
     <script src="https://cdn.jsdelivr.net/sweetalert2/6.6.0/sweetalert2.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.6.0/sweetalert2.css">
 
-    
-
 </head>
 <body>
     <div class="container-fluid">
@@ -109,7 +107,16 @@
                             <!-- SIDEBAR USER TITLE -->
                             <div class="profile-usertitle">
                                 <div class="profile-usertitle-name">
-                                    <h2>Spoleto</h2>
+                                    @{ if (Session["usuarioLogado"] != null)
+                                        {
+                                            ClassesMarmitex.UsuarioLoja usuarioLogado = (ClassesMarmitex.UsuarioLoja)Session["usuarioLogado"];
+                                            <h2>@usuarioLogado.NomeLoja</h2>
+                                        }
+                                        else
+                                        {
+                                            <h2></h2>
+                                        }
+                                    }
                                 </div>
                             </div>
                             <!-- END SIDEBAR BUTTONS -->

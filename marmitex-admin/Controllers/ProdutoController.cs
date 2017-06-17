@@ -823,7 +823,7 @@ namespace marmitex_admin.Controllers
                 Ativo = false
             };
 
-            string urlPost = string.Format("/Produto/ExcluirProdutoAdicional");
+            string urlPost = string.Format("/Produto/DesativarProdutoAdicional");
             retornoRequest = rest.Post(urlPost, dadosProdutoAdicionalProduto);
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
