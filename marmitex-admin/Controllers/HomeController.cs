@@ -30,6 +30,10 @@ namespace marmitex_admin.Controllers
                 //recebe o usuário logado
                 usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
 
+                //verifica se o usuário tem permissão na página
+                if (usuarioLogado.NivelPermissao == 2)
+                    return RedirectToAction("Index", "Pedido");
+
                 #endregion
 
                 #region limpa as viewbags de mensagem

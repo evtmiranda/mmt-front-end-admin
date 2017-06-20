@@ -422,7 +422,8 @@
 
 <div class="col-md-12">
     <div class="form-group">
-        <label for="taxaEntrega">taxa de entrega R$</label>
+        <p class="vermelho-marmitex">@Html.ValidationMessage("TaxaEntrega")</p>
+        <label for="taxaEntrega">taxa de entrega R$ *</label>
 
         @if (Model != null)
         {

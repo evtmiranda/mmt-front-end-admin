@@ -62,8 +62,13 @@
             DadosRequisicaoRest retornoAutenticacao = new DadosRequisicaoRest();
             DadosRequisicaoRest retornoDadosUsuario = new DadosRequisicaoRest();
 
+            string senha = null;
+
             try
             {
+                senha = usuario.Senha;
+                usuario.Senha = CriptografiaMD5.GerarHashMd5(usuario.Senha);
+
                 string urlPost = string.Format("/usuario/autenticar/{0}/'{1}'", TipoUsuario.Loja, dominioLoja);
 
                 retornoAutenticacao = rest.Post(urlPost, usuario);
@@ -92,17 +97,24 @@
                         //limpa a sessão "usuarioLogin"
                         Session["usuarioLogin"] = null;
 
-                        return RedirectToAction("Index", "Home");
+                        //se for o usuário for admin, direciona para a tela home
+                        if(usuarioLogado.NivelPermissao == 1)
+                            return RedirectToAction("Index", "Home");
+                        //senão, direciona para a tela de pedidos
+                        else
+                            return RedirectToAction("Index", "Pedido");
                     }
                     //se não for possível consultar os dados do usuário
                     catch (Exception)
                     {
+                        usuario.Senha = senha;
                         ViewBag.MensagemAutenticacao = "estamos com dificuldade em buscar dados no servidor. por favor, tente novamente";
                         return View("Index", usuario);
                     }
                 }
                 else if (retornoAutenticacao.HttpStatusCode == HttpStatusCode.Unauthorized)
                 {
+                    usuario.Senha = senha;
                     ViewBag.MensagemAutenticacao = "usuário ou senha inválida";
                     return View("Index", usuario);
                 }
@@ -110,12 +122,14 @@
                 //se for algum outro erro
                 else
                 {
+                    usuario.Senha = senha;
                     ViewBag.MensagemAutenticacao = "não foi possível realizar o login. por favor, tente novamente";
                     return View("Index", usuario);
                 }
             }
             catch (Exception)
             {
+                usuario.Senha = senha;
                 ViewBag.MensagemAutenticacao = "não foi possível realizar o login. por favor, tente novamente";
                 return View("Index", usuario);
             }

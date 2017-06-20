@@ -32,6 +32,10 @@ namespace marmitex_admin.Controllers
                 //recebe o usuário logado
                 usuarioLogado = (UsuarioLoja)(Session["UsuarioLogado"]);
 
+                //verifica se o usuário tem permissão na página
+                if (usuarioLogado.NivelPermissao == 2)
+                    return RedirectToAction("Index", "Pedido");
+
                 #endregion
 
                 #region limpa as viewbags de mensagem
@@ -111,23 +115,34 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            //variável para armazenar a senha original
+            string senhaSemCrip = null;
+
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
 
             try
             {
                 string urlPost = "/Usuario/Cadastrar/UsuarioLoja/" + usuarioLogado.UrlLoja;
 
+                //variável para armazenar a senha original
+                senhaSemCrip = usuarioLoja.Senha;
+
+                //criptografa a senha do usuário
+                usuarioLoja.Senha = CriptografiaMD5.GerarHashMd5(usuarioLoja.Senha);
+
                 usuarioLoja.IdLoja = usuarioLogado.IdLoja;
                 retornoRequest = rest.Post(urlPost, usuarioLoja);
 
                 if (retornoRequest.HttpStatusCode == HttpStatusCode.Unauthorized)
                 {
+                    usuarioLoja.Senha = senhaSemCrip;
                     ViewBag.MensagemCadUsuario = "Já existe um usuário com este e-mail. Por favor, verifique os dados digitados";
                     return View("Adicionar", usuarioLoja);
                 }
 
                 if (retornoRequest.HttpStatusCode != HttpStatusCode.Created)
                 {
+                    usuarioLoja.Senha = senhaSemCrip;
                     ViewBag.MensagemCadUsuario = "Não foi possivel cadastrar o usuário. Por favor, tente novamente ou entre em contato com nosso suporte.";
                     return View("Adicionar", usuarioLoja);
                 }
@@ -136,6 +151,7 @@ namespace marmitex_admin.Controllers
             }
             catch (Exception)
             {
+                usuarioLoja.Senha = senhaSemCrip;
                 ViewBag.MensagemCadUsuario = "Não foi possivel cadastrar o usuário. Por favor, tente novamente ou entre em contato com nosso suporte.";
                 return View("Adicionar", usuarioLoja);
             }
@@ -215,6 +231,9 @@ namespace marmitex_admin.Controllers
 
             #endregion
 
+            //variável para armazenar a senha original
+            string senhaSemCrip = null;
+
             //variável para armazenar o retorno da requisição
             DadosRequisicaoRest retornoRequest = new DadosRequisicaoRest();
 
@@ -222,11 +241,18 @@ namespace marmitex_admin.Controllers
             {
                 string urlPost = string.Format("/Usuario/AtualizarUsuarioLoja");
 
+                //variável para armazenar a senha original
+                senhaSemCrip = usuarioLoja.Senha;
+
+                //criptografa a senha do usuário
+                usuarioLoja.Senha = CriptografiaMD5.GerarHashMd5(usuarioLoja.Senha);
+
                 usuarioLoja.IdLoja = usuarioLogado.IdLoja;
                 retornoRequest = rest.Post(urlPost, usuarioLoja);
 
                 if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
                 {
+                    usuarioLoja.Senha = senhaSemCrip;
                     ViewBag.MensagemEditarUsuario = retornoRequest.objeto.ToString();
                     return View("Editar", usuarioLoja);
                 }
@@ -235,6 +261,7 @@ namespace marmitex_admin.Controllers
             }
             catch (Exception)
             {
+                usuarioLoja.Senha = senhaSemCrip;
                 ViewBag.MensagemEditarUsuario = "Não foi possível atualizar o usuario. Por favor, tente novamente ou entre em contato com nosso suporte.";
                 return View("Editar", usuarioLoja);
             }

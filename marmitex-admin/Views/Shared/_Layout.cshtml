@@ -22,6 +22,8 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
+    <script src="~/Scripts/marmitex-admin.js"></script>
+
     <script src="https://cdn.jsdelivr.net/sweetalert2/6.6.0/sweetalert2.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.6.0/sweetalert2.css">
 
@@ -30,7 +32,11 @@
     <div class="container-fluid">
         <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuResponsivo"></button>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuResponsivo">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 
                 @{ if (Session["usuarioLogado"] != null)
                     {
@@ -68,7 +74,6 @@
                                 </a>
 
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">meus dados</a></li>
                                     <li><a href="#" onclick="Redirecionar(@string.Format("'{0}', '{1}'", @Session["urlBase"], "/Login/Deslogar"))">sair</a></li>
                                 </ul>
                             }
@@ -123,72 +128,93 @@
                             <!-- SIDEBAR MENU -->
                             <div class="profile-usermenu">
                                 <ul class="nav">
-                                    <li>
-                                        <a href="/Home/Index">
-                                            <i class="fa fa-bar-chart"></i>
-                                            Dashboard
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/Pedido/Index">
-                                            <i class="fa fa-star"></i>
-                                            Pedidos
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/Parceiro/Index">
-                                            <i class="fa fa-handshake-o fa-lg"></i>
-                                            Parceiros
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/Brinde/Index">
-                                            <i class="fa fa-gift" aria-hidden="true"></i>
-                                            Brindes
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/Cardapio/Index">
-                                            <i class="fa fa-cutlery"></i>
-                                            Cardápio
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/Produto/Index">
-                                            <i class="fa fa-shopping-cart"></i>
-                                            Produtos
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/ProdutoAdicional/Index">
-                                            <i class="fa fa-glass"></i>
-                                            Produtos Adicionais
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/HorarioEntrega/Index">
-                                            <i class="fa fa-clock-o"></i>
-                                            Horários de entrega
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/FormaPagamento/Index">
-                                            <i class="fa fa-credit-card"></i>
-                                            Formas de pagamento
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/Usuario/Index">
-                                            <i class="fa fa-users" aria-hidden="true"></i>
-                                            Usuários
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-line-chart"></i>
-                                            Relatórios
-                                        </a>
-                                    </li>
+                                    @{ if (Session["usuarioLogado"] != null)
+                                        {
+                                            ClassesMarmitex.UsuarioLoja usuarioLogado = (ClassesMarmitex.UsuarioLoja)Session["usuarioLogado"];
+
+                                            if (usuarioLogado.NivelPermissao == 2)
+                                            {
+                                                <li>
+                                                    <a href="/Pedido/Index">
+                                                        <i class="fa fa-star"></i>
+                                                        Pedidos
+                                                    </a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a href="/Home/Index">
+                                                        <i class="fa fa-bar-chart"></i>
+                                                        Dashboard
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/Pedido/Index">
+                                                        <i class="fa fa-star"></i>
+                                                        Pedidos
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/Parceiro/Index">
+                                                        <i class="fa fa-handshake-o fa-lg"></i>
+                                                        Parceiros
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/Brinde/Index">
+                                                        <i class="fa fa-gift" aria-hidden="true"></i>
+                                                        Brindes
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/Cardapio/Index">
+                                                        <i class="fa fa-cutlery"></i>
+                                                        Cardápio
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/Produto/Index">
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                        Produtos
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/ProdutoAdicional/Index">
+                                                        <i class="fa fa-glass"></i>
+                                                        Produtos Adicionais
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/HorarioEntrega/Index">
+                                                        <i class="fa fa-clock-o"></i>
+                                                        Horários de entrega
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/FormaPagamento/Index">
+                                                        <i class="fa fa-credit-card"></i>
+                                                        Formas de pagamento
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/Usuario/Index">
+                                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                                        Usuários
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-line-chart"></i>
+                                                        Relatórios
+                                                    </a>
+                                                </li>
+                                            }
+
+                                        }
+                                    }
+                                    
+                                    
                                 </ul>
                             </div>
                             <!-- END MENU -->
@@ -205,10 +231,10 @@
 
 
 
-    @*<script src="~/Scripts/modernizr-2.8.3.js"></script>*@
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/marmitex-admin.js"></script>
+    
 
 </body>
 </html>
