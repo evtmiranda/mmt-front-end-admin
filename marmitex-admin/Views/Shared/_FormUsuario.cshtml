@@ -77,7 +77,7 @@
 
         @if (Model != null)
         {
-            <input type="password" class="form-control" required title="o preenchimento da senha é obrigatório" value="@Model.Senha" id="pwd" name="Senha" placeholder="digite uma senha">
+            <input type="password" class="form-control" required title="o preenchimento da senha é obrigatório" @*value="@Model.Senha"*@ id="pwd" name="Senha" placeholder="digite uma senha">
         }
         else
         {

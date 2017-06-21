@@ -97,6 +97,7 @@ namespace marmitex_admin.Controllers
 
         public ActionResult AdicionarParceiro(ParceiroCadastro parceiroCadastro)
         {
+
             #region validacao usuario logado
 
             //se a sessão de usuário não estiver preenchida, direciona para a tela de login

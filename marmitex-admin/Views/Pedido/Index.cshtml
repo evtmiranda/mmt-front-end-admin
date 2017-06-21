@@ -110,8 +110,25 @@
                                             @pedido.Cliente.Nome
                                             <br />
                                             @pedido.Cliente.NumeroCelular
+                                            <br />
+                                            <strong>Dica de localização: </strong>@pedido.Cliente.DicaDeLocalizacao
                                         </p>
                                     </div>
+
+                                    @if (pedido.PedidoStatus.IdStatus == 2)
+                                    {
+                                        
+                                        <div class="col-md-11">
+                                            <h4>Status do pedido</h4>
+                                            <p>
+                                                Cancelado
+                                                <br />
+                                                <strong>Motivo: </strong>@pedido.PedidoStatus.MotivoCancelamento
+                                            </p>
+                                        </div>
+                                    }
+
+
 
                                     <div class="col-md-11">
                                         <h4>Parceiro</h4>
@@ -183,8 +200,6 @@
 
                                         <h4>Valor total do pedido</h4>
                                         <p>R$ @pedido.ValorTotalPedido.ToString("F")</p>
-
-                                        <br />
 
                                         @if (!string.IsNullOrEmpty(pedido.Observacao))
                                         {

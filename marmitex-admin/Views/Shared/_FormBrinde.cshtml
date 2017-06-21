@@ -22,15 +22,15 @@
 <div class="col-md-12">
     <div class="form-group">
         <p class="vermelho-marmitex">@Html.ValidationMessage("Descricao")</p>
-        <label for="descricao">descrição</label>
+        <label for="descricao">descrição *</label>
 
         @if (Model != null)
         {
-            <input type="text" id="descricao" name="Descricao" value="@Model.Descricao" class="form-control" />
+            <input type="text" id="descricao" name="Descricao" value="@Model.Descricao" class="form-control" placeholder="Exemplo: Cliente J.A ganha uma coca-cola a cada prato comprado"/>
         }
         else
         {
-            <input type="text" id="descricao" name="Descricao" class="form-control" />
+            <input type="text" id="descricao" name="Descricao" class="form-control" placeholder="Exemplo: Cliente J.A ganha uma coca-cola a cada prato comprado"/>
         }
 
 

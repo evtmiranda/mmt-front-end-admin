@@ -55,9 +55,9 @@
                             <td>@prodAdicional.Descricao</td>
                             <td>@(prodAdicional.Ativo == true ? "Sim" : "Não")</td>
                             <td>
-                                <a href="@Session["urlBase"]/ProdutoAdicional/Editar/@prodAdicional.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit" title="Editar"></i></a>
-                                <a href="@Session["urlBase"]/ProdutoAdicional/Desativar/@prodAdicional.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off" title="Desativar"></i></a>
-                                <a href="@Session["urlBase"]/ProdutoAdicional/Excluir/@prodAdicional.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove" title="Excluir"></i></a>
+                                <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/ProdutoAdicional/Editar/@prodAdicional.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/ProdutoAdicional/Desativar/@prodAdicional.Id')" title="Desativar"><i class="glyphicon glyphicon-off"></i></button>
+                                <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/ProdutoAdicional/Excluir/@prodAdicional.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
                             </td>
                         </tr>
                                 }
@@ -72,9 +72,9 @@
                             <td>@prodAdicional.Descricao</td>
                             <td>@(prodAdicional.Ativo == true ? "Sim" : "Não")</td>
                             <td>
-                                <a href="@Session["urlBase"]/ProdutoAdicional/Editar/@prodAdicional.Id" style="color: #1a9c21"><i class="glyphicon glyphicon-edit"></i></a>
-                                <a href="@Session["urlBase"]/ProdutoAdicional/Desativar/@prodAdicional.Id" style="color: #E67E22"><i class="glyphicon glyphicon-off"></i></a>
-                                <a href="@Session["urlBase"]/ProdutoAdicional/Excluir/@prodAdicional.Id" style="color: #bc2026"><i class="glyphicon glyphicon-remove"></i></a>
+                                <button class="btn-link" style="color: #1a9c21" onclick="IrParaUrl('@Session["urlBase"]/ProdutoAdicional/Editar/@prodAdicional.Id')" title="Editar"><i class="glyphicon glyphicon-edit"></i></button>
+                                <button class="btn-link" style="color: #E67E22" onclick="Get('@Session["urlBase"]/ProdutoAdicional/Desativar/@prodAdicional.Id')" title="Desativar"><i class="glyphicon glyphicon-off"></i></button>
+                                <button class="btn-link" style="color: #bc2026" onclick="Excluir('@Session["urlBase"]/ProdutoAdicional/Excluir/@prodAdicional.Id')" title="Excluir"><i class="glyphicon glyphicon-remove"></i></button>
                             </td>
                         </tr>
                                 }

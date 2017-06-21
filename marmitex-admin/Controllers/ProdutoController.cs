@@ -181,8 +181,11 @@ namespace marmitex_admin.Controllers
             //validação dos campos
             if (!ModelState.IsValid)
             {
-                ViewBag.ListaDiasSemana = (List<DiasSemana>)Session["ListaDiasSemana"];
-                ViewBag.MenuCardapio = (List<MenuCardapio>)Session["MenuCardapio"];
+                if(Session["ListaDiasSemana"] != null)
+                    ViewBag.ListaDiasSemana = (List<DiasSemana>)Session["ListaDiasSemana"];
+
+                if (Session["MenuCardapio"] != null)
+                    ViewBag.MenuCardapio = (List<MenuCardapio>)Session["MenuCardapio"];
 
                 return View("Adicionar", produto);
             }
@@ -228,15 +231,16 @@ namespace marmitex_admin.Controllers
 
                 if (retornoRequest.HttpStatusCode != HttpStatusCode.Created)
                 {
-                    ViewBag.MensagemCadProduto = "não foi possível cadastrar o produto. por favor, tente novamente";
+                    ViewBag.MensagemCadProduto = "não foi possível cadastrar o produto . por favor, tente novamente";
                     return View("Adicionar", produto);
                 }
 
                 return RedirectToAction("Index", "Produto");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ViewBag.MensagemCadProduto = "não foi possível cadastrar o produto. por favor, tente novamente";
+                //ViewBag.MensagemCadProduto = "não foi possível cadastrar o produto. por favor, tente novamente";
+                ViewBag.MensagemCadProduto = ex.ToString();
                 return View("Adicionar", produto);
             }
         }
