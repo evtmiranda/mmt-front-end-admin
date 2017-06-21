@@ -73,7 +73,7 @@ namespace marmitex_admin.Controllers
                 listaCardapio = JsonConvert.DeserializeObject<List<MenuCardapio>>(jsonPedidos);
 
                 //monta a sessão com o caminho das imagens dos brindes
-                string caminhoImagem = "http://" + usuarioLogado.UrlLoja + ":45237/Images/" + usuarioLogado.UrlLoja + "/Produtos/";
+                string caminhoImagem = "http://" + usuarioLogado.UrlLoja + ".tasaindo.com.br/Images/" + usuarioLogado.UrlLoja + "/Produtos/";
                 Session["CaminhoImagensProdutos"] = caminhoImagem;
 
                 return View(listaCardapio);
@@ -210,20 +210,26 @@ namespace marmitex_admin.Controllers
                         return View("Adicionar", produto);
                     }
 
-                    string pic = System.IO.Path.GetFileName(file.FileName);
+                    string fileName = Path.GetFileName(file.FileName);
+                    string saveAsPath = Path.Combine(ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/Produtos/", 
+                        fileName);
+
+                    file.SaveAs(saveAsPath);
+
+                    //string pic = System.IO.Path.GetFileName(file.FileName);
                     string caminhoPasta = ConfigurationManager.AppSettings["PastaImagens"] + usuarioLogado.UrlLoja + "/Produtos/";
 
-                    string path = caminhoPasta + pic;
+                    //string path = caminhoPasta + pic;
 
                     //se o diretório ainda não existir, cria um novo
                     if (!Directory.Exists(caminhoPasta))
                         Directory.CreateDirectory(caminhoPasta);
 
                     //salva a imagem na pasta
-                    file.SaveAs(path);
+                    file.SaveAs(saveAsPath);
 
                     //seta o nome e caminho da imagem no produto
-                    produto.Imagem = pic;
+                    produto.Imagem = fileName;
                 }
 
                 produto.IdLoja = usuarioLogado.IdLoja;
@@ -237,10 +243,9 @@ namespace marmitex_admin.Controllers
 
                 return RedirectToAction("Index", "Produto");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //ViewBag.MensagemCadProduto = "não foi possível cadastrar o produto. por favor, tente novamente";
-                ViewBag.MensagemCadProduto = ex.ToString();
+                ViewBag.MensagemCadProduto = "não foi possível cadastrar o produto. por favor, tente novamente";
                 return View("Adicionar", produto);
             }
         }

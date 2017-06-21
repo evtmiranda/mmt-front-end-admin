@@ -67,7 +67,7 @@ namespace marmitex_admin.Controllers
                 listaBrindes = JsonConvert.DeserializeObject<List<Brinde>>(jsonBrindes);
 
                 //monta a sessão com o caminho das imagens dos brindes
-                string caminhoImagem = "http://" + usuarioLogado.UrlLoja + ":45237/Images/" + usuarioLogado.UrlLoja + "/Brindes/";
+                string caminhoImagem = "http://" + usuarioLogado.UrlLoja + ".tasaindo.com.br/Images/" + usuarioLogado.UrlLoja + "/Brindes/";
                 Session["CaminhoImagensBrindes"] = caminhoImagem;
 
                 return View(listaBrindes);
