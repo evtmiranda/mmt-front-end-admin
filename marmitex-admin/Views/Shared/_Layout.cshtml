@@ -52,34 +52,9 @@
             </div>
             <div class="collapse navbar-collapse" id="menuResponsivo">
                 <ul class="nav navbar-nav navbar-right">
-
                     <li class="dropdown" style="margin-right: 10px">
-                        @{ if (Session["usuarioLogado"] == null)
-                            {
-                                <a class="dropdown-toggle" data-toggle="dropdown">
-                                    meu perfil <span class="glyphicon glyphicon-user"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="~/Login">entrar</a></li>
-                                </ul>
-                            }
-                            else
-                            {
-                                ClassesMarmitex.UsuarioLoja usuarioLogado = (ClassesMarmitex.UsuarioLoja)Session["usuarioLogado"];
-
-                                string nomeUsuario = usuarioLogado.Apelido != null ? usuarioLogado.Apelido : usuarioLogado.Nome;
-
-                                <a class="dropdown-toggle" data-toggle="dropdown">
-                                    Olá @nomeUsuario <span class="glyphicon glyphicon-user"></span>
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <li><a href="#" onclick="Redirecionar(@string.Format("'{0}', '{1}'", @Session["urlBase"], "/Login/Deslogar"))">sair</a></li>
-                                </ul>
-                            }
-                        }
+                        <a href="#" onclick="Redirecionar(@string.Format("'{0}', '{1}'", @Session["urlBase"], "/Login/Deslogar"))">sair</a>
                     </li>
-
                 </ul>
             </div>
         </nav>
