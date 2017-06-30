@@ -30,31 +30,18 @@
 </head>
 <body>
     <div class="container-fluid">
-        <nav class="navbar navbar-default" role="navigation">
+        <nav class="navbar navbar-default-tasaindo" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuResponsivo">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                
-                @{ if (Session["usuarioLogado"] != null)
-                    {
-                        ClassesMarmitex.UsuarioLoja usuarioLogado = (ClassesMarmitex.UsuarioLoja)Session["usuarioLogado"];
-                        <a href="@Session["urlBase"]/Home" class="navbar-brand">TáSaindo</a>
-                    }
-                    else
-                    {
-                        <a href="@Session["urlBase"]/Home" class="navbar-brand">TáSaindo</a>
-                    }
-                }
-
+                <a href="@Session["urlBase"]/Home" class="navbar-brand">TáSaindo</a>
             </div>
             <div class="collapse navbar-collapse" id="menuResponsivo">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown" style="margin-right: 10px">
-                        <a href="#" onclick="Redirecionar(@string.Format("'{0}', '{1}'", @Session["urlBase"], "/Login/Deslogar"))">sair</a>
-                    </li>
+                    <li><a href="#" onclick="Redirecionar(@string.Format("'{0}', '{1}'", @Session["urlBase"], "/Login/Deslogar"))">sair</a></li>
                 </ul>
             </div>
         </nav>
@@ -63,7 +50,7 @@
     <div class="container-fluid body-content">
         <div class="row profile">
             <div class="col-md-3">
-                <nav class="navbar" role="navigation">
+                <nav class="navbar navbar-default" role="navigation">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuConfiguracoes">
                             <span class="sr-only">Menu</span>
@@ -72,35 +59,33 @@
                             <span class="icon-bar"></span>
                         </button>
                     </div>
-                    <div class="collapse navbar-collapse" id="menuConfiguracoes">
-                        <div class="profile-sidebar">
-                            <!-- SIDEBAR USERPIC -->
-                            <div class="profile-userpic">
-                                @if (Session["usuarioLogado"] != null)
-                                {
-                                    ClassesMarmitex.UsuarioLoja usuarioLogado = (ClassesMarmitex.UsuarioLoja)Session["usuarioLogado"];
-                                    <img src="~/Images/@usuarioLogado.UrlLoja/@usuarioLogado.Imagem" class="img-responsive" alt="logo">
-                                }
 
-                            </div>
-                            <!-- END SIDEBAR USERPIC -->
-                            <!-- SIDEBAR USER TITLE -->
-                            <div class="profile-usertitle">
-                                <div class="profile-usertitle-name">
-                                    @{ if (Session["usuarioLogado"] != null)
-                                        {
-                                            ClassesMarmitex.UsuarioLoja usuarioLogado = (ClassesMarmitex.UsuarioLoja)Session["usuarioLogado"];
-                                            <h2>@usuarioLogado.NomeLoja</h2>
-                                        }
-                                        else
-                                        {
-                                            <h2></h2>
-                                        }
+                    <div class="profile-sidebar">
+
+                        <div class="profile-userpic">
+                            @if (Session["usuarioLogado"] != null)
+                            {
+                                ClassesMarmitex.UsuarioLoja usuarioLogado = (ClassesMarmitex.UsuarioLoja)Session["usuarioLogado"];
+                                <img src="~/Images/@usuarioLogado.UrlLoja/@usuarioLogado.Imagem" class="img-responsive" alt="logo">
+                            }
+                        </div>
+                        <div class="profile-usertitle">
+                            <div class="profile-usertitle-name">
+                                @{ if (Session["usuarioLogado"] != null)
+                                    {
+                                        ClassesMarmitex.UsuarioLoja usuarioLogado = (ClassesMarmitex.UsuarioLoja)Session["usuarioLogado"];
+                                        <h2>@usuarioLogado.NomeLoja</h2>
                                     }
-                                </div>
+                                    else
+                                    {
+                                        <h2></h2>
+                                    }
+                                }
                             </div>
-                            <!-- END SIDEBAR BUTTONS -->
-                            <!-- SIDEBAR MENU -->
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="menuConfiguracoes">
+
                             <div class="profile-usermenu">
                                 <ul class="nav">
                                     @{ if (Session["usuarioLogado"] != null)
@@ -124,78 +109,79 @@
                                                         Dashboard
                                                     </a>
                                                 </li>
-                                                <li>
-                                                    <a href="/Pedido/Index">
-                                                        <i class="fa fa-star"></i>
-                                                        Pedidos
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="/Parceiro/Index">
-                                                        <i class="fa fa-handshake-o fa-lg"></i>
-                                                        Parceiros
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="/Brinde/Index">
-                                                        <i class="fa fa-gift" aria-hidden="true"></i>
-                                                        Brindes
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="/Cardapio/Index">
-                                                        <i class="fa fa-cutlery"></i>
-                                                        Cardápio
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="/Produto/Index">
-                                                        <i class="fa fa-shopping-cart"></i>
-                                                        Produtos
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="/ProdutoAdicional/Index">
-                                                        <i class="fa fa-glass"></i>
-                                                        Produtos Adicionais
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="/HorarioEntrega/Index">
-                                                        <i class="fa fa-clock-o"></i>
-                                                        Horários de entrega
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="/FormaPagamento/Index">
-                                                        <i class="fa fa-credit-card"></i>
-                                                        Formas de pagamento
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="/Usuario/Index">
-                                                        <i class="fa fa-users" aria-hidden="true"></i>
-                                                        Usuários
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="fa fa-line-chart"></i>
-                                                        Relatórios
-                                                    </a>
-                                                </li>
+                                                    <li>
+                                                        <a href="/Pedido/Index">
+                                                            <i class="fa fa-star"></i>
+                                                            Pedidos
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/Parceiro/Index">
+                                                            <i class="fa fa-handshake-o fa-lg"></i>
+                                                            Parceiros
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/Brinde/Index" class="sub-menu">
+                                                            <i class="fa fa-gift" aria-hidden="true"></i>
+                                                            Brindes
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/Cardapio/Index">
+                                                            <i class="fa fa-cutlery"></i>
+                                                            Cardápio
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/Produto/Index" class="sub-menu">
+                                                            <i class="fa fa-shopping-cart"></i>
+                                                            Produtos
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/ProdutoAdicional/Index" class="sub-menu">
+                                                            <i class="fa fa-glass"></i>
+                                                            Produtos Adicionais
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/HorarioEntrega/Index">
+                                                            <i class="fa fa-clock-o"></i>
+                                                            Horários de entrega
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/FormaPagamento/Index">
+                                                            <i class="fa fa-credit-card"></i>
+                                                            Formas de pagamento
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/Usuario/Index">
+                                                            <i class="fa fa-users" aria-hidden="true"></i>
+                                                            Usuários
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <i class="fa fa-line-chart"></i>
+                                                            Relatórios
+                                                        </a>
+                                                    </li>
                                             }
 
                                         }
                                     }
-                                    
-                                    
+
+
                                 </ul>
                             </div>
                             <!-- END MENU -->
                         </div>
                     </div>
                 </nav>
+
             </div>
             <div class="col-md-9">
                 @RenderBody()
@@ -209,7 +195,7 @@
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-    
+
 
 </body>
 </html>

@@ -118,6 +118,10 @@ tr.table-mmt td img{
     max-width: 8em;
 }
 
+.sub-menu{
+    padding-left: 4em !important;
+}
+
 /*#endregion board pedido*/
 /*#region botões */
 .btn-detalhes-pedido,
@@ -219,120 +223,124 @@ tr.table-mmt td img{
 }
 
 .navbar-default {
+    border-color: #fff;
+}
+
+.navbar-default-tasaindo {
     background-color: #bc2026;
     border-color: #fff;
 }
 
-    .navbar-default .navbar-brand {
+    .navbar-default-tasaindo .navbar-brand {
         color: #fff;
     }
 
-        .navbar-default .navbar-brand:hover,
-        .navbar-default .navbar-brand:focus {
+        .navbar-default-tasaindo .navbar-brand:hover,
+        .navbar-default-tasaindo .navbar-brand:focus {
             color: #fff;
             background-color: transparent;
         }
 
-    .navbar-default .navbar-text {
+    .navbar-default-tasaindo .navbar-text {
         color: #fff;
     }
 
-    .navbar-default .navbar-nav > li > a {
+    .navbar-default-tasaindo .navbar-nav > li > a {
         color: #fff;
     }
 
-        .navbar-default .navbar-nav > li > a:hover,
-        .navbar-default .navbar-nav > li > a:focus {
+        .navbar-default-tasaindo .navbar-nav > li > a:hover,
+        .navbar-default-tasaindo .navbar-nav > li > a:focus {
             color: #fff;
             background-color: transparent;
         }
 
-    .navbar-default .navbar-nav > .active > a,
-    .navbar-default .navbar-nav > .active > a:hover,
-    .navbar-default .navbar-nav > .active > a:focus {
+    .navbar-default-tasaindo .navbar-nav > .active > a,
+    .navbar-default-tasaindo .navbar-nav > .active > a:hover,
+    .navbar-default-tasaindo .navbar-nav > .active > a:focus {
         color: #fff;
         background-color: #bc2026;
     }
 
-    .navbar-default .navbar-nav > .disabled > a,
-    .navbar-default .navbar-nav > .disabled > a:hover,
-    .navbar-default .navbar-nav > .disabled > a:focus {
+    .navbar-default-tasaindo .navbar-nav > .disabled > a,
+    .navbar-default-tasaindo .navbar-nav > .disabled > a:hover,
+    .navbar-default-tasaindo .navbar-nav > .disabled > a:focus {
         color: #fff;
         background-color: transparent;
     }
 
-    .navbar-default .navbar-toggle {
+    .navbar-default-tasaindo .navbar-toggle {
         border-color: #fff;
     }
 
-        .navbar-default .navbar-toggle:hover,
-        .navbar-default .navbar-toggle:focus {
+        .navbar-default-tasaindo .navbar-toggle:hover,
+        .navbar-default-tasaindo .navbar-toggle:focus {
             background-color: #bc2026;
         }
 
-        .navbar-default .navbar-toggle .icon-bar {
+        .navbar-default-tasaindo .navbar-toggle .icon-bar {
             background-color: #fff;
         }
 
-    .navbar-default .navbar-collapse,
-    .navbar-default .navbar-form {
+    .navbar-default-tasaindo .navbar-collapse,
+    .navbar-default-tasaindo .navbar-form {
         border-color: #e7e7e7;
     }
 
-    .navbar-default .navbar-nav > .open > a,
-    .navbar-default .navbar-nav > .open > a:hover,
-    .navbar-default .navbar-nav > .open > a:focus {
+    .navbar-default-tasaindo .navbar-nav > .open > a,
+    .navbar-default-tasaindo .navbar-nav > .open > a:hover,
+    .navbar-default-tasaindo .navbar-nav > .open > a:focus {
         color: #fff;
         background-color: #e7e7e7;
     }
 
 @media (max-width: 767px) {
-    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    .navbar-default-tasaindo .navbar-nav .open .dropdown-menu > li > a {
         color: #fff;
     }
 
-        .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
-        .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+        .navbar-default-tasaindo .navbar-nav .open .dropdown-menu > li > a:hover,
+        .navbar-default-tasaindo .navbar-nav .open .dropdown-menu > li > a:focus {
             color: #fff;
             background-color: transparent;
         }
 
-    .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
-    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
-    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    .navbar-default-tasaindo .navbar-nav .open .dropdown-menu > .active > a,
+    .navbar-default-tasaindo .navbar-nav .open .dropdown-menu > .active > a:hover,
+    .navbar-default-tasaindo .navbar-nav .open .dropdown-menu > .active > a:focus {
         color: #fff;
         background-color: #e7e7e7;
     }
 
-    .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a,
-    .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover,
-    .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+    .navbar-default-tasaindo .navbar-nav .open .dropdown-menu > .disabled > a,
+    .navbar-default-tasaindo .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+    .navbar-default-tasaindo .navbar-nav .open .dropdown-menu > .disabled > a:focus {
         color: #e7e7e7;
         background-color: transparent;
     }
 }
 
-.navbar-default .navbar-link {
+.navbar-default-tasaindo .navbar-link {
     color: #fff;
 }
 
-    .navbar-default .navbar-link:hover {
+    .navbar-default-tasaindo .navbar-link:hover {
         color: #e7e7e7;
     }
 
-.navbar-default .btn-link {
+.navbar-default-tasaindo .btn-link {
     color: #fff;
 }
 
-    .navbar-default .btn-link:hover,
-    .navbar-default .btn-link:focus {
+    .navbar-default-tasaindo .btn-link:hover,
+    .navbar-default-tasaindo .btn-link:focus {
         color: #e7e7e7;
     }
 
-    .navbar-default .btn-link[disabled]:hover,
-    fieldset[disabled] .navbar-default .btn-link:hover,
-    .navbar-default .btn-link[disabled]:focus,
-    fieldset[disabled] .navbar-default .btn-link:focus {
+    .navbar-default-tasaindo .btn-link[disabled]:hover,
+    fieldset[disabled] .navbar-default-tasaindo .btn-link:hover,
+    .navbar-default-tasaindo .btn-link[disabled]:focus,
+    fieldset[disabled] .navbar-default-tasaindo .btn-link:focus {
         color: #e7e7e7;
     }
 

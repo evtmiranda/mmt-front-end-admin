@@ -108,18 +108,42 @@ Licensed under MIT
         margin-top: 10px;
     }
 
-.profile-content-backfull {
-    background: #fff;
-    min-height: 100%;
-    min-width: 95%;
-    padding: 2em;
-    position: absolute;
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .profile-content-backfull {
+        background: #fff;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        padding: 2em;
+        min-height: 100em;
+    }
 }
 
-    .profile-content-backfull table {
-        margin-top: 10px;
+@media only screen and (min-width : 481px) and (max-width : 1223px) {
+    .profile-content-backfull {
+        background: #fff;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        padding: 2em;
+        min-height: 100em;
+    }
+}
+
+@media only screen and (min-width : 1224px) {
+    .profile-content-backfull {
+        background: #fff;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        padding: 2em;
+        position: absolute;
     }
 
-.buttons-formcontrol{
+
+}
+
+.profile-content-backfull table {
+    margin-top: 10px;
+}
+
+.buttons-formcontrol {
     margin-top: 10px;
 }

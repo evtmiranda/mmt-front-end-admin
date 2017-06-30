@@ -15,7 +15,7 @@
     }
     else
     {
-        <div class="col-md-3">
+        <div class="col-md-4 col-xs-12">
             <div class="box-dashboard">
                 <div class="box-dashboard-item">
                     <h3 title="quantidade de pedidos realizados hoje">@Model.Pedidos</h3>
@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4 col-xs-12">
             <div class="box-dashboard">
                 <div class="box-dashboard-item">
                     <h3 title="valor total das vendas de hoje">R$ @Model.Vendas.ToString("F")</h3>
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4 col-xs-12">
             <div class="box-dashboard">
                 <div class="box-dashboard-item">
                     <h3 title="quantidade de visitas ao site hoje">@Model.Visitas</h3>
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4 col-xs-12">
             <div class="box-dashboard">
                 <div class="box-dashboard-item">
                     <h3 title="quantidade de parceiros diferentes que visitaram o site hoje">@Model.Parceiros</h3>
@@ -47,7 +47,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4 col-xs-12">
             <div class="box-dashboard">
                 <div class="box-dashboard-item">
                     <h3 title="quantidade de pedidos atrasados hoje">@Model.PedidosAtrasados</h3>
@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4 col-xs-12">
             <div class="box-dashboard">
                 <div class="box-dashboard-item">
                     <h3 title="quantidade de pedidos que estão na fila para entrega hoje">@Model.PedidosFila</h3>
@@ -63,7 +63,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4 col-xs-12">
+            <div class="box-dashboard">
+                <div class="box-dashboard-item">
+                    <h3 title="quantidade de pedidos em andamento">@Model.PedidosEntregues</h3>
+                    <p title="quantidade de pedidos em andamento">pedidos em andamento</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
             <div class="box-dashboard">
                 <div class="box-dashboard-item">
                     <h3 title="quantidade de pedidos entregues hoje">@Model.PedidosEntregues</h3>
@@ -71,7 +79,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4 col-xs-12">
             <div class="box-dashboard">
                 <div class="box-dashboard-item">
                     <h3 title="quantidade de pedidos cancelados hoje">@Model.PediosCancelados</h3>
