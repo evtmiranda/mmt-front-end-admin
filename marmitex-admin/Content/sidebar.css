@@ -114,7 +114,7 @@ Licensed under MIT
         background-repeat: no-repeat;
         background-size: 100%;
         padding: 2em;
-        min-height: 100em;
+        min-height: 110em;
     }
 }
 
@@ -124,7 +124,9 @@ Licensed under MIT
         background-repeat: no-repeat;
         background-size: 100%;
         padding: 2em;
-        min-height: 100em;
+        /*min-height: 100em;*/
+        position: absolute;
+        min-width: 90%;
     }
 }
 
@@ -134,7 +136,8 @@ Licensed under MIT
         background-repeat: no-repeat;
         background-size: 100%;
         padding: 2em;
-        position: absolute;
+        position:absolute;
+        min-width: 90%;
     }
 
 

@@ -18,6 +18,68 @@ function drag(ev) {
 }
 
 /**
+ * função utilizada na página de pedidos. quando um pedido é solto na sessão "em andamento", este evento é executado.
+    este evento é responsável por atualizar o pedido como "em andamento" no banco de dados
+ * @param {any} ev ev
+ */
+function dropAndamento(ev) {
+    //captura o id do objeto que foi dropado aqui
+    ev.preventDefault();
+    var nomeDiv = ev.dataTransfer.getData("text");
+
+    //faz um post no endpoint de pedidos para setar como entregue
+    var trataIdPedido = nomeDiv.split('/');
+    var tamVet = trataIdPedido.length - 1;
+
+    var dadosPedido = new Object();
+    dadosPedido.IdPedido = trataIdPedido[tamVet];
+    dadosPedido.IdStatusPedido = 1;
+
+    var urlPost = "/Pedido/AtualizarStatusPedido";
+
+    swal({
+        title: 'Confirma a mudança de status do pedido para "Em andamento"?',
+        text: "Ao confirmar, o cliente será notificado.",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: corConfirmacao,
+        cancelButtonColor: corCancelar,
+        cancelButtonText: 'Voltar',
+        confirmButtonText: 'Sim, confirmo!'
+    }).then(function () {
+        var dadosPedidoJson = JSON.stringify(dadosPedido, null, 0);
+
+        $.post(urlPost, { dadosJson: dadosPedidoJson },
+            function (data) {
+                if (data == "erro") {
+                    swal({
+                        title: 'Oops',
+                        html: 'não foi possível atualizar o status do pedido. por favor, tente novamente ou entre em contato com o administrador',
+                        type: 'error',
+                        confirmButtonColor: corConfirmacao,
+                        cancelButtonColor: corCancelar,
+                    })
+                }
+                else if (data == "erro email") {
+                    swal({
+                        title: 'Aviso',
+                        html: 'o status do pedido foi atualizado, porém não foi possível enviar o e-mail de notificação ao cliente.',
+                        type: 'warning',
+                        confirmButtonColor: corConfirmacao,
+                        cancelButtonColor: corCancelar,
+                    })
+                }
+                else {
+                    //ev.target.appendChild(document.getElementById(nomeDiv));
+                    //recarrega o html da página
+                    window.location.reload();
+                }
+            }
+        );
+    });
+}
+
+/**
  * função utilizada na página de pedidos. quando um pedido é solto na sessão "entregue", este evento é executado.
     este evento é responsável por atualizar o pedido como entregue no banco de dados
  * @param {any} ev ev
@@ -33,7 +95,7 @@ function dropEntregue(ev) {
 
     var dadosPedido = new Object();
     dadosPedido.IdPedido = trataIdPedido[tamVet];
-    dadosPedido.IdStatusPedido = 1;
+    dadosPedido.IdStatusPedido = 2;
 
     var urlPost = "/Pedido/AtualizarStatusPedido";
 
@@ -60,6 +122,15 @@ function dropEntregue(ev) {
                         cancelButtonColor: corCancelar,
                     })
                 }
+                else if (data == "erro email") {
+                    swal({
+                        title: 'Aviso',
+                        html: 'o status do pedido foi atualizado, porém não foi possível enviar o e-mail de notificação ao cliente.',
+                        type: 'warning',
+                        confirmButtonColor: corConfirmacao,
+                        cancelButtonColor: corCancelar,
+                    })
+                }
                 else {
                     //ev.target.appendChild(document.getElementById(nomeDiv));
                     //recarrega o html da página
@@ -69,6 +140,8 @@ function dropEntregue(ev) {
         );
     });
 }
+
+
 
 /**
  * função utilizada na página de pedidos. quando um pedido é solto na sessão "fila", este evento é executado.
@@ -113,6 +186,15 @@ function dropFila(ev) {
                         cancelButtonColor: corCancelar,
                     })
                 }
+                else if (data == "erro email") {
+                    swal({
+                        title: 'Aviso',
+                        html: 'o status do pedido foi atualizado, porém não foi possível enviar o e-mail de notificação ao cliente.',
+                        type: 'warning',
+                        confirmButtonColor: corConfirmacao,
+                        cancelButtonColor: corCancelar,
+                    })
+                }
                 else {
                     //ev.target.appendChild(document.getElementById(nomeDiv));
                     //recarrega o html da página
@@ -142,7 +224,7 @@ function dropCancelado(ev) {
 
     var dadosPedido = new Object();
     dadosPedido.IdPedido = trataIdPedido[tamVet];
-    dadosPedido.IdStatusPedido = 2;
+    dadosPedido.IdStatusPedido = 3;
 
     var urlPost = "/Pedido/AtualizarStatusPedido";
     
@@ -190,6 +272,15 @@ function dropCancelado(ev) {
                             type: 'error',
                             confirmButtonColor: corConfirmacao,
                             cancelButtonColor: corCancelar
+                        })
+                    }
+                    else if (data == "erro email") {
+                        swal({
+                            title: 'Aviso',
+                            html: 'o status do pedido foi atualizado, porém não foi possível enviar o e-mail de notificação ao cliente.',
+                            type: 'warning',
+                            confirmButtonColor: corConfirmacao,
+                            cancelButtonColor: corCancelar,
                         })
                     }
                     else {

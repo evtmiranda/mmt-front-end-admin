@@ -71,6 +71,7 @@
 <div class="col-md-12">
     <div class="form-group">
         <label for="cardapioProduto">dias de venda *</label>
+        <small>segure o botão "ctrl" para selecionar vários dias</small>
         @if(ViewBag.ListaDiasSemana != null)
         {
             @Html.ListBoxFor(p => p.ProdutoDiasVenda, new SelectList(ViewBag.ListaDiasSemana, "Id", "DiaSemana"), htmlAttributes: new { @class = "form-control" })

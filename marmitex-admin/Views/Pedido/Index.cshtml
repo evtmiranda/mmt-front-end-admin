@@ -15,7 +15,7 @@
         <div class="col-md-12">
             <h1 class="text-left">Pedidos</h1>
             <hr />
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="board-pedido" ondrop="dropFila(event)" ondragover="allowDrop(event)">
                     <h3 class="text-uppercase">
                         Na fila
@@ -40,10 +40,11 @@
 
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="board-pedido" ondrop="dropEntregue(event)" ondragover="allowDrop(event)">
+
+            <div class="col-md-3">
+                <div class="board-pedido" ondrop="dropAndamento(event)" ondragover="allowDrop(event)">
                     <h3 class="text-uppercase">
-                        Entregue
+                        Em andamento
                     </h3>
 
                     @foreach (var pedido in Model.Where(p => p.PedidoStatus.IdStatus == 1))
@@ -65,13 +66,38 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
+                <div class="board-pedido" ondrop="dropEntregue(event)" ondragover="allowDrop(event)">
+                    <h3 class="text-uppercase">
+                        Entregue
+                    </h3>
+
+                    @foreach (var pedido in Model.Where(p => p.PedidoStatus.IdStatus == 2))
+                    {
+                        <div id="drag/@pedido.Id" class="board-pedido-item" draggable="true" ondragstart="drag(event)">
+                            <a href="drag/@pedido.Id" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
+                                <strong>Hr de entrega:</strong> às @pedido.DataEntrega.ToString("HH:mm") hrs
+                                <br />
+                                <strong>Cliente:</strong> @pedido.Cliente.Nome
+                                <br />
+                                <strong>Parceiro:</strong> @pedido.Parceiro.Nome
+                                <br />
+                                <strong>ID Pedido:</strong> @pedido.Id
+                            </a>
+                            <p></p>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
                 <div class="board-pedido" ondrop="dropCancelado(event, this)" ondragover="allowDrop(event)">
                     <h3 class="text-uppercase">
                         Cancelado
                     </h3>
 
-                    @foreach (var pedido in Model.Where(p => p.PedidoStatus.IdStatus == 2))
+                    @foreach (var pedido in Model.Where(p => p.PedidoStatus.IdStatus == 3))
                     {
                         <div id="drag/@pedido.Id" class="board-pedido-item" draggable="true" ondragstart="drag(event)">
                             <a href="drag/@pedido.Id" data-toggle="modal" data-target="#modalPedido_@pedido.Id">
@@ -115,7 +141,7 @@
                                         </p>
                                     </div>
 
-                                    @if (pedido.PedidoStatus.IdStatus == 2)
+                                    @if (pedido.PedidoStatus.IdStatus == 3)
                                     {
                                         
                                         <div class="col-md-11">

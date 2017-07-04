@@ -109,7 +109,168 @@ namespace marmitex_admin.Controllers
                 if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
                     return "erro";
 
-                return "sucesso";
+                //se o status do pedido for "na fila", não envia e-mail
+                if (dadosAtualizarPedido.IdStatusPedido == 0)
+                    return "sucesso";
+
+                #region envia e-mail com o status
+
+                string emailUsuario = "";
+
+                #region busca o e-mail do usuário que realizou o pedido
+
+                //monta a url de chamada na api
+                string urlGet = string.Format("/Pedido/BuscarEmailUsuarioPedido/{0}/{1}", dadosAtualizarPedido.IdPedido, usuarioLogado.IdLoja);
+
+                //busca o e-mail do usuário
+                retornoRequest = rest.Get(urlGet);
+
+                if(retornoRequest.HttpStatusCode == HttpStatusCode.OK)
+                {
+                    emailUsuario = JsonConvert.DeserializeObject<string>(retornoRequest.objeto.ToString());
+                }
+                else
+                    return "erro email";
+
+
+                #endregion
+
+                DadosEnvioEmailUnitario dadosEmail = new DadosEnvioEmailUnitario
+                {
+                    From = string.Format("{0} <naoresponder@tasaindo.com.br>", usuarioLogado.NomeLoja),
+                    To = emailUsuario
+                };
+
+                if(dadosAtualizarPedido.IdStatusPedido == 0)
+                {
+                    dadosEmail.Subject = "Pedido na fila";
+                    dadosEmail.Text = string.Format(@"<html lang=""pt-br"" style=""margin-left: 10%; width: 80%; font-family: 'Open Sans';"">
+
+                                                    <head>
+                                                    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                                                    </head>
+
+                                                    <body>
+
+                                                    <div class=""barra-brand"" style=""background-color: #bc2026; height: 50px; text-align: left; border: #fff;"" align=""left"">
+	                                                    <p class=""brand"" style=""color: #fff; letter-spacing: 2px; text-transform: uppercase; padding: 13px;"">{0}</p>
+                                                    </div>
+
+                                                    <div class=""body"" style=""margin-top: 3em; text-align: center; border-left-width: 1px; border-left-color: #bc2026; border-left-style: dotted; border-right-width: 1px; border-right-color: #bc2026; border-right-style: dotted;"" align=""center"">
+	                                                    <p>Olá, o seu pedido está na fila.</p>
+                                                    </div>
+
+                                                    <div class=""rodape"" style=""margin-top: 5em; background-color: #FCFCFF; padding: 2em;"">
+	                                                    <p>Obrigado!</p>
+	                                                    <p>Equipe {0}</p>
+                                                    </div>
+
+                                                    </body>
+
+                                                    </html>", usuarioLogado.NomeLoja.ToUpper());
+                }
+
+                if (dadosAtualizarPedido.IdStatusPedido == 1)
+                {
+                    dadosEmail.Subject = "Pedido em andamento";
+                    string mensagemBody = "Olá, o seu pedido está em andamento.";
+
+                    dadosEmail.Text = string.Format(@"<html lang=""pt-br"" style=""margin-left: 10%; width: 80%; font-family: 'Open Sans';"">
+
+                                                    <head>
+                                                    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                                                    </head>
+
+                                                    <body>
+
+                                                    <div class=""barra-brand"" style=""background-color: #bc2026; height: 50px; text-align: left; border: #fff;"" align=""left"">
+	                                                    <p class=""brand"" style=""color: #fff; letter-spacing: 2px; text-transform: uppercase; padding: 13px;"">{0}</p>
+                                                    </div>
+
+                                                    <div class=""body"" style=""margin-top: 3em; text-align: center; border-left-width: 1px; border-left-color: #bc2026; border-left-style: dotted; border-right-width: 1px; border-right-color: #bc2026; border-right-style: dotted;"" align=""center"">
+	                                                    <p>{1}</p>
+                                                    </div>
+
+                                                    <div class=""rodape"" style=""margin-top: 5em; background-color: #FCFCFF; padding: 2em;"">
+	                                                    <p>Obrigado!</p>
+	                                                    <p>Equipe {0}</p>
+                                                    </div>
+
+                                                    </body>
+
+                                                    </html>", usuarioLogado.NomeLoja.ToUpper(), mensagemBody);
+                }
+
+                if (dadosAtualizarPedido.IdStatusPedido == 2)
+                {
+                    dadosEmail.Subject = "Pedido entregue";
+                    string mensagemBody = "Olá, o seu pedido foi entregue.";
+
+                    dadosEmail.Text = string.Format(@"<html lang=""pt-br"" style=""margin-left: 10%; width: 80%; font-family: 'Open Sans';"">
+
+                                                    <head>
+                                                    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                                                    </head>
+
+                                                    <body>
+
+                                                    <div class=""barra-brand"" style=""background-color: #bc2026; height: 50px; text-align: left; border: #fff;"" align=""left"">
+	                                                    <p class=""brand"" style=""color: #fff; letter-spacing: 2px; text-transform: uppercase; padding: 13px;"">{0}</p>
+                                                    </div>
+
+                                                    <div class=""body"" style=""margin-top: 3em; text-align: center; border-left-width: 1px; border-left-color: #bc2026; border-left-style: dotted; border-right-width: 1px; border-right-color: #bc2026; border-right-style: dotted;"" align=""center"">
+	                                                    <p>{1}</p>
+                                                    </div>
+
+                                                    <div class=""rodape"" style=""margin-top: 5em; background-color: #FCFCFF; padding: 2em;"">
+	                                                    <p>Obrigado!</p>
+	                                                    <p>Equipe {0}</p>
+                                                    </div>
+
+                                                    </body>
+
+                                                    </html>", usuarioLogado.NomeLoja.ToUpper(), mensagemBody);
+                }
+
+                if (dadosAtualizarPedido.IdStatusPedido == 3)
+                {
+                    dadosEmail.Subject = "Pedido cancelado";
+                    string mensagemBody = "Olá, o seu pedido foi cancelado. Motivo do cancelamento: " + dadosAtualizarPedido.MotivoCancelamento;
+
+                    dadosEmail.Text = string.Format(@"<html lang=""pt-br"" style=""margin-left: 10%; width: 80%; font-family: 'Open Sans';"">
+
+                                                    <head>
+                                                    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                                                    </head>
+
+                                                    <body>
+
+                                                    <div class=""barra-brand"" style=""background-color: #bc2026; height: 50px; text-align: left; border: #fff;"" align=""left"">
+	                                                    <p class=""brand"" style=""color: #fff; letter-spacing: 2px; text-transform: uppercase; padding: 13px;"">{0}</p>
+                                                    </div>
+
+                                                    <div class=""body"" style=""margin-top: 3em; text-align: center; border-left-width: 1px; border-left-color: #bc2026; border-left-style: dotted; border-right-width: 1px; border-right-color: #bc2026; border-right-style: dotted;"" align=""center"">
+	                                                    <p>{1}</p>
+                                                    </div>
+
+                                                    <div class=""rodape"" style=""margin-top: 5em; background-color: #FCFCFF; padding: 2em;"">
+	                                                    <p>Obrigado!</p>
+	                                                    <p>Equipe {0}</p>
+                                                    </div>
+
+                                                    </body>
+
+                                                    </html>", usuarioLogado.NomeLoja.ToUpper(), mensagemBody);
+                }
+
+                retornoRequest = rest.Post("Email/EnviarEmailUnitario", dadosEmail);
+
+                if (retornoRequest.HttpStatusCode == HttpStatusCode.OK)
+                    return "sucesso";
+                else
+                    return "erro email";
+
+                #endregion
             }
             //se ocorrer algum erro inesperado lança a exception
             catch(Exception)
