@@ -12,9 +12,9 @@ namespace marmitex_admin
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
 
-        //protected void Application_Error(object sender, EventArgs e)
-        //{
-        //    Response.Redirect("~/Login");
-        //}
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Login");
+        }
     }
 }

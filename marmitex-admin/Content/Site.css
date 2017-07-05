@@ -122,6 +122,11 @@ tr.table-mmt td img{
     padding-left: 4em !important;
 }
 
+.bloco-informacao {
+    padding: 1em;
+    background-color: #FCFCFC;
+    font-size: small;
+}
 /*#endregion board pedido*/
 /*#region botões */
 .btn-detalhes-pedido,
