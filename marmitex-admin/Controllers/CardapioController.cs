@@ -51,14 +51,14 @@ namespace marmitex_admin.Controllers
                 //se não encontrar cardápios para a loja
                 if (retornoRequest.HttpStatusCode == HttpStatusCode.NoContent)
                 {
-                    ViewBag.MensagemCardapio = "não existem cardápios cadastrados";
+                    ViewBag.MensagemCardapio = "não existem categorias cadastradas";
                     return View("Index");
                 }
 
                 //se ocorrer algum erro
                 if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
                 {
-                    ViewBag.MensagemCardapio = "não foi possível consultar os cardápios. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    ViewBag.MensagemCardapio = "não foi possível consultar as categorias. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                     return View("Index");
                 }
 
@@ -70,7 +70,7 @@ namespace marmitex_admin.Controllers
             }
             catch (Exception)
             {
-                ViewBag.MensagemCardapio = "não foi possível consultar os cardápios. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                ViewBag.MensagemCardapio = "não foi possível consultar as categorias. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View("Index");
             }
             
@@ -139,14 +139,14 @@ namespace marmitex_admin.Controllers
                     return RedirectToAction("Index", "Cardapio");
                 else
                 {
-                    ViewBag.MensagemCardapio = "não foi possível cadastrar o cardápio. por favor, tente novamente ou entre em contato com o administrador do sistema";
+                    ViewBag.MensagemCardapio = "não foi possível cadastrar a categoria. por favor, tente novamente ou entre em contato com o administrador do sistema";
                     return View("Adicionar", cardapio);
                 }
             }
             //se ocorrer algum erro inesperado
             catch
             {
-                ViewBag.MensagemCardapio = "não foi possível cadastrar o cardápio. por favor, tente novamente ou entre em contato com o administrador do sistema";
+                ViewBag.MensagemCardapio = "não foi possível cadastrar a categoria. por favor, tente novamente ou entre em contato com o administrador do sistema";
                 return View("Adicionar", cardapio);
             }
         }
@@ -181,7 +181,7 @@ namespace marmitex_admin.Controllers
                 //se ocorrer algum erro
                 if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
                 {
-                    ViewBag.MensagemCarregamentoEditarCardapio = "não foi possível carregar os dados do cardápio. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                    ViewBag.MensagemCarregamentoEditarCardapio = "não foi possível carregar os dados da categoria. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                     return View();
                 }
 
@@ -193,7 +193,7 @@ namespace marmitex_admin.Controllers
             }
             catch (Exception)
             {
-                ViewBag.MensagemCarregamentoEditarCardapio = "não foi possível carregar os dados do cardápio. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
+                ViewBag.MensagemCarregamentoEditarCardapio = "não foi possível carregar os dados da categoria. por favor, tente atualizar a página ou entre em contato com o administrador do sistema...";
                 return View();
             }
 
@@ -241,7 +241,7 @@ namespace marmitex_admin.Controllers
                 //se o cardápio não for atualizado
                 if (retornoRequest.HttpStatusCode != HttpStatusCode.OK)
                 {
-                    ViewBag.MensagemEditarCardapio = "não foi possível atualizar o cardápio. por favor, tente novamente";
+                    ViewBag.MensagemEditarCardapio = "não foi possível atualizar a categoria. por favor, tente novamente";
                     return View("Editar", cardapio);
                 }
 
@@ -250,7 +250,7 @@ namespace marmitex_admin.Controllers
             }
             catch (Exception)
             {
-                ViewBag.MensagemEditarCardapio = "não foi possível atualizar o cardápio. por favor, tente novamente";
+                ViewBag.MensagemEditarCardapio = "não foi possível atualizar a categoria. por favor, tente novamente";
                 return View("Editar", cardapio);
             }
         }
